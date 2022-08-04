@@ -3,7 +3,7 @@
   Original by Capitaine Red (1.5 FR, Gabmilot project)
   Refactoring by Zedafty (Deli project)
   Testing by Zedafty
-  Version 1.6.1 Beta FR
+  Version 1.6.2 Beta FR
 
   Uses [TheAaronSheet](https://github.com/shdwjk/TheAaronSheet) 0.2.5
 
