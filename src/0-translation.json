@@ -1,0 +1,230 @@
+{
+	// Main
+	"modifier" : "Modificateur",
+
+	// Languages
+	"lang_abyssal" : "Abyssal",
+	"lang_aquan" : "Aquatique",
+	"lang_auran" : "Aérien",
+	"lang_celestial" : "Céleste",
+	"lang_common" : "Commun",
+	"lang_draconic" : "Draconien",
+	"lang_druidic" : "Druide",
+	"lang_dwarven" : "Nain",
+	"lang_elven" : "Elfique",
+	"lang_giant" : "Géant",
+	"lang_gnoll" : "Gnoll",
+	"lang_gnome" : "Gnome",
+	"lang_goblin" : "Gobelin",
+	"lang_halfling" : "Halfelin",
+	"lang_ignan" : "Igneux",
+	"lang_infernal" : "Infernal",
+	"lang_orc" : "Orque",
+	"lang_sylvan" : "Sylvestre",
+	"lang_terran" : "Terreux",
+	"lang_undercommon" : "Commun des profondeurs",
+	"lang_abyssal_users" : "Démons, Extérieurs chaotiques mauvais",
+	"lang_aquan_users" : "Créatures de l’eau",
+	"lang_auran_users" : "Créatures de l’air",
+	"lang_celestial_users" : "Extérieurs d’alignement bon",
+	"lang_common_users" : "Humains, halfelins, demi-elfes et demi-orques",
+	"lang_draconic_users" : "Dragons, kobolds, hommes-lézards et troglodytes",
+	"lang_druidic_users" : "Druides (exclusivement)",
+	"lang_dwarven_users" : "Nains",
+	"lang_elven_users" : "Elfes",
+	"lang_giant_users" : "Ogres et géants",
+	"lang_gnoll_users" : "Gnomes",
+	"lang_gnome_users" : "Gobelins, hobgobelins et gobelours",
+	"lang_goblin_users" : "Gnolls",
+	"lang_halfling_users" : "Halfelins",
+	"lang_ignan_users" : "Créatures du feu",
+	"lang_infernal_users" : "Diables, Extérieurs loyaux mauvais",
+	"lang_orc_users" : "Orques",
+	"lang_sylvan_users" : "Dryades, lutins et farfadets",
+	"lang_terran_users" : "Xorns et autres créatures de la terre",
+	"lang_undercommon_users" : "Drows et flagelleurs mentaux",
+	"lang_abyssal_alphabet" : "Infernal",
+	"lang_aquan_alphabet" : "Elfique",
+	"lang_auran_alphabet" : "Draconien",
+	"lang_celestial_alphabet" : "Céleste",
+	"lang_common_alphabet" : "Commun",
+	"lang_draconic_alphabet" : "Draconien",
+	"lang_druidic_alphabet" : "Druidique",
+	"lang_dwarven_alphabet" : "Nain",
+	"lang_elven_alphabet" : "Elfique",
+	"lang_giant_alphabet" : "Nain",
+	"lang_gnoll_alphabet" : "Nain",
+	"lang_gnome_alphabet" : "Nain",
+	"lang_goblin_alphabet" : "Commun",
+	"lang_halfling_alphabet" : "Commun",
+	"lang_ignan_alphabet" : "Draconien",
+	"lang_infernal_alphabet" : "Infernal",
+	"lang_orc_alphabet" : "Nain",
+	"lang_sylvan_alphabet" : "Elfique",
+	"lang_terran_alphabet" : "Nain",
+	"lang_undercommon_alphabet" : "Elfique",
+
+	// Classes
+	"cls_barbarian" : "Barbare",
+	"cls_bard" : "Barde",
+	"cls_druid" : "Druide",
+	"cls_sorcerer" : "Ensorceleur",
+	"cls_fighter" : "Guerrier",
+	"cls_wizard" : "Magicien",
+	"cls_monk" : "Moine",
+	"cls_paladin" : "Paladin",
+	"cls_cleric" : "Prêtre",
+	"cls_rogue" : "Roublard",
+	"cls_ranger" : "Rôdeur",
+	"cls_warlock" : "Sorcier",
+
+	// Spell Schools
+	"spl-school-universal" : "Universel",
+	"spl-school-abjuration" : "Abjuration",
+	"spl-school-conjuration" : "Conjuration",
+	"spl-school-divination" : "Divination",
+	"spl-school-enchantment" : "Enchantement",
+	"spl-school-evocation" : "Évocation",
+	"spl-school-illusion" : "Illusion",
+	"spl-school-necromancy" : "Nécromancie",
+	"spl-school-transmutation" : "Transmutation",
+
+	// Spell Range
+	"spl-range-touch" : "Contact",
+	"spl-range-personal" : "Personnelle",
+	"spl-range-short" : "courte ([[7.5+1.5*floor(@{cl}/2)]] m)",
+	"spl-range-medium" : "moyenne ([[30+3*@{cl}]] m)",
+	"spl-range-long" : "longue ([[120+12*@{cl}]] m)",
+
+	// Spell Duration
+	"spl-duration-instantaneous" : "instantanée",
+	"spl-duration-permanent" : "permanente",
+	"spl-duration-concentration" : "concentration",
+	"spl-duration-1-round" : "1 round",
+	"spl-duration-1-minute" : "1 minute",
+	"spl-duration-10-minutes" : "10 minutes",
+	"spl-duration-1-round-per-level" : "[[@{cl}]] rounds",
+	"spl-duration-1-minute-per-level" : "[[@{cl}]] minutes",
+	"spl-duration-10-minutes-per-level" : "[[10*@{cl}]] minutes",
+
+	// Attacks
+	"opposed_check" : "Test en opposition",
+
+	// Weapons
+	"wpn-melee" : "Corps à corps",
+	"wpn-range" : "À distance",
+	"wpn-hand-0" : "Main non directrice",
+	"wpn-hand-1" : "Main directrice",
+	"wpn-hand-2" : "À deux mains",
+	"wpn-dmg-type-" : "",
+	"wpn-dmg-type-b" : "Contondant",
+	"wpn-dmg-type-p" : "Perforant",
+	"wpn-dmg-type-s" : "Tranchant",
+	"wpn-dmg-type-b-p" : "Contondant et perforant",
+	"wpn-dmg-type-p-s" : "Perforant ou tranchant",
+	"wpn-nld" : "Dégâts non létaux",
+	"wpn-reach" : "Arme à allonge",
+	"wpn-double" : "Arme double",
+
+	// Weapons Simple Unarmed
+	"wpn-gauntlet" : "Gantelet",
+	"wpn-unarmed-strike" : "Attaque à mains nues",
+
+	// Weapons Simple Light
+	"wpn-dagger" : "Dague",
+	"wpn-dagger-punching" : "Dague coup-de-poing",
+	"wpn-gauntlet-spiked" : "Gantelet clouté",
+	"wpn-mace-light" : "Masse d’armes légère",
+	"wpn-sickle" : "Serpe",
+
+	// Weapons Simple One-handed
+	"wpn-club" : "Gourdin",
+	"wpn-mace-heavy" : "Masse d’armes lourde",
+	"wpn-morningstar" : "Morgenstern",
+	"wpn-shortspear" : "Épieu",
+
+	// Weapons Simple Two-handed
+	"wpn-longspear" : "Pique",
+	"wpn-quarterstaff" : "Bâton",
+	"wpn-spear" : "Lance",
+
+	// Weapons Simple Ranged
+	"wpn-crossbow-heavy" : "Arbalète lourde",
+	"wpn-crossbow-light" : "Arbalète légère",
+	"wpn-dart" : "Dard",
+	"wpn-javelin" : "Javeline",
+	"wpn-sling" : "Fronde",
+
+	// Weapons Martial Light
+	"wpn-axe-throwing" : "Hache de lancer",
+	"wpn-hammer-light" : "Marteau léger",
+	"wpn-handaxe" : "Hachette",
+	"wpn-kukri" : "Kukri",
+	"wpn-pick-light" : "Pic de guerre léger",
+	"wpn-sap" : "Matraque",
+	"wpn-shield-light" : "Rondache",
+	"wpn-spiked-armor" : "Armure à pointes",
+	"wpn-spiked-shield-light" : "Rondache à pointes",
+	"wpn-sword-short" : "Épée courte",
+
+	// Weapons Martial One-handed
+	"wpn-battleaxe" : "Hache d’armes",
+	"wpn-flail" : "Fléau d’armes léger",
+	"wpn-longsword" : "Épée longue",
+	"wpn-pick-heavy" : "Pic de guerre lourd",
+	"wpn-rapier" : "Rapière",
+	"wpn-scimitar" : "Cimeterre",
+	"wpn-shield-heavy" : "Écu",
+	"wpn-spiked-shield-heavy" : "Écu à pointes",
+	"wpn-trident" : "Trident",
+	"wpn-warhammer" : "Marteau de guerre",
+
+	// Weapons Martial Two-handed
+	"wpn-falchion" : "Cimeterre à deux mains",
+	"wpn-glaive" : "Coutille",
+	"wpn-greataxe" : "Grande hache",
+	"wpn-greatclub" : "Massue",
+	"wpn-flail-heavy" : "Fléau d’armes lourd",
+	"wpn-greatsword" : "Épée à deux mains",
+	"wpn-guisarme" : "Guisarme",
+	"wpn-halberd" : "Hallebarde",
+	"wpn-lance" : "Lance d’arçon",
+	"wpn-ranseur" : "Corsèque",
+	"wpn-scythe" : "Faux",
+
+	// Weapons Martial Ranged
+	"wpn-longbow" : "Arc long",
+	"wpn-longbow-composite" : "Arc long composite",
+	"wpn-shortbow" : "Arc court",
+	"wpn-shortbow-composite" : "Arc court composite",
+
+	// Weapons Exotic Light
+	"wpn-kama" : "Kama",
+	"wpn-nunchaku" : "Nunchaku",
+	"wpn-sai" : "Sai",
+	"wpn-siangham" : "Siangham",
+
+	// Weapons Exotic One-handed
+	"wpn-sword-bastard" : "Épée bâtarde",
+	"wpn-waraxe-dwarven" : "Hache de guerre naine",
+	"wpn-whip" : "Fouet",
+
+	// Weapons Exotic Two-handed
+	"wpn-axe-orc-double" : "Hache double orque",
+	"wpn-chain-spiked" : "Chaîne cloutée",
+	"wpn-flail-dire" : "Fléau double",
+	"wpn-hammer-gnome-hooked" : "Marteau-piolet gnome",
+	"wpn-sword-two-bladed" : "Double-lame",
+	"wpn-urgrosh-dwarven" : "Urgrosh nain",
+
+	// Weapons Exotic Ranged
+	"wpn-bolas" : "Bolas",
+	"wpn-crossbow-hand" : "Arbalète de poing",
+	"wpn-crossbow-repeating-heavy" : "Arbalète lourde à répétition",
+	"wpn-crossbow-repeating-light" : "Arbalète légère à répétition",
+	"wpn-net" : "Filet",
+	"wpn-shuriken" : "Shuriken",
+
+	// Version
+	"version" : "version"
+}

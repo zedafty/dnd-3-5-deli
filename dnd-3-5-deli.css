@@ -1,0 +1,2000 @@
+ /* D&D 3.5 Deli Character Sheet CSS */
+/* Original by Capitaine Red (1.5 FR, Gabmilot project) */
+/* Refactoring by Zedafty (Deli project) */
+/* Testing by Panda */
+/* Version 1.6.2 Beta FR */
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Containers */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.sheet-tab-content {
+	display: none;
+}
+
+.charsheet input.sheet-tab-show-character:checked ~ .sheet-tab-character, /* Character */
+.charsheet input.sheet-tab-show-options:checked ~ .sheet-tab-options, /* Options */
+.charsheet input.sheet-tab-show-classes:checked ~ .sheet-tab-classes, /* Classes */
+.charsheet input.sheet-tab-show-abilities:checked ~ .sheet-tab-abilities, /* Abilities */
+.charsheet input.sheet-tab-show-saves:checked ~ .sheet-tab-saves, /* Saves */
+.charsheet input.sheet-tab-show-statistics:checked ~ .sheet-tab-statistics, /* Statistics */
+.charsheet input.sheet-tab-show-skills:checked ~ .sheet-tab-skills, /* Skills */
+.charsheet input.sheet-tab-show-feats:checked ~ .sheet-tab-feats, /* Feats */
+.charsheet input.sheet-tab-show-racial-abilities:checked ~ .sheet-tab-racial-abilities, /* Racial Abilities */
+.charsheet input.sheet-tab-show-class-abilities:checked ~ .sheet-tab-class-abilities, /* Class Abilities */
+.charsheet input.sheet-tab-show-magic:checked ~ .sheet-tab-magic, /* Magic */
+.charsheet input.sheet-tab-show-attacks:checked ~ .sheet-tab-attacks, /* Attacks */
+.charsheet input.sheet-tab-show-weapons:checked ~ .sheet-tab-weapons, /* Weapons */
+.charsheet input.sheet-tab-show-armors:checked ~ .sheet-tab-armors, /* Armors */
+.charsheet input.sheet-tab-show-modifiers:checked ~ .sheet-tab-modifiers, /* Modifiers */
+.charsheet input.sheet-tab-show-equipment:checked ~ .sheet-tab-equipment, /* Equipment */
+.charsheet input.sheet-tab-show-wealth:checked ~ .sheet-tab-wealth, /* Wealth */
+.charsheet input.sheet-tab-show-character-languages:checked ~ .sheet-tab-character-languages, /* Character Languages */
+.charsheet input.sheet-tab-show-character-physical:checked ~ .sheet-tab-character-physical, /* Character Physical */
+.charsheet input.sheet-tab-show-character-psychical:checked ~ .sheet-tab-character-psychical, /* Character Psychical */
+.charsheet input.sheet-tab-show-character-relational:checked ~ .sheet-tab-character-relational, /* Character Relational */
+.charsheet input.sheet-tab-show-class-barbarian:checked ~ .sheet-tab-class-barbarian, /* Class Barbarian */
+.charsheet input.sheet-tab-show-class-bard:checked ~ .sheet-tab-class-bard, /* Class Bard */
+.charsheet input.sheet-tab-show-class-druid:checked ~ .sheet-tab-class-druid, /* Class Druid */
+.charsheet input.sheet-tab-show-class-sorcerer:checked ~ .sheet-tab-class-sorcerer, /* Class Sorcerer */
+.charsheet input.sheet-tab-show-class-wizard:checked ~ .sheet-tab-class-wizard, /* Class Wizard */
+.charsheet input.sheet-tab-show-class-paladin:checked ~ .sheet-tab-class-paladin, /* Class Paladin */
+.charsheet input.sheet-tab-show-class-cleric:checked ~ .sheet-tab-class-cleric, /* Class Cleric */
+.charsheet input.sheet-tab-show-class-ranger:checked ~ .sheet-tab-class-ranger, /* Class Ranger */
+.charsheet input.sheet-tab-show-class-warlock:checked ~ .sheet-tab-class-warlock, /* Class Warlock */
+.charsheet input.sheet-tab-show-spell-0:checked ~ .sheet-tab-spell-0, /* Spell Level 0 */
+.charsheet input.sheet-tab-show-spell-1:checked ~ .sheet-tab-spell-1, /* Spell Level 1 */
+.charsheet input.sheet-tab-show-spell-2:checked ~ .sheet-tab-spell-2, /* Spell Level 2 */
+.charsheet input.sheet-tab-show-spell-3:checked ~ .sheet-tab-spell-3, /* Spell Level 3 */
+.charsheet input.sheet-tab-show-spell-4:checked ~ .sheet-tab-spell-4, /* Spell Level 4 */
+.charsheet input.sheet-tab-show-spell-5:checked ~ .sheet-tab-spell-5, /* Spell Level 5 */
+.charsheet input.sheet-tab-show-spell-6:checked ~ .sheet-tab-spell-6, /* Spell Level 6 */
+.charsheet input.sheet-tab-show-spell-7:checked ~ .sheet-tab-spell-7, /* Spell Level 7 */
+.charsheet input.sheet-tab-show-spell-8:checked ~ .sheet-tab-spell-8, /* Spell Level 8 */
+.charsheet input.sheet-tab-show-spell-9:checked ~ .sheet-tab-spell-9, /* Spell Level 9 */
+.charsheet input.sheet-tab-show-load:checked ~ .sheet-tab-load, /* Load */
+.charsheet input.sheet-tab-show-load-small:checked ~ .sheet-tab-load-small, /* Load Small */
+.charsheet input.sheet-tab-show-load-medium:checked ~ .sheet-tab-load-medium, /* Load Medium */
+.charsheet input.sheet-tab-show-load-large:checked ~ .sheet-tab-load-large, /* Load Large */
+.charsheet input.sheet-tab-show-equipment-worn:checked ~ .sheet-tab-equipment-worn, /* Equipment Worn */
+.charsheet input.sheet-tab-show-equipment-magical:checked ~ .sheet-tab-equipment-magical, /* Equipment Magical Items */
+.charsheet input.sheet-tab-show-equipment-usable:checked ~ .sheet-tab-equipment-usable, /* Equipment Usable Items */
+.charsheet input.sheet-tab-show-equipment-travel:checked ~ .sheet-tab-equipment-travel, /* Equipment Travel */
+.charsheet input.sheet-tab-show-equipment-stash:checked ~ .sheet-tab-equipment-stash, /* Equipment Stash */
+.charsheet input.sheet-tab-show-wealth-money:checked ~ .sheet-tab-wealth-money, /* Wealth Money */
+.charsheet input.sheet-tab-show-wealth-gems:checked ~ .sheet-tab-wealth-gems, /* Wealth Gems */
+.charsheet input.sheet-tab-show-wealth-valuables:checked ~ .sheet-tab-wealth-valuables, /* Wealth Valuables */
+.charsheet input.sheet-tab-show-all:checked ~ .sheet-tab-content { /* All Tabs */
+	display: block;
+}
+.sheet-tab-content::after,
+.sheet-tab-content.small::after,
+.sheet-tab-content.medium::after,
+.sheet-tab-content.large::after,
+.sheet-tab-content.inbox::after {
+	content: "";
+	display: table;
+	width: 100%;
+	clear: both;
+}
+
+.ui-dialog .charsheet {
+	padding: 0;
+}
+
+div.sheet-page {
+	width: 840px;
+	font-size: 0;
+	padding : 10px;
+	text-align: center;
+	background-color: #997;
+	background-image: url("https://i.imgur.com/OwsdGOX.jpg");
+}
+
+div.sheet-tab-content {
+	width: 740px;
+	margin: 20px auto;
+	padding : 10px;
+	font-size: 13px;
+	font-family: "Georgia", serif;
+	text-align: left;
+	border: 2px solid #333;
+	border-radius: 10px;
+	background-color: #ddc;
+	background-image: url("https://i.imgur.com/QpUGGvy.jpg");
+	box-sizing: border-box;
+	box-shadow: 0px 2px 4px #0006;
+}
+div.sheet-tab-content.small {
+	width: 480px;
+}
+div.sheet-tab-content.medium {
+	width: 600px;
+}
+div.sheet-tab-content.large {
+	width: 820px;
+}
+div.sheet-tab-content.inbox {
+	width: 100%;
+	margin: 10px 0 5px;
+	background-color: #9866;
+	background-image: none;
+	box-shadow: 0px 2px 4px #0004;
+}
+div.sheet-tab-content.inbox .inbox {
+	box-shadow: none;
+}
+
+div.sheet-tab-content > .sheet-table:first-child {
+	margin-bottom: 10px;
+}
+
+div.sheet-tab-spacer {
+	display: inline-block;
+	vertical-align: top;
+	width: 484px;
+	height: 15px;
+	margin-left: 2px;
+	box-sizing: border-box;
+}
+
+input.sheet-tab:checked {
+	cursor: default;
+}
+input.sheet-tab,
+input.sheet-tab-small {
+	user-select: none;
+	appearance: none;
+	border: none;
+	vertical-align: top;
+	opacity: 0;
+}
+.charsheet input.sheet-tab {
+	width: 160px;
+	height: 26px;
+	margin: 1px;
+}
+.charsheet input.sheet-tab-small {
+	width: 140px;
+	height: 20px;
+	margin: 0 0 4px 3px;
+}
+input.sheet-tab + span,
+input.sheet-tab-small + span {
+	pointer-events: none;
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	font-size: 13px;
+	font-weight: bold;
+	font-variant: all-small-caps;
+	font-family: "Arial", sans-serif;
+	border-radius: 15px;
+	box-sizing: border-box;
+}
+input.sheet-tab + span {
+	width: 160px;
+	height: 26px;
+	line-height: 26px;
+	margin-left: -160px;
+	text-align: center;
+	color: #ed6;
+	border-color: #997;
+	border-radius: 0;
+	background-color: #000a;
+}
+input.sheet-tab-small + span {
+	width: 140px;
+	height: 20px;
+	line-height: 20px;
+	margin-left: -140px;
+	padding-left: 24px;
+	text-align: left;
+	color: #111;
+	border-color: #444;
+	border-radius: 15px;
+	background-color: transparent;
+}
+
+input.sheet-tab:checked + span,
+input.sheet-tab:checked:hover + span,
+input.sheet-tab:checked:focus + span {
+	color: #111;
+	background-color: #dc6;
+}
+input.sheet-tab-small:checked + span {
+	padding-left: 0;
+	text-align: center;
+	color: #ec6;
+	background-color: #000a;
+	box-shadow: 0px 1px 2px #0006;
+}
+input.sheet-tab:hover + span,
+input.sheet-tab-small:hover + span,
+input.sheet-tab:focus + span,
+input.sheet-tab-small:focus + span {
+	color: #fff;
+	background-color: #b33;
+}
+input.sheet-tab-small:hover + span,
+input.sheet-tab-small:focus + span {
+	border-color: transparent;
+}
+
+input.sheet-tab + span::before,
+input.sheet-tab-small + span::before {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	left: 0;
+	top: calc(50% - 10px);
+	font-weight: normal;
+	font-family: "Pictos";
+	font-variant: none;
+	font-size: 14px;
+	color: #111;
+}
+
+input.sheet-tab-small + span::before {
+	content: "E";
+	text-align: center;
+}
+input.sheet-tab-small:hover + span::before,
+input.sheet-tab-small:focus + span::before {
+	content: "+";
+	color: #fff;
+}
+input.sheet-tab-small:checked:hover + span::before,
+input.sheet-tab-small:checked:focus + span::before {
+	content: "D";
+	color: #fff;
+}
+input.sheet-tab-small:checked + span::before {
+	content: "";
+}
+
+.sheet-page > input.sheet-tab:nth-of-type(1) + span {
+	border-top-left-radius: 10px;
+}
+.sheet-page > input.sheet-tab:nth-of-type(3) + span {
+	border-top-right-radius: 10px;
+}
+.sheet-page > input.sheet-tab:nth-of-type(16) + span {
+	border-bottom-left-radius: 10px;
+}
+.sheet-page > input.sheet-tab:nth-of-type(18) + span {
+	border-bottom-right-radius: 10px;
+}
+.sheet-page > input.sheet-tab:nth-of-type(1):checked + span {
+	background-color: #7d9;
+}
+.sheet-page > input.sheet-tab:nth-of-type(3):checked + span {
+	background-color: #ccc;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Titles */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+div.title-section {
+	width: 220px;
+	height: 32px;
+	line-height: 32px;
+	color: #fff;
+	font-size: 16px;
+	text-align: center;
+	border-radius: 5px;
+	background-color: #0003;
+	background-image: linear-gradient(135deg, #000c, transparent);
+	box-sizing: border-box;
+}
+
+div.title-subsection {
+	position: relative;
+	width: 160px;
+	height: 24px;
+	line-height: 24px;
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	border: 0;
+	border-radius: 5px;
+	background-color: #000c;
+	box-sizing: border-box;
+}
+.charsheet .sheet-page div.title-subsection button[type="action"] {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
+	border: inherit;
+	border-radius: inherit;
+	background-color: transparent;
+	box-shadow: none;
+}
+.charsheet .sheet-page div.title-subsection button[type="action"]::before {
+	content: "";
+	display: inline-block;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	left: 0;
+	top: calc(50% - 10px);
+	font-weight: normal;
+	font-family: "Pictos";
+	font-variant: none;
+	font-size: 14px;
+	color: #fff;
+}
+.charsheet .sheet-page div.title-subsection button[type="action"]:hover,
+.charsheet .sheet-page div.title-subsection button[type="action"]:focus {
+	color: #fff;
+	background-color: #b33;
+}
+.charsheet .sheet-page div.title-subsection button[type="action"]:hover::before,
+.charsheet .sheet-page div.title-subsection button[type="action"]:focus::before {
+	content: "D";
+}
+
+.charsheet .title-label > span,
+.charsheet .title-label > label {
+	display: block;
+	height: 24px;
+	line-height: 24px;
+	font-size: 13px;
+	font-weight: normal;
+	color: #222;
+	text-align: center;
+	border-radius: 15px;
+	background-color: #8886;
+	box-sizing: border-box;
+}
+
+div.title-column,
+div.title-column-roll {
+	font-weight: normal;
+	text-align: center;
+	box-sizing: border-box;
+}
+div.title-column {
+	color: #444;
+}
+div.title-column-roll {
+	display: table-cell;
+	min-width: 70px;
+	min-height: 55px;
+	line-height: 10px;
+	color: #fff;
+	font-size: 18px;
+	border-radius: 5px;
+	background-color: #000c;
+}
+.charsheet .sheet-page .title-column-roll button[type="roll"] {
+	width: 100%;
+	min-height: inherit;
+	line-height: inherit;
+	margin: 0;
+	padding: 0;
+	padding-top: 5px;
+	color: inherit;
+	font-size: 18px;
+	text-align: center;
+	box-sizing: border-box;
+}
+.charsheet .sheet-page .title-column-roll button[type="roll"]::before {
+	content: none;
+}
+div.title-column-roll small {
+	display: inline-block;
+	line-height: 10px;
+	font-size: 10px;
+	font-weight: normal;
+	color: #999;
+}
+.charsheet .sheet-page .title-column-roll button[type="roll"] small {
+	color: #bbb;
+}
+.charsheet .sheet-page .title-column-roll button[type="roll"]:hover small,
+.charsheet .sheet-page .title-column-roll button[type="roll"]:hover small {
+	color: #3339;
+}
+
+div.subtitle {
+	height: 18px;
+	line-height: 18px;
+	padding: 0 3px;
+	margin: 5px auto 0;
+	color: #fff;
+	font-size: 11px;
+	font-weight: normal;
+	text-align: center;
+	border-radius: 15px;
+	background-color: #0006;
+	box-sizing: border-box;
+}
+div.subtitle abbr[title] {
+	text-decoration-color: #ccc;
+}
+
+.charsheet span.sheet-input,
+.charsheet select.sheet-input,
+.charsheet textarea.sheet-input,
+.charsheet input[type="text"].sheet-input,
+.charsheet input[type="number"].sheet-input {
+	padding: 0 8px;
+	border: 1px solid #333a;
+	border-top-color: #333;
+	border-bottom-color: #3338;
+	border-radius: 15px;
+	vertical-align: top;
+}
+.charsheet span.sheet-input {
+	display: inline-block;
+	height: 24px;
+	line-height: 24px;
+	font-size: 14px;
+	text-align: center;
+	box-sizing: border-box;
+	background-color: #fff6;
+}
+.charsheet select.sheet-input {
+	appearance: none;
+}
+.charsheet textarea.sheet-input {
+	padding: 5px 10px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.charsheet select.sheet-input.small {
+	height: 20px;
+	line-height: 20px;
+	font-size: 12px;
+}
+.charsheet input[type="number"].sheet-input.val {
+	border-right: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.charsheet input[type="number"].sheet-input.max {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.charsheet span.sheet-input.total,
+.charsheet input[type="text"].sheet-input.total,
+.charsheet input[type="number"].sheet-input.total {
+	color: #fff;
+	background-color: #000c;
+}
+.charsheet span.sheet-input.mod,
+.charsheet input[type="text"].sheet-input.mod,
+.charsheet input[type="number"].sheet-input.mod {
+	background-color: #fcc;
+}
+.charsheet span.sheet-input.mod[disabled],
+.charsheet input[type="text"].sheet-input.mod[disabled],
+.charsheet input[type="number"].sheet-input.mod[disabled] {
+	color: #fff;
+	background-color: #822;
+}
+.charsheet span.sheet-input.base,
+.charsheet input[type="text"].sheet-input.base,
+.charsheet input[type="number"].sheet-input.base {
+	background-color: #fe9;
+}
+.charsheet span.sheet-input.base[disabled],
+.charsheet input[type="text"].sheet-input.base[disabled],
+.charsheet input[type="number"].sheet-input.base[disabled] {
+	color: #fff;
+	background-color: #974;
+}
+.charsheet span.sheet-input.bck,
+.charsheet input[type="text"].sheet-input.bck,
+.charsheet input[type="number"].sheet-input.bck {
+	color: #666;
+	font-size: 11px;
+	border: 0;
+	border-radius: 0;
+	background-color: transparent;
+}
+.charsheet .sheet-input[readonly][title],
+.charsheet .sheet-input[disabled][title] {
+	cursor: help;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Mark Ups */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet *::selection {
+	color: #fff;
+	background-color: #b33;
+}
+
+.charsheet label {
+	user-select: none;
+	display: inline-block;
+	width: auto;
+	line-height: 20px;
+	margin: 0;
+	padding: 0;
+	padding-right: 4px;
+	text-align: left;
+	font-size: 11px;
+}
+.charsheet label > input[type="checkbox"] {
+	margin: 3px 5px 0 3px;
+	vertical-align: top;
+}
+.charsheet label:hover,
+.charsheet label:focus {
+	cursor: pointer;
+	background-color: #0003;
+}
+
+.charsheet small {
+	display: inline;
+	font-size: .875em;
+	font-weight: normal;
+	text-align: inherit;
+	color: #444;
+}
+.charsheet small[title] {
+	cursor: help;
+}
+
+.charsheet abbr {
+	border-bottom: 0;
+	text-decoration: none;
+}
+.charsheet abbr[title] {
+	text-decoration: underline dotted #666;
+}
+
+.charsheet em {
+	color: #555;
+	font-style: italic;
+}
+.charsheet mark {
+	background: none;
+	background-color: #ffe9;
+}
+.charsheet strong {
+	color: #222;
+}
+.charsheet p {
+	line-height: 1.375;
+	font-size: 12px;
+	text-align: justify;
+}
+
+.charsheet details {
+	margin-top: 10px;
+}
+.charsheet summary {
+	user-select: none;
+	cursor: pointer;
+	display: inline-block;
+	margin-bottom: 5px;
+}
+.charsheet summary:hover,
+.charsheet summary:focus {
+	color: #b33;
+}
+.charsheet summary::before {
+	content: "►";
+	display: inline-block;
+	margin-right: 4px;
+	transition: transform .25s;
+}
+.charsheet details[open] summary::before {
+	transform: rotate(90deg);
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Formatting */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet .uppercase {
+	text-transform: uppercase;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Aligning */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet input[type="text"].sheet-left,
+.charsheet input[type="number"].sheet-left,
+.charsheet select.sheet-left {
+	text-align: left;
+}
+
+.charsheet .sheet-left {
+	text-align: left;
+}
+.charsheet .sheet-right {
+	text-align: right;
+}
+.charsheet .sheet-center {
+	text-align: center;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Positioning */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet .sheet-page .bottom-5 {
+	margin-bottom: 5px;
+}
+.charsheet .sheet-page .bottom-10 {
+	margin-bottom: 10px;
+}
+.charsheet .sheet-page .bottom-15 {
+	margin-bottom: 15px;
+}
+.charsheet .sheet-page .bottom-20 {
+	margin-bottom: 20px;
+}
+.charsheet .sheet-page .top-10 {
+	margin-top: 10px;
+}
+.charsheet .sheet-page .pad-left {
+	padding-left: 20px;
+}
+.charsheet .sheet-page .pad-top {
+	padding-top: 5px;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Dimensioning */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet .sheet-page .w5,
+.charsheet .sheet-page .w10,
+.charsheet .sheet-page .w20,
+.charsheet .sheet-page .w30,
+.charsheet .sheet-page .w40 {
+	display: inline-block;
+	height: 24px;
+	line-height: 24px;
+	vertical-align: top;
+}
+.charsheet .sheet-page .w5 {width: 5px;}
+.charsheet .sheet-page .w10 {width: 10px;}
+.charsheet .sheet-page .w20 {width: 20px;}
+.charsheet .sheet-page .w30 {width: 30px;}
+.charsheet .sheet-page .w40 {width: 40px;}
+.charsheet .sheet-page .w40.align-center {
+	margin-left: -30px;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Tables */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet .table-wide {
+	width: 100%;
+}
+table.table-center th,
+table.table-center td,
+div.table-center .sheet-table-cell,
+div.table-center .sheet-table-row > div {
+	text-align: center;
+}
+
+div.table-middle .sheet-table-cell,
+div.table-middle .sheet-table-row > div {
+	vertical-align: middle;
+}
+
+div.sheet-table .sheet-table-row.pad-top > div {
+	padding-top: 10px;
+}
+
+.charsheet div.table-input select,
+.charsheet div.table-input input[type="text"],
+.charsheet div.table-input input[type="number"],
+.charsheet table.table-input select,
+.charsheet table.table-input input[type="text"],
+.charsheet table.table-input input[type="number"] {
+	width: 100%;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Tables (elements) */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+table th,
+table td {
+	text-align: center;
+}
+table th {
+	font-size: 11px;
+}
+
+table td.table-label {
+	padding: 4px 0;
+	color: #fff;
+	text-align: center;
+	background-color: #000c;
+}
+table td.table-label input[type="text"][disabled],
+table td.table-label input[type="number"][disabled] {
+	background-color: #ccc;
+}
+table td.table-label.big {
+	font-size: 14px;
+	font-weight: bold;
+}
+table td.table-label small {
+	color: #999;
+}
+table td.table-label abbr[title] {
+	text-decoration: underline dotted #999;
+}
+
+table .table-box {
+	padding: 5px 0;
+	border: 2px solid #333;
+	border-top: 0;
+	border-bottom-width: 0;
+	background-color: #6664;
+}
+table .table-box.tall {
+	padding: 20px 0;
+}
+.charsheet table .table-box select,
+.charsheet table .table-box input[type="number"] {
+	vertical-align: top;
+}
+.charsheet table .table-box select {
+	width: 40px;
+	appearance: none;
+}
+.charsheet table .table-box input[type="number"] {
+	width: 24px;
+}
+
+table.black-board {
+	border: 1px solid #000c;
+	background-color: #fff;
+}
+table.black-board tr td:not(:first-child):not(.table-label) {
+	border-left: 1px solid #000c;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Tables (div) */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.sheet-table {
+	display: table;
+	border-spacing: 4px 2px;
+}
+.sheet-table-row {
+	display: table-row;
+}
+.sheet-table-cell,
+.sheet-table-row > div {
+	display: table-cell;
+	vertical-align: top;
+}
+.table-hefty {
+	border-spacing: 8px 4px;
+}
+.table-narrow {
+	border-spacing: 2px 0;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Buttons */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet .sheet-page button[type="roll"],
+.charsheet .sheet-page button[type="action"] {
+	width: auto;
+	height: 24px;
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	font-size: 16px;
+	color: #fff;
+	text-shadow: none;
+	border: 1px solid #2228;
+	border-radius: 4px;
+	background: none;
+	background-color: #2a8;
+	background-color: #b33;
+	box-shadow: 2px 2px 0px #fff8 inset, -2px -2px 0px #0003 inset;
+	box-sizing: border-box;
+	outline: 0;
+}
+.charsheet .sheet-page button[type="roll"]:empty {
+	width: 24px;
+	line-height: 24px;
+}
+.charsheet .sheet-page button[type="roll"]:not(:empty)::before {
+	content: none;
+}
+.charsheet .sheet-page button[type="roll"]:hover,
+.charsheet .sheet-page button[type="roll"]:focus,
+.charsheet .sheet-page button[type="action"]:hover,
+.charsheet .sheet-page button[type="action"]:focus {
+	color: #111;
+	background-color: #ee9;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Inputs */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet select,
+.charsheet textarea,
+.charsheet input[type="text"],
+.charsheet input[type="number"] {
+	margin: 0;
+	padding: 0 4px;
+	font-size: 14px;
+	font-family: "Georgia", serif;
+	color: #333;
+	border: 0;
+	border-radius: 0;
+	background-color: #fff;
+	outline: 0;
+	box-sizing: border-box;
+}
+.charsheet select,
+.charsheet input[type="text"],
+.charsheet input[type="number"] {
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+}
+.charsheet select {
+	padding: 0 4px;
+}
+.charsheet select option {
+	text-align: left;
+}
+.charsheet select option[disabled] {
+	color: #000;
+	font-style: italic;
+	font-weight: bold;
+	background-color: #6666;
+}
+.charsheet textarea {
+	width: 100%;
+	height: 85px;
+	min-height: 45px;
+	max-height: 195px;
+	padding: 5px 10px;
+	resize: vertical;
+}
+.charsheet select,
+.charsheet textarea {
+	scrollbar-width: thin;
+}
+.charsheet select:not([disabled]):not([readonly]):hover,
+.charsheet textarea:not([disabled]):not([readonly]):hover,
+.charsheet input[type="text"]:not([disabled]):not([readonly]):hover,
+.charsheet input[type="number"]:not([disabled]):not([readonly]):hover,
+.charsheet select:not([disabled]):not([readonly]):focus,
+.charsheet textarea:not([disabled]):not([readonly]):focus,
+.charsheet input[type="text"]:not([disabled]):not([readonly]):focus,
+.charsheet input[type="number"]:not([disabled]):not([readonly]):focus {
+	background-color: #ffc;
+}
+.charsheet select:focus-visible,
+.charsheet textarea:focus-visible,
+.charsheet input:focus-visible {
+	outline: 0;
+}
+.charsheet input[type="number"]::-webkit-inner-spin-button,
+.charsheet input[type="number"]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+.charsheet input[type=number] {
+	-moz-appearance: textfield
+}
+.charsheet .sheet-page input[disabled],
+.charsheet .sheet-page input[readonly] {
+	border-color: #8886;
+	background-color: #fff6;
+}
+.charsheet .sheet-page input[readonly] {
+	cursor: default;
+}
+.charsheet input[type="text"]::placeholder,
+.charsheet textarea::placeholder {
+	font-style: italic;
+	color: #3339;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Font Icons */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet [class^="pictos"] {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+}
+.charsheet .pictos {
+	font-size: 16px;
+	font-family: "Pictos";
+}
+.charsheet .pictos-custom {
+	font-size: 20px;
+	font-family: "Pictos Custom";
+}
+.charsheet .pictos-three {
+	font-size: 20px;
+	font-family: "Pictos Three";
+}
+.charsheet abbr[class^="pictos"] {
+	text-decoration: none;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Toggles */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet label.toggle,
+.charsheet label.toggle input[type="checkbox"],
+.charsheet label.toggle input[type="checkbox"] + span,
+.charsheet label.toggle input[type="checkbox"] + span::before,
+.charsheet label.toggle input[type="checkbox"] + span::after {
+	display: inline-block;
+}
+.charsheet label.toggle,
+.charsheet label.toggle input[type="checkbox"] {
+	height: 24px;
+}
+.charsheet label.toggle {
+	cursor: pointer;
+	position: relative;
+	width: 110px;
+	padding-left: 4px;
+	border-radius: 4px;
+}
+.charsheet label.toggle input[type="checkbox"] {
+	width: 110px;
+	margin: 0;
+	opacity: 0;
+}
+.charsheet label.toggle input[type="checkbox"] + span {
+	width: auto;
+	height: 18px;
+	line-height: 18px;
+	margin-top: 3px;
+	margin-left: -110px;
+	padding: 0 2px;
+	padding-left: 36px;
+	color: #fff;
+}
+.charsheet label.toggle input[type="checkbox"] + span::before,
+.charsheet label.toggle input[type="checkbox"] + span::after {
+	content: "";
+	position: absolute;
+}
+.charsheet label.toggle input[type="checkbox"] + span::before {
+	width: 32px;
+	height: 18px;
+	left: 3px;
+	top: 3px;
+	margin: 0;
+	border: 0;
+	border-radius: 24px;
+	background: none;
+	background-color: #000a;
+	box-shadow: none;
+}
+.charsheet label.toggle input[type="checkbox"] + span::after {
+	width: 12px;
+	height: 12px;
+	left: 7px;
+	top: 6px;
+	border-radius: 100%;
+	background-color: #888;
+	transition: left .125s linear;
+}
+.charsheet label.toggle input[type="checkbox"]:hover + span,
+.charsheet label.toggle input[type="checkbox"]:focus + span {
+	color: #ccc;
+}
+.charsheet label.toggle input[type="checkbox"]:hover + span::before {
+	background-color: #b33;
+}
+.charsheet label.toggle input[type="checkbox"]:hover + span::after {
+	background-color: #fff;
+}
+.charsheet label.toggle input[type="checkbox"]:checked + span::before {
+	background-color: #dc6;
+}
+.charsheet label.toggle input[type="checkbox"]:checked + span::after {
+	left: 19px;
+	background-color: #fff;
+}
+.charsheet label.toggle input[type="checkbox"]:checked:hover + span::before {
+	background-color: #dc6;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Options */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet .sheet-page .show-options,
+.show-options + span {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 2px;
+	top: 4px;
+}
+.charsheet .sheet-page .show-options {
+	opacity: 0;
+	z-index: 1;
+}
+.show-options + span {
+	display: inline-block;
+	line-height: 20px;
+	font-size: 18px;
+	text-align: center;
+	font-family: "Pictos";
+	transition: transform .25s linear;
+}
+.show-options + span::before {
+	content: "y";
+}
+.show-options:checked + span {
+	color: #fff;
+	transform: rotate(90deg);
+	text-shadow: 1px 0px 1px #0009;
+}
+.show-options:hover + span,
+.show-options:focus + span {
+	color: #b33;
+}
+.show-options ~ .options {
+	display: none;
+}
+.show-options:checked ~ .options {
+	display: block;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+.charsheet .options button[type="action"] {
+	width: auto;
+	margin: 0 2px;
+	padding: 1px 5px;
+	font-size: 12px;
+}
+.charsheet .options button[type="action"]:hover,
+.charsheet .options button[type="action"]:focus {
+	color: #222;
+	background-color: #ffc;
+}
+
+.options.block {
+	display: none;
+	width: 100%;
+	margin: 10px 0 5px;
+	padding : 10px;
+	border: 2px solid #333;
+	border-radius: 10px;
+	background-color: #9866;
+	box-sizing: border-box;
+}
+.options.block .sheet-table {
+	border-spacing: 5px;
+}
+
+.options .caption {
+	display: inline-block;
+	margin-left: 20px;
+	margin-right: 5px;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Main Heading */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.main-heading {
+	float: right;
+	margin-right: 20px;
+}
+.main-heading .heading-label {
+	padding-right: 10px;
+	text-align: right;
+	font-size: 12px;
+	color: #ccc;
+	background-color: transparent;
+	text-shadow: 0 1px #0006;
+}
+.main-heading .heading-toggle {
+	padding-top: 10px;
+}
+.main-heading input[type="text"].sheet-input {
+	color: #eee;
+	border: 0;
+	background-color: transparent;
+}
+.main-heading input[type="text"].sheet-input::placeholder {
+	color: #fff8;
+}
+.main-heading input[type="text"].sheet-input:hover,
+.main-heading input[type="text"].sheet-input:focus {
+	color: #333;
+}
+.main-heading input[type="text"].sheet-input:hover::placeholder,
+.main-heading input[type="text"].sheet-input:focus::placeholder {
+	color: #666;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Character */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.sheet-table.experience {
+	border-spacing: 0;
+}
+.sheet-table.experience .title-label > label {
+	margin-right: 10px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	background-color: #000c;
+	color: #fff;
+}
+.charsheet .sheet-table.experience .sheet-input,
+.charsheet .sheet-table.experience .sheet-input {
+	height: 40px;
+	line-height: 40px;
+	border-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Skills */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.skills-header {
+	width: 600px;
+	padding: 10px;
+	margin: 20px auto;
+	border-radius: 10px;
+	background-color: #0002;
+}
+.skills-header select {
+	background: #fff6;
+}
+
+.charsheet .sheet-page .skills input[type="checkbox"] {
+	width: 12px;
+	height: 12px;
+	margin: 6px;
+}
+.charsheet .sheet-page .skills input[type="text"] {
+	width: 100%;
+	padding: 0 3px;
+	text-align: left;
+	font-size: 13px;
+	background-color: transparent;
+}
+.charsheet .sheet-page .skills select,
+.charsheet .sheet-page .skills input[type="text"],
+.charsheet .sheet-page .skills input[type="number"] {
+	height: 28px;
+	border-bottom: 1px solid #ccc;
+}
+.charsheet .sheet-page .skills input[type="text"][disabled],
+.charsheet .sheet-page .skills input[type="number"][disabled] {
+	background-color: transparent;
+	border-bottom: 1px solid transparent;
+}
+.charsheet .sheet-page .skills select,
+.charsheet .sheet-page .skills input[type="number"] {
+	background-color: #fff9;
+}
+.charsheet .sheet-page .skills select {
+	appearance: none;
+	padding: 0;
+}
+.skills {
+	border-spacing: 0;
+}
+.skills .sheet-table-row:nth-child(even) {
+	background-color: #3333;
+}
+.skills .sheet-table-row > div:nth-child(1),
+.skills .sheet-table-row > div:nth-child(2) {
+	text-align: left;
+}
+.skills .sheet-table-row > div:nth-child(3) input[type="number"] {
+	font-weight: bold;
+	color: #111;
+}
+.skills .category:not(:empty) {
+	margin-left: 5px;
+}
+.skills .category:not(:empty)::before {
+	content: "(";
+}
+.skills .category:not(:empty)::after {
+	content: ")";
+}
+.skills .training {
+	cursor: help;
+	margin-left: 3px;
+	line-height: 1;
+	color: #b33;
+	font-size: 14px;
+}
+.skills button:hover .training,
+.skills button:focus .training {
+	color: #ff0;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Magic */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+/* Spells Visibility */
+table.spells .cls1,
+table.spells .cls2,
+table.spells .cls3,
+table.spells .cls4 {
+	visibility: collapse;
+}
+
+div.spells .cls1,
+div.spells .cls2,
+div.spells .cls3,
+div.spells .cls4 {
+	display: none;
+}
+
+input.cls1-cast[value="1"] ~ table.spells .cls1,
+input.cls2-cast[value="1"] ~ table.spells .cls2,
+input.cls3-cast[value="1"] ~ table.spells .cls3,
+input.cls4-cast[value="1"] ~ table.spells .cls4 {
+	visibility: visible;
+}
+
+input.cls1-cast[value="1"] ~ div.spells .cls1,
+input.cls2-cast[value="1"] ~ div.spells .cls2,
+input.cls3-cast[value="1"] ~ div.spells .cls3,
+input.cls4-cast[value="1"] ~ div.spells .cls4{
+	display: inline-block;
+}
+
+/* Spell Level */
+.spell-level {
+	display: inline-block;
+	width: 300px;
+	margin: 5px;
+	padding: 5px;
+	vertical-align: top;
+	border: 1px solid #0006;
+	border-radius: 5px;
+	background-color: #9866;
+}
+.spell-level .header {
+	display: inline-block;
+	margin-bottom: 5px;
+	line-height: 20px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #833;
+	padding: 0px 6px;
+	border-radius: 3px;
+}
+.spell-level .heading {
+	font-size: 11px;
+}
+.charsheet .spell-level input[type="number"] {
+	width: 40px;
+}
+
+/* Spell Slots */
+.fieldset.spell .slots {
+	display: inline-block;
+	height: 24px;
+}
+.fieldset.spell .slots input[type="checkbox"] {
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	border: 0;
+	background-color: #0004;
+	background-color: transparent;
+	border-radius: 100%;
+}
+.fieldset.spell .slots input[type="checkbox"]:hover,
+.fieldset.spell .slots input[type="checkbox"]:focus {
+	background-color: #b33;
+}
+.fieldset.spell .slots input[type="checkbox"]::before {
+	content: "";
+	display: inline-block;
+	border-radius: inherit;
+	width: 0;
+	height: 0;
+	position: relative;
+	left: 8px;
+	top: 1px;
+	border: 2px solid #333;
+}
+.fieldset.spell .slots input[type="checkbox"]:hover::before,
+.fieldset.spell .slots input[type="checkbox"]:focus::before {
+	border-color: #fff;
+}
+.fieldset.spell .slots input[type="checkbox"]:checked::before {
+	width: 10px;
+	height: 10px;
+	left: 3px;
+	top: 3px;
+	background-color: #fff;
+}
+.fieldset.spell .slots input[type="checkbox"]:checked::hover::before,
+.fieldset.spell .slots input[type="checkbox"]:checked::focus::before {
+	border-color: #b33;
+}
+
+.charsheet .fieldset.spell .slots input[type="number"] {
+	width: 40px;
+	height: 20px;
+	margin: 2px 4px;
+}
+
+.charsheet .fieldset.spell .class-number {
+	font-weight: bold;
+	color: #fff;
+	border: 0;
+	border-radius: 5px;
+	background-color: transparent;
+	text-shadow: 0 1px 1px #0006;
+}
+.charsheet .fieldset.spell .class-number option {
+	font-weight: normal;
+}
+.charsheet .fieldset.spell .class-number:hover,
+.charsheet .fieldset.spell .class-number:focus {
+	cursor: pointer;
+	color: #222;
+	text-shadow: none;
+}
+.charsheet .fieldset.spell .class-number::before {
+	content: "CLS";
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Weapons */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.sheet-tab-weapon {
+	margin-top: 5px;
+}
+
+.fieldset .attack-bar {
+	display: inline-block;
+}
+.fieldset .attack-bar button[type="roll"] {
+	width: 60px;
+	height: 24px;
+	margin: 2px 0 2px 4px;
+	font-size: 13px;
+	line-height: 10px;
+}
+.fieldset .attack-bar button[type="roll"]::before {
+	content: none;
+}
+.fieldset .attack-bar span[class^="attack"] {
+	display: none;
+}
+.full-attack[value="2"] ~ .fieldset .attack-bar .attack-roll-2,
+.full-attack[value="3"] ~ .fieldset .attack-bar .attack-roll-3,
+.full-attack[value="4"] ~ .fieldset .attack-bar .attack-roll-4 {
+	display: inline;
+}
+
+.fieldset .sheet-tab-weapon select,
+.fieldset .sheet-tab-weapon input[type="text"],
+.fieldset .sheet-tab-weapon input[type="number"] {
+	width: 100%;
+}
+.fieldset .sheet-tab-weapon select {
+	appearance: none;
+}
+.fieldset .sheet-tab-weapon > input[type="text"]:first-child {
+	width: 270px;
+	font-weight: bold;
+	font-size: 14px;
+	color: #fff;
+	border: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	background-color: #333;
+}
+.fieldset .sheet-tab-weapon > input[type="text"]:first-child::placeholder {
+	color: #888;
+}
+.fieldset .sheet-tab-weapon > input[type="text"]:first-child:hover,
+.fieldset .sheet-tab-weapon > input[type="text"]:first-child:focus {
+	color: #222;
+}
+.fieldset .sheet-tab-weapon > input[type="text"]:first-child + label {
+	margin-top: 4px;
+}
+
+.attack-block {
+	display: inline-block;
+	width: 320px;
+	vertical-align: top;
+}
+.attack-block > abbr,
+.attack-block div.line,
+.fieldset .attack-block span[name],
+.fieldset .attack-block input[type="text"] {
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+	font-size: 11px;
+	vertical-align: top;
+}
+.attack-block > abbr,
+.attack-block div.line {
+	margin-left: 4px;
+}
+.attack-block > abbr {
+	margin-top: 4px;
+}
+.attack-block div.line {
+	margin-top: 3px;
+	margin-bottom: 3px;
+	border: 1px solid #0004;
+	border-left: 0;
+	border-right: 0;
+	background-color: #fff;
+}
+.attack-block div.line span[name]:first-child {
+	padding-left: 4px;
+}
+.fieldset .attack-block input[type="text"] {
+	width: 20px;
+}
+.fieldset .attack-block span[class^="attack"] {
+	display: none;
+}
+.full-attack[value="1"] ~ .fieldset .attack-block .attack-1,
+.full-attack[value="2"] ~ .fieldset .attack-block .attack-1,
+.full-attack[value="3"] ~ .fieldset .attack-block .attack-1,
+.full-attack[value="4"] ~ .fieldset .attack-block .attack-1,
+.full-attack[value="2"] ~ .fieldset .attack-block .attack-2,
+.full-attack[value="3"] ~ .fieldset .attack-block .attack-2,
+.full-attack[value="4"] ~ .fieldset .attack-block .attack-2,
+.full-attack[value="3"] ~ .fieldset .attack-block .attack-3,
+.full-attack[value="4"] ~ .fieldset .attack-block .attack-3,
+.full-attack[value="4"] ~ .fieldset .attack-block .attack-4 {
+	display: inline;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Armors */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.armors-header table {
+	margin: 0 auto;
+}
+
+.armors-header .shield {
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	background-image: url("https://i.imgur.com/FViE2xm.png");
+	background-repeat: no-repeat;
+}
+.armors-header .shield abbr,
+.armors-header .shield input[type="number"] {
+	color: #fff;
+	font-weight: bold;
+}
+.armors-header .shield abbr {
+	display: inline-block;
+	margin-top: 15px;
+}
+.armors-header .shield input[type="number"] {
+	height: 30px;
+	font-size: 30px;
+	border: 0;
+	background-color: transparent;
+}
+.armors-header tr td:nth-child(1) .sheet-input {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.armors-header tr td:nth-child(2) .title-label > span {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.armors-content {
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Backup Values */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+input[name="attr_edit-backup"][value="0"] ~ .sheet-table-row div input.sheet-input.bck,
+input[name="attr_edit-backup"][value="1"] ~ .sheet-table-row div span.sheet-input.bck {
+	display: none;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Fieldsets */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet .fieldset {
+	display: inline-block;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Headlines */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.fieldset .headline {
+	display: inline-block;
+}
+.fieldset.skills .headline {
+	display: table-cell;
+}
+
+.fieldset.spell .repitem:nth-child(odd) .headline {
+	background-color: #fff6;
+}
+.fieldset .repitem:nth-child(odd) .attack-bar,
+.fieldset .repitem:nth-child(odd) .attack-block,
+.fieldset.weapon .repitem:nth-child(odd) .headline {
+	background-color: #0002;
+}
+
+.charsheet .fieldset .headline input[type="text"][disabled] {
+	width: 150px;
+	font-size: 12px;
+	background-color: transparent;
+}
+
+.fieldset .headline span.no-button,
+.fieldset .headline button[type="roll"] {
+	width: 300px;
+	height: 28px;
+	margin-left: 25px;
+	padding: 0 3px;
+	color: #222;
+	text-align: left;
+	border: 0;
+	border-radius: 0;
+	background-color: transparent;
+	box-shadow: none;
+}
+.fieldset .headline span.no-button,
+.fieldset.skills .headline button[type="roll"] {
+	margin-left: 0;
+}
+.fieldset .headline span.no-button {
+	font-size: 16px;
+}
+.fieldset .headline button[type="roll"]::before,
+.fieldset .headline button[type="roll"]::before {
+	pointer-events: none;
+	content: none;
+}
+.fieldset .headline button[type="roll"]:hover,
+.fieldset .headline button[type="roll"]:focus {
+	color: #fff;
+	background-color: #b33;
+}
+.fieldset .headline button[type="roll"]:hover::before,
+.fieldset .headline button[type="roll"]:focus::before {
+	content: "w";
+	position: relative;
+	display: inline-block;
+	width: 28px;
+	height: 28px;
+	margin-left: -28px;
+	line-height: 26px;
+	text-align: center;
+	font-family: "Pictos";
+	font-size: 18px;
+	color: #fff;
+	background-color: #b33;
+	z-index: 1;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Repeating Controllers */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.charsheet .repcontrol .repcontrol_add,
+.charsheet .repcontrol .repcontrol_edit,
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del,
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_move {
+	padding: 0;
+	float: none;
+}
+
+.charsheet .repcontrol {
+	margin-top: 4px;
+}
+
+.charsheet .repcontrol .repcontrol_add,
+.charsheet .repcontrol .repcontrol_edit {
+	position: relative;
+	width: 24px;
+	height: 20px;
+	line-height: 20px;
+	left: 0;
+	font-size: 0;
+	border: 0;
+	border-radius: 4px;
+	background: transparent;
+	text-shadow: none;
+	box-shadow: none;
+}
+.charsheet .repcontrol .repcontrol_add {
+	margin-left: 2px;
+}
+.charsheet .repcontrol .repcontrol_add::before,
+.charsheet .repcontrol .repcontrol_edit::before {
+	display: inline-block;
+	width: inherit;
+	height: inherit;
+	font-size: 14px;
+	font-family: "Pictos";
+	border-radius: inherit;
+	opacity: .5;
+}
+.charsheet .repcontrol .repcontrol_add::before {
+	content: "&";
+}
+.charsheet .repcontrol .repcontrol_edit::before {
+	content: "W";
+}
+.charsheet .repcontrol .repcontrol_add:hover::before,
+.charsheet .repcontrol .repcontrol_edit:hover::before,
+.charsheet .repcontrol .repcontrol_add:focus::before,
+.charsheet .repcontrol .repcontrol_edit:focus::before {
+}
+.charsheet .editmode + .repcontrol .repcontrol_edit::before,
+.charsheet .repcontrol .repcontrol_add:hover::before,
+.charsheet .repcontrol .repcontrol_edit:hover::before {
+	color: #fff;
+	background-color: #b33;
+	opacity: 1;
+}
+.charsheet .repcontrol .repcontrol_add:focus,
+.charsheet .repcontrol .repcontrol_edit:focus {
+	outline: 0;
+}
+.charsheet .repcontrol .repcontrol_add:focus::before,
+.charsheet .repcontrol .repcontrol_edit:focus::before {
+	color: #312;
+	background-color: #ffac;
+	opacity: 1;
+}
+.charsheet .repcontainer {
+	position: relative
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del,
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_move {
+	position: absolute;
+	text-shadow: none;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del,
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_move {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	left: 0;
+	top: 0;
+	font-size: 0;
+	border: 0;
+	border-radius: 0;
+	background: none;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del {
+	width: 24px;
+	z-index: 3;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_move {
+	width: 100%;
+	background-color: #fff9;
+	z-index: 2;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_move:hover {
+	background-color: #ff06;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del::before {
+	content: "#";
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	line-height: 18px;
+	font-size: 16px;
+	font-weight: normal;
+	border-radius: 4px;
+	background-color: #000c;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_move::before {
+	content: "`";
+	display: inline-block;
+	font-size: 20px;
+	font-family: "Pictos";
+	opacity: .75;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_move:hover::before {
+	opacity: 1;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del:hover::before,
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del:focus::before {
+	background-color: #b33;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del:focus {
+	outline: 0;
+}
+.charsheet .repcontainer .repitem .itemcontrol .repcontrol_del:active {
+	box-shadow: none;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Rolltemplates */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.sheet-rolltemplate-roll table,
+.sheet-rolltemplate-spell table,
+.sheet-rolltemplate-attack table,
+.sheet-rolltemplate-turning table {
+	width: 100%;
+	padding: 2px;
+	box-sizing: border-box;
+}
+
+.sheet-rolltemplate-roll > table,
+.sheet-rolltemplate-spell > table,
+.sheet-rolltemplate-attack > table,
+.sheet-rolltemplate-turning > table {
+	border: 2px solid #322;
+	background-image: url("https://i.imgur.com/UTYhjmE.jpg");
+}
+
+.sheet-rolltemplate-roll th,
+.sheet-rolltemplate-spell th,
+.sheet-rolltemplate-attack th,
+.sheet-rolltemplate-turning th {
+	height: 20px;
+	padding: 5px;
+	color: #fff;
+	font-size: 14px;
+	font-family: "Arial", Helvetica, sans-serif;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	border-bottom: 2px solid #322;
+	background-color: #644;
+}
+
+.sheet-rolltemplate-roll td,
+.sheet-rolltemplate-spell td,
+.sheet-rolltemplate-attack td,
+.sheet-rolltemplate-turning td:not(.sheet-turning) {
+	padding: 0 5px;
+	font-size: 12px;
+}
+
+.sheet-rolltemplate-roll .sheet-heading,
+.sheet-rolltemplate-spell .sheet-heading,
+.sheet-rolltemplate-attack .sheet-heading,
+.sheet-rolltemplate-turning .sheet-heading {
+	padding: 3px 5px;
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	color: #ee9;
+	background-color: #844;
+}
+
+.sheet-rolltemplate-roll table tr:first-child .sheet-heading,
+.sheet-rolltemplate-spell > table tr:first-child .sheet-heading,
+.sheet-rolltemplate-attack > table:not(.sheet-details) tr:first-child .sheet-heading,
+.sheet-rolltemplate-turning > table tr:first-child .sheet-heading {
+	padding: 1px 5px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #ccc;
+	border-top: 2px solid #322;
+	background-color: #322;
+}
+
+.sheet-rolltemplate-roll .sheet-label,
+.sheet-rolltemplate-spell .sheet-label,
+.sheet-rolltemplate-attack .sheet-label,
+.sheet-rolltemplate-turning .sheet-label {
+	font-weight: bold;
+	color: #733;
+}
+
+.sheet-rolltemplate-roll .sheet-label[title],
+.sheet-rolltemplate-spell .sheet-label[title],
+.sheet-rolltemplate-attack .sheet-label[title],
+.sheet-rolltemplate-turning .sheet-label[title] {
+	cursor: help;
+}
+
+.sheet-rolltemplate-roll .sheet-value,
+.sheet-rolltemplate-spell .sheet-value,
+.sheet-rolltemplate-attack .sheet-value,
+.sheet-rolltemplate-turning .sheet-value {
+	padding: 0 3px;
+	font-weight: bold;
+}
+.sheet-rolltemplate-roll .sheet-value .inlinerollresult,
+.sheet-rolltemplate-spell .sheet-value .inlinerollresult,
+.sheet-rolltemplate-attack .sheet-value .inlinerollresult,
+.sheet-rolltemplate-turning .sheet-value .inlinerollresult {
+	padding: 0;
+}
+
+.sheet-rolltemplate-roll .inlinerollresult,
+.sheet-rolltemplate-spell .inlinerollresult,
+.sheet-rolltemplate-attack .inlinerollresult,
+.sheet-rolltemplate-turning .inlinerollresult {
+	border: none;
+	background-color: transparent;
+}
+
+.sheet-rolltemplate-roll .inlinerollresult.fullcrit,
+.sheet-rolltemplate-spell .inlinerollresult.fullcrit,
+.sheet-rolltemplate-attack .inlinerollresult.fullcrit,
+.sheet-rolltemplate-turning .inlinerollresult.fullcrit {
+	color: #1a1;
+	border: none;
+	text-shadow: 0 1px 1px #fff;
+}
+
+.sheet-rolltemplate-roll .inlinerollresult.fullfail,
+.sheet-rolltemplate-spell .inlinerollresult.fullfail,
+.sheet-rolltemplate-attack .inlinerollresult.fullfail,
+.sheet-rolltemplate-turning .inlinerollresult.fullfail {
+	color: #b11;
+	border: none;
+}
+
+.sheet-rolltemplate-roll .inlinerollresult.importantroll,
+.sheet-rolltemplate-spell .inlinerollresult.importantroll,
+.sheet-rolltemplate-attack .inlinerollresult.importantroll,
+.sheet-rolltemplate-turning .inlinerollresult.importantroll {
+	color: #b11;
+	border: none;
+}
+
+.sheet-rolltemplate-roll .sheet-center {
+	text-align: center;
+}
+.sheet-rolltemplate-roll .sheet-result {
+	padding: 10px;
+	font-size: 20px;
+	font-weight: bold;
+}
+.sheet-rolltemplate-roll .sheet-success,
+.sheet-rolltemplate-roll .sheet-failure {
+	display: inline-block;
+	margin-bottom: 5px;
+	font-size: 12px;
+	font-weight: bold;
+}
+.sheet-rolltemplate-roll .sheet-success {
+	color: #1a1;
+	text-shadow: 0 1px 1px #fff;
+}
+.sheet-rolltemplate-roll .sheet-failure {
+	color: #b11;
+	text-shadow: 0 1px 1px #fff;
+}
+.sheet-rolltemplate-roll .sheet-note {
+	padding: 4px 8px;
+	border-top: 1px solid #322;
+	text-align: center;
+	background-color: #ffa9;
+}
+
+.sheet-rolltemplate-attack .sheet-result .sheet-value {
+	display: inline-block;
+	padding: 4px 0;
+	font-size: 20px;
+	line-height: 20px;
+}
+.sheet-rolltemplate-attack .sheet-result .line td,
+.sheet-rolltemplate-attack .sheet-result .line td {
+	border-top: 1px solid #0004;
+}
+.sheet-rolltemplate-attack .sheet-result td:not(.sheet-heading) {
+	padding: 2px 0;
+	text-align: center;
+}
+.sheet-rolltemplate-attack .sheet-details {
+	border-top: 0;
+}
+.sheet-rolltemplate-attack .sheet-result .sheet-roll-nil {
+	position: relative;
+	color: #24d;
+	text-shadow: 0 1px 1px #fff;
+}
+.sheet-rolltemplate-attack .sheet-result .sheet-roll-nil::after {
+	content: "Nil";
+	position: absolute;
+	left: 100%;
+	top: 0;
+	margin-left: 4px;
+	font-size: 14px;
+}
