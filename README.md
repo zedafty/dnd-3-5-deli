@@ -9,7 +9,7 @@
 
   ### Status
 
-  * pending 2022-07-28
+  * pending 2022-08-03
 
   ### Milestone
 
@@ -17,7 +17,7 @@
 
   ### Latest
 
-  * 1.6.1
+  * 1.6.2
 
   ### Features
 
