@@ -65,6 +65,7 @@
 	"lang_undercommon_alphabet" : "Elfique",
 
 	// Classes
+	"cls_none" : "(aucune)",
 	"cls_barbarian" : "Barbare",
 	"cls_bard" : "Barde",
 	"cls_druid" : "Druide",
@@ -77,6 +78,12 @@
 	"cls_rogue" : "Roublard",
 	"cls_ranger" : "Rôdeur",
 	"cls_warlock" : "Sorcier",
+
+	// Skill Tricks
+	"sk-trick-interaction" : "Interaction",
+	"sk-trick-manipulation" : "Manipulation",
+	"sk-trick-mental" : "Mental",
+	"sk-trick-movement" : "Mouvement",
 
 	// Spell Schools
 	"spl-school-universal" : "Universel",
@@ -110,18 +117,30 @@
 	// Attacks
 	"opposed_check" : "Test en opposition",
 
-	// Weapons
+	// Weapons Type
 	"wpn-melee" : "Corps à corps",
 	"wpn-range" : "À distance",
 	"wpn-hand-0" : "Main non directrice",
 	"wpn-hand-1" : "Main directrice",
 	"wpn-hand-2" : "À deux mains",
-	"wpn-dmg-type-" : "",
+
+	// Weapons Damages
 	"wpn-dmg-type-b" : "Contondant",
 	"wpn-dmg-type-p" : "Perforant",
 	"wpn-dmg-type-s" : "Tranchant",
 	"wpn-dmg-type-b-p" : "Contondant et perforant",
 	"wpn-dmg-type-p-s" : "Perforant ou tranchant",
+	"wpn-dmg-type-magic" : "Magique",
+	"wpn-dmg-type-acid" : "Acide",
+	"wpn-dmg-type-elec" : "Électricité",
+	"wpn-dmg-type-fire" : "Feu",
+	"wpn-dmg-type-frost" : "Froid",
+	"wpn-dmg-type-pos" : "Positif",
+	"wpn-dmg-type-neg" : "Négatif",
+	"wpn-dmg-type-holy" : "Sainteté",
+	"wpn-dmg-type-unholy" : "Impiété",
+
+	// Weapons Properties
 	"wpn-nld" : "Dégâts non létaux",
 	"wpn-reach" : "Arme à allonge",
 	"wpn-double" : "Arme double",
@@ -224,6 +243,30 @@
 	"wpn-crossbow-repeating-light" : "Arbalète légère à répétition",
 	"wpn-net" : "Filet",
 	"wpn-shuriken" : "Shuriken",
+
+	// Armors
+	"arm-none" : "(aucune)",
+	"arm-padded" : "Armure matelassée",
+	"arm-leather" : "Armure de cuir",
+	"arm-studded-leather" : "Armure de cuir cloutée",
+	"arm-chain-shirt" : "Chemise de mailles",
+	"arm-hide" : "Armure de peau",
+	"arm-scale-mail" : "Armure d’écailles",
+	"arm-chainmail" : "Cotte de mailles",
+	"arm-breastplate" : "Cuirasse",
+	"arm-splint-mail" : "Clibanion",
+	"arm-banded-mail" : "Crevice",
+	"arm-half-plate" : "Armure à plaques",
+	"arm-full-plate" : "Harnois",
+
+	// Shields
+	"shd-none" : "(aucun)",
+	"shd-buckler" : "Targe",
+	"shd-shield-light-wooden" : "Rondache en bois",
+	"shd-shield-light-steel" : "Rondache en acier",
+	"shd-shield-heavy-wooden" : "Écu en bois",
+	"shd-shield-heavy-steel" : "Écu en acier",
+	"shd-shield-tower" : "Pavois",
 
 	// Version
 	"version" : "version"

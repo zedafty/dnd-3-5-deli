@@ -27,7 +27,7 @@
 .charsheet input.sheet-tab-show-magic:checked ~ .sheet-tab-magic, /* Magic */
 .charsheet input.sheet-tab-show-attacks:checked ~ .sheet-tab-attacks, /* Attacks */
 .charsheet input.sheet-tab-show-weapons:checked ~ .sheet-tab-weapons, /* Weapons */
-.charsheet input.sheet-tab-show-armors:checked ~ .sheet-tab-armors, /* Armors */
+.charsheet input.sheet-tab-show-armor-shield:checked ~ .sheet-tab-armor-shield, /* Armor and Shield */
 .charsheet input.sheet-tab-show-modifiers:checked ~ .sheet-tab-modifiers, /* Modifiers */
 .charsheet input.sheet-tab-show-equipment:checked ~ .sheet-tab-equipment, /* Equipment */
 .charsheet input.sheet-tab-show-wealth:checked ~ .sheet-tab-wealth, /* Wealth */
@@ -458,12 +458,12 @@ div.subtitle abbr[title] {
 	line-height: 20px;
 	font-size: 12px;
 }
-.charsheet input[type="number"].sheet-input.val {
+.charsheet input.sheet-input.val {
 	border-right: 0;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
-.charsheet input[type="number"].sheet-input.max {
+.charsheet input.sheet-input.max {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
@@ -1277,6 +1277,23 @@ table.black-board tr td:not(:first-child):not(.table-label) {
 
 /* ========================================================================== */
 /* -------------------------------------------------------------------------- */
+/* # Skill Tricks */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.skills .skill-tricks,
+.sheet-tab-feats .skill-tricks {
+	display: none;
+}
+input[name="attr_show-skill-tricks"][value="1"] + .skills .skill-tricks{
+	display: table-row;
+}
+.sheet-tab-feats input[name="attr_show-skill-tricks"][value="1"] + .skill-tricks {
+	display: inline-block;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
 /* # Magic */
 /* -------------------------------------------------------------------------- */
 /* ========================================================================== */
@@ -1531,42 +1548,51 @@ input.cls4-cast[value="1"] ~ div.spells .cls4{
 /* -------------------------------------------------------------------------- */
 /* ========================================================================== */
 
-.armors-header table {
+.armor-shield-header table {
 	margin: 0 auto;
 }
 
-.armors-header .shield {
+.armor-shield-header .background {
 	display: inline-block;
 	width: 100px;
 	height: 100px;
-	background-image: url("https://i.imgur.com/FViE2xm.png");
 	background-repeat: no-repeat;
 }
-.armors-header .shield abbr,
-.armors-header .shield input[type="number"] {
+.armor-shield-header .background.shield {
+	background-image: url("https://i.imgur.com/9XfVmV3.png");
+}
+.armor-shield-header .background.hand {
+	background-image: url("https://i.imgur.com/Xrt0eap.png");
+}
+.armor-shield-header .background.star {
+	background-image: url("https://i.imgur.com/A2LwQ0M.png");
+}
+.armor-shield-header .background abbr,
+.armor-shield-header .background input[type="number"] {
 	color: #fff;
 	font-weight: bold;
 }
-.armors-header .shield abbr {
+.armor-shield-header .background abbr {
 	display: inline-block;
 	margin-top: 15px;
+	text-decoration: none;
 }
-.armors-header .shield input[type="number"] {
+.armor-shield-header .background input[type="number"] {
 	height: 30px;
 	font-size: 30px;
 	border: 0;
 	background-color: transparent;
 }
-.armors-header tr td:nth-child(1) .sheet-input {
+.armor-shield-header tr td:nth-child(1) .sheet-input {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
-.armors-header tr td:nth-child(2) .title-label > span {
+.armor-shield-header tr td:nth-child(2) .title-label > span {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
 
-.armors-content {
+.armor-shield-content {
 	margin: 0 auto;
 	padding: 0 10px;
 }
@@ -1603,6 +1629,10 @@ input[name="attr_edit-backup"][value="1"] ~ .sheet-table-row div span.sheet-inpu
 }
 .fieldset.skills .headline {
 	display: table-cell;
+}
+.fieldset.skills .headline em {
+	font-size: 16px;
+	padding-left: 30px;
 }
 
 .fieldset.spell .repitem:nth-child(odd) .headline {

@@ -5,19 +5,19 @@
 <!-- Version 1.6.2 Beta FR -->
 
 <!-- Version -->
-<input type="hidden" name="attr_version" value="1.6.1" />
+<input type="hidden" name="attr_version" value="1.6.2" />
 
 <!-- Attribute Aliases -->
-<input type="hidden" name="attr__PV" value="@{hp}" />
-<input type="hidden" name="attr__Pointsdevie" value="@{hp}" />
-<input type="hidden" name="attr__PVMax" value="@{hp_max}" />
-<input type="hidden" name="attr__PointsdevieMax" value="@{hp_max}" />
-<input type="hidden" name="attr__PVTemp" value="@{hp_temp}" />
-<input type="hidden" name="attr__PointsdevieTemp" value="@{hp_temp}" />
-<input type="hidden" name="attr__DNL" value="@{nld}" />
-<input type="hidden" name="attr__Dégâtsnonlétaux" value="@{nld}" />
-<input type="hidden" name="attr__Init" value="@{init}" />
-<input type="hidden" name="attr__Initiative" value="@{init}" />
+<input type="hidden" name="attr__pv" value="@{hp}" />
+<input type="hidden" name="attr__points_de_vie" value="@{hp}" />
+<input type="hidden" name="attr__pvmax" value="@{hp_max}" />
+<input type="hidden" name="attr__points_de_vie_max" value="@{hp_max}" />
+<input type="hidden" name="attr__pv_temp" value="@{hp_temp}" />
+<input type="hidden" name="attr__points_de_vie_temp" value="@{hp_temp}" />
+<input type="hidden" name="attr__dnl" value="@{nld}" />
+<input type="hidden" name="attr__degats_non_letaux" value="@{nld}" />
+<input type="hidden" name="attr__init" value="@{init}" />
+<input type="hidden" name="attr__initiative" value="@{init}" />
 
 <!-- Global Attributes -->
 <input type="hidden" name="attr_r-mod" value="" />
@@ -74,7 +74,7 @@
 
 	<input type="radio" name="attr_tab-show" class="sheet-tab sheet-tab-show-attacks" value="13" /><span>Attaques</span><!-- Attacks -->
 	<input type="radio" name="attr_tab-show" class="sheet-tab sheet-tab-show-weapons" value="14" /><span>Armes</span><!-- Weapons -->
-	<input type="radio" name="attr_tab-show" class="sheet-tab sheet-tab-show-armors" value="15" /><span>Armures</span><!-- Armors -->
+	<input type="radio" name="attr_tab-show" class="sheet-tab sheet-tab-show-armor-shield" value="15" /><span>Armure et bouclier</span><!-- Armor and Shield -->
 
 	<input type="radio" name="attr_tab-show" class="sheet-tab sheet-tab-show-modifiers" value="16" /><span>Modificateurs</span><!-- Modifiers -->
 	<input type="radio" name="attr_tab-show" class="sheet-tab sheet-tab-show-equipment" value="17" /><span>Équipement</span><!-- Equipment -->
@@ -435,7 +435,7 @@
 				<div class="sheet-center"><input type="checkbox" name="attr_cls1-cast" title="Classe de lanceur de sorts" value="1" /></div>
 				<div class="sheet-center"><input type="checkbox" name="attr_cls1-prest" title="Classe de prestige" value="1" /></div>
 				<div><input type="text" name="attr_cls1-name" class="sheet-input" style="width: 180px;" title="Nom de la classe" placeholder="Classe 1" list="classes" /></div>
-				<div><input type="number" name="attr_cls1-lvl" class="sheet-input" style="width: 45px;" title="Niveau de la classe" value="1" min="0" /></div>
+				<div><input type="number" name="attr_cls1-lvl" class="sheet-input" style="width: 45px;" title="Niveau de la classe" value="0" min="0" /></div>
 				<div>
 					<select name="attr_cls1-hd" class="sheet-input" style="width: 65px;" title="Dés de vie">
 						<option selected>&ndash;</option>
@@ -697,7 +697,7 @@
 			<div class="sheet-table-row">
 				<div class="title-column-roll"><span class="uppercase">PV</span><br><small>Points de vie</small></div>
 				<div>
-					<div class="sheet-table-cell"><input type="number" name="attr_hp" class="sheet-input val" style="width: 70px;" title="Points de vie actuels" value="6" min="-10" /><input type="number" name="attr_hp_max" class="sheet-input max" style="width: 70px;" title="Points de vie maximum" value="6" min="0" /><br><div class="subtitle">Actuels&nbsp;|&nbsp;<abbr title="maximum">Max.</abbr></div></div>
+					<div class="sheet-table-cell"><input type="text" name="attr_hp" class="sheet-input val" style="width: 70px;" title="Points de vie actuels" placeholder="6+3" value="6" /><input type="number" name="attr_hp_max" class="sheet-input max" style="width: 70px;" title="Points de vie maximum" value="6" min="0" /><br><div class="subtitle">Actuels&nbsp;|&nbsp;<abbr title="maximum">Max.</abbr></div></div>
 					<div class="sheet-table-cell"><input type="number" name="attr_hp-temp" class="sheet-input" style="width: 70px;" title="Points de vie temporaires" value="0" min="0" /><br><div class="subtitle"><abbr title="Temporaire">Temp.</abbr></div></div>
 					<div class="sheet-table-cell"><input type="number" name="attr_nld" class="sheet-input" style="width: 65px;" title="Dégâts non létaux" value="0" min="0" /><br><div class="subtitle"><abbr title="Dégâts non létaux">DNL</abbr></div></div>
 				</div>
@@ -793,9 +793,9 @@
 							<td>=</td>
 							<td><input type="text" name="attr_ac-flat" class="sheet-input base" style="width: 50px;" title="Classe d’armure pris au dépourvu" value="10+@{ac-arm}+@{ac-shd}+@{char-size}+@{ac-nat}+@{ac-def}+@{ac-misc}" disabled="disabled" /></td>
 							<td>=10+</td>
-							<td><input type="text" name="attr_ac-arm" class="sheet-input" style="width: 50px;" title="Bonus de l’armure" value="(@{arm-enh}*(@{arm-worn}))" disabled="disabled" /></td>
+							<td><input type="text" name="attr_ac-arm" class="sheet-input" style="width: 50px;" title="Bonus de l’armure" value="(@{arm-bon}*(@{arm-worn})+@{arm-enh}*(@{arm-worn}))" disabled="disabled" /></td>
 							<td>+</td>
-							<td><input type="text" name="attr_ac-shd" class="sheet-input" style="width: 50px;" title="Bonus du bouclier" value="(@{shd-enh}*(@{shd-worn}))" disabled="disabled" /></td>
+							<td><input type="text" name="attr_ac-shd" class="sheet-input" style="width: 50px;" title="Bonus du bouclier" value="(@{shd-bon}*(@{shd-eqp})+@{shd-enh}*(@{shd-eqp}))" disabled="disabled" /></td>
 							<td>+</td>
 							<td><input type="text" name="attr_ac-dex" class="sheet-input" style="width: 50px;" title="Modificateur de Dextérité (ajusté par la pénalité d’armure)" value="@{dex-max}" disabled="disabled" /></td>
 							<td>+</td>
@@ -860,13 +860,14 @@
 					<td></td>
 					<td><input type="number" name="attr_sk-pts-rem" class="sheet-center" title="Points de compétence restants" value="(@{sk-pts-tot}-@{sk-pts-use})" disabled="disabled" /></td>
 					<td></td>
-					<td><input type="number" name="attr_sk-pts-use" class="sheet-center" title="Points de compétence utilisés" value="((@{sk-athletism-rank}*(2-@{sk-athletism-cls}))+(@{sk-tumble-rank}*(2-@{sk-tumble-cls}))+(@{sk-spellcraft-rank}*(2-@{sk-spellcraft-cls}))+(@{sk-craft1-rank}*(2-@{sk-craft1-cls}))+(@{sk-craft2-rank}*(2-@{sk-craft2-cls}))+(@{sk-craft3-rank}*(2-@{sk-craft3-cls}))+(@{sk-bluff-rank}*(2-@{sk-bluff-cls}))+(@{sk-concentration-rank}*(2-@{sk-concentration-cls}))+(@{sk-knowledge1-rank}*(2-@{sk-knowledge1-cls}))+(@{sk-knowledge2-rank}*(2-@{sk-knowledge2-cls}))+(@{sk-knowledge3-rank}*(2-@{sk-knowledge3-cls}))+(@{sk-knowledge4-rank}*(2-@{sk-knowledge4-cls}))+(@{sk-knowledge5-rank}*(2-@{sk-knowledge5-cls}))+(@{sk-forgery-rank}*(2-@{sk-forgery-cls}))+(@{sk-openlock-rank}*(2-@{sk-openlock-cls}))+(@{sk-decipher-rank}*(2-@{sk-decipher-cls}))+(@{sk-disguise-rank}*(2-@{sk-disguise-cls}))+(@{sk-movesilently-rank}*(2-@{sk-movesilently-cls}))+(@{sk-disabledevice-rank}*(2-@{sk-disabledevice-cls}))+(@{sk-spot-rank}*(2-@{sk-spot-cls}))+(@{sk-diplomacy-rank}*(2-@{sk-diplomacy-cls}))+(@{sk-hide-rank}*(2-@{sk-hide-cls}))+(@{sk-handleanimal-rank}*(2-@{sk-handleanimal-cls}))+(@{sk-balance-rank}*(2-@{sk-balance-cls}))+(@{sk-ride-rank}*(2-@{sk-ride-cls}))+(@{sk-climb-rank}*(2-@{sk-climb-cls}))+(@{sk-sleightofhand-rank}*(2-@{sk-sleightofhand-cls}))+(@{sk-appraise-rank}*(2-@{sk-appraise-cls}))+(@{sk-escapeartist-rank}*(2-@{sk-escapeartist-cls}))+(@{sk-search-rank}*(2-@{sk-search-cls}))+(@{sk-intimidate-rank}*(2-@{sk-intimidate-cls}))+(@{sk-language-rank}*(2-@{sk-language-cls}))+(@{sk-userope-rank}*(2-@{sk-userope-cls}))+(@{sk-swim-rank}*(2-@{sk-swim-cls}))+(@{sk-listen-rank}*(2-@{sk-listen-cls}))+(@{sk-heal-rank}*(2-@{sk-heal-cls}))+(@{sk-profession1-rank}*(2-@{sk-profession1-cls}))+(@{sk-profession2-rank}*(2-@{sk-profession2-cls}))+(@{sk-sensemotive-rank}*(2-@{sk-sensemotive-cls}))+(@{sk-gatherinformation-rank}*(2-@{sk-gatherinformation-cls}))+(@{sk-perform1-rank}*(2-@{sk-perform1-cls}))+(@{sk-perform2-rank}*(2-@{sk-perform2-cls}))+(@{sk-perform3-rank}*(2-@{sk-perform3-cls}))+(@{sk-jump-rank}*(2-@{sk-jump-cls}))+(@{sk-survival-rank}*(2-@{sk-survival-cls}))+(@{sk-usemagicdevice-rank}*(2-@{sk-usemagicdevice-cls}))+(@{sk-other1-rank}*(2-@{sk-other1-cls}))+(@{sk-other2-rank}*(2-@{sk-other2-cls}))+(@{sk-other3-rank}*(2-@{sk-other3-cls}))+(@{sk-other4-rank}*(2-@{sk-other4-cls}))+(@{sk-other5-rank}*(2-@{sk-other5-cls}))+(@{sk-other6-rank}*(2-@{sk-other6-cls})))" disabled="disabled" /></td>
+					<td><input type="number" name="attr_sk-pts-use" class="sheet-center" title="Points de compétence utilisés" value="((@{sk-athletism-rank}*(2-@{sk-athletism-cls}))+(@{sk-tumble-rank}*(2-@{sk-tumble-cls}))+(@{sk-spellcraft-rank}*(2-@{sk-spellcraft-cls}))+(@{sk-craft1-rank}*(2-@{sk-craft1-cls}))+(@{sk-craft2-rank}*(2-@{sk-craft2-cls}))+(@{sk-craft3-rank}*(2-@{sk-craft3-cls}))+(@{sk-bluff-rank}*(2-@{sk-bluff-cls}))+(@{sk-concentration-rank}*(2-@{sk-concentration-cls}))+(@{sk-knowledge1-rank}*(2-@{sk-knowledge1-cls}))+(@{sk-knowledge2-rank}*(2-@{sk-knowledge2-cls}))+(@{sk-knowledge3-rank}*(2-@{sk-knowledge3-cls}))+(@{sk-knowledge4-rank}*(2-@{sk-knowledge4-cls}))+(@{sk-knowledge5-rank}*(2-@{sk-knowledge5-cls}))+(@{sk-forgery-rank}*(2-@{sk-forgery-cls}))+(@{sk-openlock-rank}*(2-@{sk-openlock-cls}))+(@{sk-decipher-rank}*(2-@{sk-decipher-cls}))+(@{sk-disguise-rank}*(2-@{sk-disguise-cls}))+(@{sk-movesilently-rank}*(2-@{sk-movesilently-cls}))+(@{sk-disabledevice-rank}*(2-@{sk-disabledevice-cls}))+(@{sk-spot-rank}*(2-@{sk-spot-cls}))+(@{sk-diplomacy-rank}*(2-@{sk-diplomacy-cls}))+(@{sk-hide-rank}*(2-@{sk-hide-cls}))+(@{sk-handleanimal-rank}*(2-@{sk-handleanimal-cls}))+(@{sk-balance-rank}*(2-@{sk-balance-cls}))+(@{sk-ride-rank}*(2-@{sk-ride-cls}))+(@{sk-climb-rank}*(2-@{sk-climb-cls}))+(@{sk-sleightofhand-rank}*(2-@{sk-sleightofhand-cls}))+(@{sk-appraise-rank}*(2-@{sk-appraise-cls}))+(@{sk-escapeartist-rank}*(2-@{sk-escapeartist-cls}))+(@{sk-search-rank}*(2-@{sk-search-cls}))+(@{sk-intimidate-rank}*(2-@{sk-intimidate-cls}))+(@{sk-language-rank}*(2-@{sk-language-cls}))+(@{sk-userope-rank}*(2-@{sk-userope-cls}))+(@{sk-swim-rank}*(2-@{sk-swim-cls}))+(@{sk-listen-rank}*(2-@{sk-listen-cls}))+(@{sk-heal-rank}*(2-@{sk-heal-cls}))+(@{sk-profession1-rank}*(2-@{sk-profession1-cls}))+(@{sk-profession2-rank}*(2-@{sk-profession2-cls}))+(@{sk-sensemotive-rank}*(2-@{sk-sensemotive-cls}))+(@{sk-gatherinformation-rank}*(2-@{sk-gatherinformation-cls}))+(@{sk-perform1-rank}*(2-@{sk-perform1-cls}))+(@{sk-perform2-rank}*(2-@{sk-perform2-cls}))+(@{sk-perform3-rank}*(2-@{sk-perform3-cls}))+(@{sk-jump-rank}*(2-@{sk-jump-cls}))+(@{sk-survival-rank}*(2-@{sk-survival-cls}))+(@{sk-usemagicdevice-rank}*(2-@{sk-usemagicdevice-cls}))+(@{sk-other1-rank}*(2-@{sk-other1-cls}))+(@{sk-other2-rank}*(2-@{sk-other2-cls}))+(@{sk-other3-rank}*(2-@{sk-other3-cls}))+(@{sk-other4-rank}*(2-@{sk-other4-cls}))+(@{sk-other5-rank}*(2-@{sk-other5-cls}))+(@{sk-other6-rank}*(2-@{sk-other6-cls}))+(@{sk-tricks-rank}))" disabled="disabled" /></td>
 					<td>/</td>
 					<td><input type="number" name="attr_sk-pts-tot" class="sheet-center" title="Points de compétence total" value="(((@{cls1-sk}+@{sk-abi})*4)+((@{cls1-sk}+@{sk-abi})*round(@{cls1-lvl}-1))+((@{cls2-sk}+@{sk-abi})*@{cls2-lvl})+((@{cls3-sk}+@{sk-abi})*@{cls3-lvl})+((@{cls4-sk}+@{sk-abi})*@{cls4-lvl})+((@{race-sk}+@{sk-abi})*@{race-lvl}))" disabled="disabled" /></td>
 					<td></td>
 				</tr>
 			</table>
 		</div>
+		<input type="hidden" name="attr_show-skill-tricks" />
 		<div class="sheet-table table-input table-wide table-middle table-center fieldset skills">
 			<div class="sheet-table-row">
 				<div class="title-column" style="width: 330px"><abbr title="Compétence de classe">Cls.</abbr>&nbsp;Compétence</div>
@@ -1352,12 +1353,12 @@
 				<div><input type="number" name="attr_sk-usemagicdevice-misc" title="Modificateur divers" value="0" /></div>
 			</div>
 			<div class="sheet-table-row">
-				<div class="headline"><input type="checkbox" name="attr_sk-other1-cls" title="Autre 1" value="1" /><button type="roll" name="roll_skill1" title="Test de Autre 1" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other1}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other1}]]]]}}"><span name="attr_sk-other1-name"></span></button></div>
-				<div><input type="text" name="attr_sk-other1-name" title="Nom de la compétence diverse 1" placeholder="Compétence diverse 1" /></div>
-				<div><input type="number" name="attr_sk-other1" title="Autre 1" value="@{sk-other1-abi}+@{sk-other1-rank}+@{sk-other1-misc}" disabled="disabled" /></div>
-				<div><input type="number" name="attr_sk-other1-rank" title="Rang de Autre 1" value="0" /></div>
+				<div class="headline"><input type="checkbox" name="attr_sk-other1-cls" title="Compétence personnalisée" value="1" /><button type="roll" name="roll_skill1" title="Test de compétence" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other1}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other1}]]]]}}"><span name="attr_sk-other1-name"></span></button></div>
+				<div><input type="text" name="attr_sk-other1-name" title="Nom de la compétence personnalisée" placeholder="Compétence perso." /></div>
+				<div><input type="number" name="attr_sk-other1" title="Compétence personnalisée" value="@{sk-other1-abi}+@{sk-other1-rank}+@{sk-other1-misc}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other1-rank" title="Rang de la compétence personnalisée" value="0" /></div>
 				<div>
-					<select name="attr_sk-other1-abi" title="Caracrétistique de Autre compétence">
+					<select name="attr_sk-other1-abi" title="Caracrétistique de la compétence personnalisée">
 						<option value="@{str-mod}">For</option>
 						<option value="@{dex-max}">Dex</option>
 						<option value="@{wis-mod}">Sag</option>
@@ -1367,17 +1368,17 @@
 						<option value="0" selected>&ndash;</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_sk-other1-mod" title="Modificateur de caractéristique de Autre compétence" value="@{sk-other1-abi}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other1-mod" title="Modificateur de caractéristique de la compétence personnalisée" value="@{sk-other1-abi}" disabled="disabled" /></div>
 				<div>&mdash;</div>
 				<div><input type="number" name="attr_sk-other1-misc" title="Modificateur divers" value="0" /></div>
 			</div>
 			<div class="sheet-table-row">
-				<div class="headline"><input type="checkbox" name="attr_sk-other2-cls" title="Autre 2" value="1" /><button type="roll" name="roll_skill2" title="Test de Autre 2" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other2}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other2}]]]]}}"><span name="attr_sk-other2-name"></span></button></div>
-				<div><input type="text" name="attr_sk-other2-name" title="Nom de la compétence diverse 2" placeholder="Compétence diverse 2" /></div>
-				<div><input type="number" name="attr_sk-other2" title="Autre 2" value="@{sk-other2-abi}+@{sk-other2-rank}+@{sk-other2-misc}" disabled="disabled" /></div>
-				<div><input type="number" name="attr_sk-other2-rank" title="Rang de Autre 2" value="0" /></div>
+				<div class="headline"><input type="checkbox" name="attr_sk-other2-cls" title="Compétence personnalisée" value="1" /><button type="roll" name="roll_skill2" title="Test de compétence" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other2}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other2}]]]]}}"><span name="attr_sk-other2-name"></span></button></div>
+				<div><input type="text" name="attr_sk-other2-name" title="Nom de la compétence personnalisée" placeholder="Compétence perso." /></div>
+				<div><input type="number" name="attr_sk-other2" title="Compétence personnalisée" value="@{sk-other2-abi}+@{sk-other2-rank}+@{sk-other2-misc}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other2-rank" title="Rang de la compétence personnalisée" value="0" /></div>
 				<div>
-					<select name="attr_sk-other2-abi" title="Caracrétistique de Autre compétence">
+					<select name="attr_sk-other2-abi" title="Caracrétistique de la compétence personnalisée">
 						<option value="@{str-mod}">For</option>
 						<option value="@{dex-max}">Dex</option>
 						<option value="@{wis-mod}">Sag</option>
@@ -1387,17 +1388,17 @@
 						<option value="0" selected>&ndash;</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_sk-other2-mod" title="Modificateur de caractéristique de Autre compétence" value="@{sk-other2-abi}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other2-mod" title="Modificateur de caractéristique de la compétence personnalisée" value="@{sk-other2-abi}" disabled="disabled" /></div>
 				<div>&mdash;</div>
 				<div><input type="number" name="attr_sk-other2-misc" title="Modificateur divers" value="0" /></div>
 			</div>
 			<div class="sheet-table-row">
-				<div class="headline"><input type="checkbox" name="attr_sk-other3-cls" title="Autre 3" value="1" /><button type="roll" name="roll_skill3" title="Test de Autre 3" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other3}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other3}]]]]}}"><span name="attr_sk-other3-name"></span></button></div>
-				<div><input type="text" name="attr_sk-other3-name" title="Nom de la compétence diverse 3" placeholder="Compétence diverse 3" /></div>
-				<div><input type="number" name="attr_sk-other3" title="Autre 2" value="@{sk-other3-abi}+@{sk-other3-rank}+@{sk-other3-misc}" disabled="disabled" /></div>
-				<div><input type="number" name="attr_sk-other3-rank" title="Rang de Autre 3" value="0" /></div>
+				<div class="headline"><input type="checkbox" name="attr_sk-other3-cls" title="Compétence personnalisée" value="1" /><button type="roll" name="roll_skill3" title="Test de compétence" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other3}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other3}]]]]}}"><span name="attr_sk-other3-name"></span></button></div>
+				<div><input type="text" name="attr_sk-other3-name" title="Nom de la compétence personnalisée" placeholder="Compétence perso." /></div>
+				<div><input type="number" name="attr_sk-other3" title="Compétence personnalisée" value="@{sk-other3-abi}+@{sk-other3-rank}+@{sk-other3-misc}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other3-rank" title="Rang de la compétence personnalisée" value="0" /></div>
 				<div>
-					<select name="attr_sk-other3-abi" title="Caracrétistique de Autre compétence">
+					<select name="attr_sk-other3-abi" title="Caracrétistique de la compétence personnalisée">
 						<option value="@{str-mod}">For</option>
 						<option value="@{dex-max}">Dex</option>
 						<option value="@{wis-mod}">Sag</option>
@@ -1407,17 +1408,17 @@
 						<option value="0" selected>&ndash;</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_sk-other3-mod" title="Modificateur de caractéristique de Autre compétence" value="@{sk-other3-abi}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other3-mod" title="Modificateur de caractéristique de la compétence personnalisée" value="@{sk-other3-abi}" disabled="disabled" /></div>
 				<div>&mdash;</div>
 				<div><input type="number" name="attr_sk-other3-misc" title="Modificateur divers" value="0" /></div>
 			</div>
 			<div class="sheet-table-row">
-				<div class="headline"><input type="checkbox" name="attr_sk-other4-cls" title="Autre 4" value="1" /><button type="roll" name="roll_skill4" title="Test de Autre 4" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other4}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other4}]]]]}}"><span name="attr_sk-other4-name"></span></button></div>
-				<div><input type="text" name="attr_sk-other4-name" title="Nom de la compétence diverse 4" placeholder="Compétence diverse 4" /></div>
-				<div><input type="number" name="attr_sk-other4" title="Autre 4" value="@{sk-other4-abi}+@{sk-other4-rank}+@{sk-other4-misc}" disabled="disabled" /></div>
-				<div><input type="number" name="attr_sk-other4-rank" title="Rang de Autre 4" value="0" /></div>
+				<div class="headline"><input type="checkbox" name="attr_sk-other4-cls" title="Compétence personnalisée" value="1" /><button type="roll" name="roll_skill4" title="Test de compétence" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other4}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other4}]]]]}}"><span name="attr_sk-other4-name"></span></button></div>
+				<div><input type="text" name="attr_sk-other4-name" title="Nom de la compétence personnalisée" placeholder="Compétence perso." /></div>
+				<div><input type="number" name="attr_sk-other4" title="Compétence personnalisée" value="@{sk-other4-abi}+@{sk-other4-rank}+@{sk-other4-misc}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other4-rank" title="Rang de la compétence personnalisée" value="0" /></div>
 				<div>
-					<select name="attr_sk-other4-abi" title="Caracrétistique de Autre compétence">
+					<select name="attr_sk-other4-abi" title="Caracrétistique de la compétence personnalisée">
 						<option value="@{str-mod}">For</option>
 						<option value="@{dex-max}">Dex</option>
 						<option value="@{wis-mod}">Sag</option>
@@ -1427,17 +1428,17 @@
 						<option value="0" selected>&ndash;</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_sk-other4-mod" title="Modificateur de caractéristique de Autre compétence" value="@{sk-other4-abi}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other4-mod" title="Modificateur de caractéristique de la compétence personnalisée" value="@{sk-other4-abi}" disabled="disabled" /></div>
 				<div>&mdash;</div>
 				<div><input type="number" name="attr_sk-other4-misc" title="Modificateur divers" value="0" /></div>
 			</div>
 			<div class="sheet-table-row">
-				<div class="headline"><input type="checkbox" name="attr_sk-other5-cls" title="Autre 5" value="1" /><button type="roll" name="roll_skill5" title="Test de Autre 5" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other5}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other5}]]]]}}"><span name="attr_sk-other5-name"></span></button></div>
-				<div><input type="text" name="attr_sk-other5-name" title="Nom de la compétence diverse 5" placeholder="Compétence diverse 5" /></div>
-				<div><input type="number" name="attr_sk-other5" title="Autre 5" value="@{sk-other5-abi}+@{sk-other5-rank}+@{sk-other5-misc}" disabled="disabled" /></div>
-				<div><input type="number" name="attr_sk-other5-rank" title="Rang de Autre 5" value="0" /></div>
+				<div class="headline"><input type="checkbox" name="attr_sk-other5-cls" title="Compétence personnalisée" value="1" /><button type="roll" name="roll_skill5" title="Test de compétence" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other5}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other5}]]]]}}"><span name="attr_sk-other5-name"></span></button></div>
+				<div><input type="text" name="attr_sk-other5-name" title="Nom de la compétence personnalisée" placeholder="Compétence perso." /></div>
+				<div><input type="number" name="attr_sk-other5" title="Compétence personnalisée" value="@{sk-other5-abi}+@{sk-other5-rank}+@{sk-other5-misc}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other5-rank" title="Rang de la compétence personnalisée" value="0" /></div>
 				<div>
-					<select name="attr_sk-other5-abi" title="Caracrétistique de Autre compétence">
+					<select name="attr_sk-other5-abi" title="Caracrétistique de la compétence personnalisée">
 						<option value="@{str-mod}">For</option>
 						<option value="@{dex-max}">Dex</option>
 						<option value="@{wis-mod}">Sag</option>
@@ -1447,17 +1448,17 @@
 						<option value="0" selected>&ndash;</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_sk-other5-mod" title="Modificateur de caractéristique de Autre compétence" value="@{sk-other5-abi}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other5-mod" title="Modificateur de caractéristique de la compétence personnalisée" value="@{sk-other5-abi}" disabled="disabled" /></div>
 				<div>&mdash;</div>
 				<div><input type="number" name="attr_sk-other5-misc" title="Modificateur divers" value="0" /></div>
 			</div>
 			<div class="sheet-table-row">
-				<div class="headline"><input type="checkbox" name="attr_sk-other6-cls" title="Autre 6" value="1" /><button type="roll" name="roll_skill6" title="Test de Autre 6" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other6}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other6}]]]]}}"><span name="attr_sk-other6-name"></span></button></div>
-				<div><input type="text" name="attr_sk-other6-name" title="Nom de la compétence diverse 6" placeholder="Compétence diverse 6" /></div>
-				<div><input type="number" name="attr_sk-other6" title="Autre 6" value="@{sk-other6-abi}+@{sk-other6-rank}+@{sk-other6-misc}" disabled="disabled" /></div>
-				<div><input type="number" name="attr_sk-other6-rank" title="Rang de Autre 6" value="0" /></div>
+				<div class="headline"><input type="checkbox" name="attr_sk-other6-cls" title="Compétence personnalisée" value="1" /><button type="roll" name="roll_skill6" title="Test de compétence" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Test de @{sk-other6}}} {{roll=[[1d20cs21cf0 + @{r-mod} + [[@{sk-other6}]]]]}}"><span name="attr_sk-other6-name"></span></button></div>
+				<div><input type="text" name="attr_sk-other6-name" title="Nom de la compétence personnalisée" placeholder="Compétence perso." /></div>
+				<div><input type="number" name="attr_sk-other6" title="Compétence personnalisée" value="@{sk-other6-abi}+@{sk-other6-rank}+@{sk-other6-misc}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other6-rank" title="Rang de la compétence personnalisée" value="0" /></div>
 				<div>
-					<select name="attr_sk-other6-abi" title="Caracrétistique de Autre compétence">
+					<select name="attr_sk-other6-abi" title="Caracrétistique de la compétence personnalisée">
 						<option value="@{str-mod}">For</option>
 						<option value="@{dex-max}">Dex</option>
 						<option value="@{wis-mod}">Sag</option>
@@ -1467,19 +1468,32 @@
 						<option value="0" selected>&ndash;</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_sk-other6-mod" title="Modificateur de caractéristique de Autre compétence" value="@{sk-other6-abi}" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-other6-mod" title="Modificateur de caractéristique de la compétence personnalisée" value="@{sk-other6-abi}" disabled="disabled" /></div>
 				<div>&mdash;</div>
 				<div><input type="number" name="attr_sk-other6-misc" title="Modificateur divers" value="0" /></div>
+			</div>
+			<div class="sheet-table-row skill-tricks">
+				<div class="headline"><em>Techniques astucieuses</em></div>
+				<div></div>
+				<div><input type="number" name="attr_sk-tricks" title="Nombre de Techniques astucieuses" value="floor(@{sk-tricks-rank}/2)" disabled="disabled" /></div>
+				<div><input type="number" name="attr_sk-tricks-rank" title="Rang de Techniques astucieuses (une technique coûte deux points de personnage)" value="0" /></div>
+				<div>&ndash;</div>
+				<div>&ndash;</div>
+				<div>&mdash;</div>
+				<div>&ndash;</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="sheet-tab-content sheet-tab-feats"><!-- Feats -->
-		<div class="sheet-table">
+		<div class="sheet-table table-middle">
 			<div class="sheet-table-row">
 				<div>
 					<div class="title-section">Dons</div>
 				</div>
+					<div>
+						<input type="number" name="attr_feat-num" title="Nombre de dons" value="(1+floor(@{ecl}/3))" disabled="disabled" />
+					</div>
 			</div>
 		</div>
 		<div class="sheet-table">
@@ -1501,6 +1515,47 @@
 					</div>
 				</div>
 			</fieldset>
+		</div>
+		<input type="hidden" name="attr_show-skill-tricks" />
+		<div class="skill-tricks top-10">
+			<div class="sheet-table table-middle">
+				<div class="sheet-table-row">
+					<div>
+						<div class="title-section">Techniques astucieuses</div>
+					</div>
+					<div>
+						<input type="number" name="attr_trick-num" title="Nombre de Techniques astucieuses" value="@{sk-tricks}" disabled="disabled" />
+					</div>
+				</div>
+			</div>
+			<div class="sheet-table">
+				<div class="sheet-table-row">
+					<div class="title-column" style="width: 200px;">Nom</div>
+					<div class="title-column" style="width: 320px;">Description</div>
+					<div class="title-column" style="width: 120px;">Type</div>
+					<div class="title-column" style="width: 40px;">Acquis</div>
+				</div>
+			</div>
+			<div class="fieldset">
+				<fieldset class="repeating_trick">
+					<div class="sheet-table table-center table-middle">
+						<div class="sheet-table-row">
+							<div><input type="text" name="attr_name" class="sheet-input" style="width: 200px;" placeholder="Nom" /></div>
+							<div><input type="text" name="attr_desc" class="sheet-input sheet-left" style="width: 320px;" placeholder="Description" /></div>
+							<div>
+								<select name="attr_type" class="sheet-input" style="width: 120px;">
+									<option value="" selected>&ndash;</option>
+									<option value="interaction" data-i18n="sk-trick-interaction">&ndash;</option>
+									<option value="manipulation" data-i18n="sk-trick-manipulation">&ndash;</option>
+									<option value="mental" data-i18n="sk-trick-mental">&ndash;</option>
+									<option value="movement" data-i18n="sk-trick-movement">&ndash;</option>
+								</select>
+							</div>
+							<div style="width: 40px;" ><input type="checkbox" name="attr_acquired" title="Acquisition du don (décocher si le don est une prévision et n’a pas encore été obtenu)" value="1" checked="checked" /></div>
+						</div>
+					</div>
+				</fieldset>
+			</div>
 		</div>
 	</div>
 
@@ -3808,7 +3863,7 @@
 		</table>
 	</div>
 
-	<div class="sheet-tab-content small sheet-tab-attacks"><!-- Attacks -->
+	<div class="sheet-tab-content sheet-tab-attacks"><!-- Attacks -->
 		<div class="sheet-table">
 			<div class="sheet-table-row">
 				<div>
@@ -3818,6 +3873,10 @@
 		</div>
 		<div class="sheet-table table-hefty table-middle bottom-10">
 			<div class="sheet-table-row">
+				<div class="title-column">Attaque</div>
+				<div class="title-column"><abbr title="Caractéristique">Carac.</abbr></div>
+				<div class="title-column">Total</div>
+				<div style="width: 10px;"></div>
 				<div class="title-column">Attaque</div>
 				<div class="title-column"><abbr title="Caractéristique">Carac.</abbr></div>
 				<div class="title-column">Total</div>
@@ -3852,10 +3911,7 @@
 					</select>
 				</div>
 				<div><input type="text" name="attr_atk-touch-range" class="sheet-input mod" style="width: 60px;" value="floor(@{bab}+@{atk-touch-range-abi}+ @{range-mod-atk})" disabled="disabled" /></div>
-			</div>
-		</div>
-		<div class="sheet-table table-hefty table-middle">
-			<div class="sheet-table-row">
+				<div></div>
 				<div class="title-column-roll"><button type="roll" name="roll_atk-touch-melee" title="Test de lutte" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=Lutte}} {{roll=[[1d@{roll-die}cs>21@{roll-cf}+@{r-mod} +[[@{atk-grapple-val}]]]]}} {{note=^{opposed_check}}}"><span class="uppercase">Lutte</span><br><small>Assurer prise</small></button></div>
 				<div>
 					<select name="attr_atk-grapple-abi" class="sheet-input mod" style="width: 60px;" title="Modificateur de caractéristique de lutte">
@@ -3905,12 +3961,12 @@
 			<fieldset class="repeating_wpn weapon">
 				<div>
 					<div class="headline">
-						<button type="roll" name="roll_atk" title="Une seule attaque" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn-hand-@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn-dmg-type-@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra1=@{dmg-xtra1}}} {{dmg-xtra2=@{dmg-xtra2}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}]]}} {{null1=[[@{atk1}+@{roll-nil}]]}} {{roll1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}}"><span name="attr_name"></span></button>
+						<button type="roll" name="roll_atk" title="Une seule attaque" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn-hand-@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn-dmg-type-@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-type=^{wpn-dmg-type-@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}]]}} {{null1=[[@{atk1}+@{roll-nil}]]}} {{roll1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}}"><span name="attr_name"></span></button>
 					</div>
 					<div class="attack-bar">
-						<span class="attack-roll-2"><button type="roll" name="roll_atk2" title="Deux attaques" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn-hand-@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn-dmg-type-@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra1=@{dmg-xtra1}}} {{dmg-xtra2=@{dmg-xtra2}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}]]}} {{null1=[[@{atk1}+@{roll-nil}]]}} {{roll1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{atk2=[[@{atk2}]]}} {{null2=[[@{atk2}+@{roll-nil}]]}} {{roll2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}}">Outrance</button></span>
-						<span class="attack-roll-3"><button type="roll" name="roll_atk3" title="Trois attaques" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn-hand-@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn-dmg-type-@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra1=@{dmg-xtra1}}} {{dmg-xtra2=@{dmg-xtra2}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}]]}} {{null1=[[@{atk1}+@{roll-nil}]]}} {{roll1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{atk2=[[@{atk2}]]}} {{null2=[[@{atk2}+@{roll-nil}]]}} {{roll2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{atk3=[[@{atk3}]]}} {{null3=[[@{atk3}+@{roll-nil}]]}} {{roll3=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk3}]]}} {{dmg3=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit3=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk3}]]}} {{dmg-crit3=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}}">Outrance</button></span>
-						<span class="attack-roll-4"><button type="roll" name="roll_atk4" title="Quatre attaques" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn-hand-@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn-dmg-type-@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra1=@{dmg-xtra1}}} {{dmg-xtra2=@{dmg-xtra2}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}]]}} {{null1=[[@{atk1}+@{roll-nil}]]}} {{roll1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{atk2=[[@{atk2}]]}} {{null2=[[@{atk2}+@{roll-nil}]]}} {{roll2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{atk3=[[@{atk3}]]}} {{null3=[[@{atk3}+@{roll-nil}]]}} {{roll3=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk3}]]}} {{dmg3=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit3=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk3}]]}} {{dmg-crit3=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{atk4=[[@{atk4}]]}} {{null4=[[@{atk4}+@{roll-nil}]]}} {{roll4=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk4}]]}} {{dmg4=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra1}+@{dmg-xtra2}]]}} {{crit4=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk4}]]}} {{dmg-crit4=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra1}+@{dmg-xtra2}]]}}">Outrance</button></span>
+						<span class="attack-roll-2"><button type="roll" name="roll_atk2" title="Deux attaques" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn-hand-@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn-dmg-type-@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-type=^{wpn-dmg-type-@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}]]}} {{null1=[[@{atk1}+@{roll-nil}]]}} {{roll1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk2=[[@{atk2}]]}} {{null2=[[@{atk2}+@{roll-nil}]]}} {{roll2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}}">Outrance</button></span>
+						<span class="attack-roll-3"><button type="roll" name="roll_atk3" title="Trois attaques" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn-hand-@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn-dmg-type-@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-type=^{wpn-dmg-type-@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}]]}} {{null1=[[@{atk1}+@{roll-nil}]]}} {{roll1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk2=[[@{atk2}]]}} {{null2=[[@{atk2}+@{roll-nil}]]}} {{roll2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk3=[[@{atk3}]]}} {{null3=[[@{atk3}+@{roll-nil}]]}} {{roll3=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk3}]]}} {{dmg3=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit3=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk3}]]}} {{dmg-crit3=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}}">Outrance</button></span>
+						<span class="attack-roll-4"><button type="roll" name="roll_atk4" title="Quatre attaques" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn-hand-@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn-dmg-type-@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-type=^{wpn-dmg-type-@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}]]}} {{null1=[[@{atk1}+@{roll-nil}]]}} {{roll1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit1=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk1}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk2=[[@{atk2}]]}} {{null2=[[@{atk2}+@{roll-nil}]]}} {{roll2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit2=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk2}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk3=[[@{atk3}]]}} {{null3=[[@{atk3}+@{roll-nil}]]}} {{roll3=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk3}]]}} {{dmg3=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit3=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk3}]]}} {{dmg-crit3=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk4=[[@{atk4}]]}} {{null4=[[@{atk4}+@{roll-nil}]]}} {{roll4=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk4}]]}} {{dmg4=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit4=[[1d@{crit-base}cs>@{crit-min}@{roll-cf}+@{atk4}]]}} {{dmg-crit4=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}}">Outrance</button></span>
 					</div>
 					<input type="checkbox" name="attr_show-options" class="show-options" title="Afficher/Masquer options" value="1" /><span></span>
 					<div class="attack-block">
@@ -3922,7 +3978,7 @@
 							<span class="attack-4">/<input type="text" name="attr_atk4" value="floor((@{bab}-15)+@{abi-atk}+@{enh}+(@{melee}*@{melee-mod-atk})+((1-@{melee})*@{range-mod-atk})+@{focus})" disabled="disabled" /></span>
 						</div>
 						<abbr title="Dégâts">Dég.</abbr>
-						<div class="line"><span name="attr_dmg-num"></span><span name="attr_dmg-die"></span>&nbsp;+&nbsp;<span name="attr_dmg-xtra1"></span>&nbsp;+&nbsp;<span name="attr_dmg-xtra2"></span>&nbsp;+<input type="text" name="attr_dmg-mod" value="(@{abi-dmg}+@{enh}+@{spec}+(@{melee}*@{melee-mod-dmg})+((1-@{melee})*@{range-mod-dmg}))" disabled="disabled" /></div>
+						<div class="line"><span name="attr_dmg-num"></span><span name="attr_dmg-die"></span>&nbsp;+&nbsp;<span name="attr_dmg-xtra-num"></span><span name="attr_dmg-xtra-die"></span>&nbsp;+<input type="text" name="attr_dmg-mod" value="(@{abi-dmg}+@{enh}+@{spec}+(@{melee}*@{melee-mod-dmg})+((1-@{melee})*@{range-mod-dmg}))" disabled="disabled" /></div>
 					</div>
 					<div class="sheet-tab-weapon options">
 						<input type="text" name="attr_name" class="sheet-input" placeholder="Nom de l’arme" list="weapons" />
@@ -3942,8 +3998,7 @@
 							</colgroup>
 							<tr>
 								<td class="table-label" colspan="2">Tenue</td>
-								<td class="table-label">Portée</td>
-								<td class="table-label"><abbr title="Bonus d’altération (bonus à l’attaque et aux dégâts)">Altération</abbr></td>
+								<td class="table-label" colspan="2">Portée</td>
 								<td class="table-label"><abbr title="Modificateur de caractéristique à l’attaque">Carac. attaque</abbr></td>
 								<td class="table-label"><abbr title="Bonus du don Arme de prédilection (bonus uniquement à l’attaque)">Arme de préd.</abbr></td>
 								<td class="table-label" colspan="2">Critique</td>
@@ -3956,8 +4011,7 @@
 										<option value="2">À deux mains</option>
 									</select>
 								</td>
-								<td><input type="text" name="attr_range" title="Portée" placeholder="NA" /></td>
-								<td><input type="number" name="attr_enh" title="Bonus d’altération (bonus à l’attaque et aux dégâts)" value="0" /></td>
+								<td colspan="2"><input type="text" name="attr_range" title="Portée" placeholder="NA" /></td>
 								<td>
 									<select name="attr_abi-atk" title="Modificateur de caractéristique à l’attaque">
 										<option value="0">&ndash;</option>
@@ -3974,8 +4028,8 @@
 								<td class="table-label" colspan="2">Type de dégâts</td>
 								<td class="table-label" colspan="2"><abbr title="Modificateur de caractéristique aux dégâts">Carac. dégâts</abbr></td>
 								<td class="table-label"><abbr title="Bonus du don Spécialisation martiale (bonus uniquement aux dégâts)">Spéc. martiale</abbr></td>
-								<td class="table-label"><abbr title="Dégâts de base de l’arme">Dégâts</abbr></td>
-								<td class="table-label" colspan="2">Dégâts <abbr title="supplémentaires">supp.</abbr></td>
+								<td class="table-label">Dégâts</abbr></td>
+								<td class="table-label" colspan="2">Dégâts supplémentaires</td>
 							</tr>
 							<tr>
 								<td colspan="2">
@@ -4012,7 +4066,7 @@
 										<option value="9">9</option>
 									</select>
 									<select name="attr_dmg-die" title="Dé de dégâts de l’arme" style="width: 40px; padding: 0;">
-										<option value="0">&ndash;</option>
+										<option value="d0">&ndash;</option>
 										<option value="d1">d1</option>
 										<option value="d2">d2</option>
 										<option value="d3" selected>d3</option>
@@ -4025,46 +4079,63 @@
 										<option value="d100">d100</option>
 									</select>
 								</td>
+
 								<td>
-									<select name="attr_dmg-xtra1" title="Dégâts supplémentaires 1">
-										<option value="0">&ndash;</option>
-										<option value="1d6">1d6</option>
-										<option value="2d6">2d6</option>
-										<option value="3d6">3d6</option>
-										<option value="4d6">4d6</option>
-										<option value="5d6">5d6</option>
-										<option value="6d6">6d6</option>
-										<option value="7d6">7d6</option>
-										<option value="8d6">8d6</option>
-										<option value="9d6">9d6</option>
-										<option value="10d6">10d6</option>
+									<select name="attr_dmg-xtra-num" title="Nombre de dés de dégâts supplémentaires de l’arme" style="width: 25px; padding: 0;">
+										<option value="0" selected>&ndash;</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+									</select>
+									<select name="attr_dmg-xtra-die" title="Dé de dégâts supplémentaires de l’arme" style="width: 40px; padding: 0;">
+										<option value="d0" selected>&ndash;</option>
+										<option value="d1">d1</option>
+										<option value="d2">d2</option>
+										<option value="d3">d3</option>
+										<option value="d4">d4</option>
+										<option value="d6">d6</option>
+										<option value="d8">d8</option>
+										<option value="d10">d10</option>
+										<option value="d12">d12</option>
+										<option value="d20">d20</option>
+										<option value="d100">d100</option>
 									</select>
 								</td>
 								<td>
-									<select name="attr_dmg-xtra2" title="Dégâts supplémentaires 2">
-										<option value="0">&ndash;</option>
-										<option value="1d6">1d6</option>
-										<option value="2d6">2d6</option>
-										<option value="3d6">3d6</option>
-										<option value="4d6">4d6</option>
-										<option value="5d6">5d6</option>
-										<option value="6d6">6d6</option>
-										<option value="7d6">7d6</option>
-										<option value="8d6">8d6</option>
-										<option value="9d6">9d6</option>
-										<option value="10d6">10d6</option>
+									<select name="attr_dmg-xtra-type" title="Type des dégâts supplémentaires de l’arme">
+										<option value="" selected>&ndash;</option>
+										<option value="b">Contondant</option>
+										<option value="p">Perforant</option>
+										<option value="s">Tranchant</option>
+										<option value="magic">Magique</option>
+										<option value="acid">Acide</option>
+										<option value="elec">Électricité</option>
+										<option value="fire">Feu</option>
+										<option value="frost">Froid</option>
+										<option value="pos">Positif</option>
+										<option value="neg">Négatif</option>
+										<option value="holy">Sainteté</option>
+										<option value="unholy">Impiété</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<td colspan="4" class="table-label">Propriétés spéciales</td>
+								<td class="table-label"><abbr title="Bonus d’altération (bonus à l’attaque et aux dégâts)">Altération</abbr></td>
+								<td colspan="3" class="table-label">Propriétés spéciales</td>
 								<td class="table-label">Munitions</td>
 								<td class="table-label">Nombre</td>
 								<td class="table-label">Poids</td>
 								<td class="table-label">Prix</td>
 							</tr>
 							<tr>
-								<td colspan="4"><input type="text" name="attr_props" class="sheet-left" title="Propriétés spéciales" placeholder="Arme à allonge, etc." /></td>
+								<td><input type="number" name="attr_enh" title="Bonus d’altération (bonus à l’attaque et aux dégâts)" value="0" /></td>
+								<td colspan="3"><input type="text" name="attr_hpops" class="sheet-left" title="Propriétés spéciales" placeholder="Arme à allonge, etc." /></td>
 								<td><input type="number" name="attr_ammo" title="Nombre de munitions" value="0" min="0" /></td>
 								<td><input type="number" name="attr_qty" title="Nombre d’armes" value="1" min="0" /></td>
 								<td><input type="number" name="attr_wgt" title="Poids de l’arme" value="0" min="0" step="0.1" /></td>
@@ -4097,77 +4168,90 @@
 		</details>
 	</div>
 
-	<div class="sheet-tab-content medium sheet-tab-armors"><!-- Armors -->
+	<div class="sheet-tab-content medium sheet-tab-armor-shield"><!-- Armor and Shield -->
 		<div class="sheet-table table-wide table-middle">
 			<div class="sheet-table-row">
-				<div class="title-section">Armures</div>
+				<div class="title-section">Armure et bouclier</div>
 				<div></div>
 				<div class="title-column" style="width: 100px;">Poids total</div>
-				<div style="width: 60px;"><input type="number" name="attr_def-wgt-tot" class="sheet-input" style="width: 100%;" title="Poids total" value ="@{arm-wgt}+@{shd-wgt}" min="0" step="0.1" disabled="disabled" /></div>
+				<div style="width: 60px;"><input type="number" name="attr_def-wgt-tot" class="sheet-input" style="width: 100%;" title="Poids total" value ="(@{arm-wgt}*@{arm-worn}+@{shd-wgt}*@{shd-worn})" min="0" step="0.1" disabled="disabled" /></div>
 			</div>
 		</div>
-
-		<div class="armors-header">
+		<div class="armor-shield-header">
 			<table class="table-input table-center table-middle">
 				<colgroup>
-					<col style="width: 160px;">
+					<col style="width: 100px;">
+					<col style="width: 100px;">
+					<col style="width: 100px;">
 					<col style="width: 50px;">
-					<col style="width: 240px;">
+					<col style="width: 220px;">
 				</colgroup>
 				<tr>
 					<td rowspan="4">
-						<div class="shield">
+						<div class="background shield">
 							<abbr title="Classe d’armure">CA</abbr>
-							<input type="number" name="attr_def-ac" " title="Classe d’armure totale" value="(@{ac})" disabled="disabled">
+							<input type="number" name="attr_def-ac" title="Classe d’armure totale" value="(@{ac})" disabled="disabled">
+						</div>
+					</td>
+					<td rowspan="4">
+						<div class="background hand">
+							<abbr title="Classe d’armure au contact">Contact</abbr>
+							<input type="number" name="attr_def-ac-touch" title="Classe d’armure au contact" value="(@{ac-touch})" disabled="disabled">
+						</div>
+					</td>
+					<td rowspan="4">
+						<div class="background star">
+							<abbr title="Classe d’armure pris au dépourvu">Surprise</abbr>
+							<input type="number" name="attr_def-ac-flat" title="Classe d’armure pris au dépourvu" value="(@{ac-flat})" disabled="disabled">
 						</div>
 					</td>
 					<td colspan="2"></td>
 				</tr>
 				<tr>
-					<td><input type="number" name="attr_dex-max" class="sheet-input" title="Dextérité modifié par le port de l’armure" value="((ceil((@{dex-mod}-@{arm-dex})/1e10)*@{arm-dex} - floor((@{dex-mod}-@{arm-dex}-1)/1e10)*@{dex-mod})*@{arm-worn})+((@{dex-mod}*(1-@{arm-worn})))" disabled="disabled"></td>
-					<td><div class="title-label"><span>Bonus de Dextérité maximum</span></div></td>
-				</tr>
-				<tr>
-					<td><input type="number" name="attr_pen-tot" class="sheet-input" title="Pénalité d’armure aux tests de compétences" value="((@{arm-pen}*@{arm-worn})+(@{shd-pen}*@{shd-worn}))" disabled="disabled" /></td>
+					<td><input type="number" name="attr_pen-tot" class="sheet-input" title="Pénalité d’armure aux tests de compétences" value="((@{arm-pen}*@{arm-worn})+(@{shd-pen}*@{shd-eqp}))" disabled="disabled" /></td>
 					<td><div class="title-label"><span>Pénalité aux tests de compétence</span></div></td>
 				</tr>
 				<tr>
-					<td><input type="number" name="attr_def-spl" class="sheet-input" title="Échec des sorts profanes" value="((@{arm-spl}*@{arm-worn})+(@{shd-spl}*@{shd-worn}))" disabled="disabled" /></td>
+					<td><input type="number" name="attr_def-spl" class="sheet-input" title="Échec des sorts profanes" value="((@{arm-spl}*@{arm-worn})+(@{shd-spl}*@{shd-eqp}))" disabled="disabled" /></td>
 					<td><div class="title-label"><span>Échec des sorts profanes</span></div></td>
+				</tr>
+				<tr>
+					<td><input type="number" name="attr_dex-max" class="sheet-input" title="Dextérité modifié par le port de l’armure" value="((ceil((@{dex-mod}-@{arm-dex})/1e10)*@{arm-dex} - floor((@{dex-mod}-@{arm-dex}-1)/1e10)*@{dex-mod})*@{arm-worn})+((@{dex-mod}*(1-@{arm-worn})))" disabled="disabled"></td>
+					<td><div class="title-label"><span>Bonus de Dextérité maximum</span></div></td>
 				</tr>
 			</table>
 		</div>
-
-		<div class="armors-content">
+		<div class="armor-shield-content">
 			<div><label><input type="checkbox" name="attr_arm-worn" value="1" checked />Armure portée</label></div>
 			<table class="table-input table-wide black-board bottom-20">
 				<colgroup>
 					<col>
-					<col style="width: 100px;">
-					<col style="width: 100px;">
-					<col style="width: 100px;">
-					<col style="width: 100px;">
+					<col style="width: 90px;">
+					<col style="width: 90px;">
+					<col style="width: 90px;">
+					<col style="width: 90px;">
+					<col style="width: 90px;">
 				</colgroup>
 				<tr>
-					<td colspan="2" class="table-label big">Armure</td>
-					<td class="table-label">Bonus d’armure</td>
+					<td colspan="3" class="table-label big">Armure</td>
+					<td class="table-label"><abbr title="Bonus d’armure">Bonus</abbr></td>
 					<td class="table-label"><abbr title="Pénalité d’armure aux tests de compétence">Pén. test</abbr></td>
 					<td class="table-label">Échec des sorts</td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="text" name="attr_arm-name" title="Nom de l’armure" placeholder="Cotte de mailles, etc." /></td>
-					<td><input type="number" name="attr_arm-enh" title="Bonus d’armure" value="0" min="0" /></td>
+					<td colspan="3"><input type="text" name="attr_arm-name" title="Nom de l’armure" placeholder="Cotte de mailles, etc." list="armors" /></td>
+					<td><input type="number" name="attr_arm-bon" title="Bonus d’armure" value="0" min="0" /></td>
 					<td><input type="number" name="attr_arm-pen" title="Pénalité d’armure aux tests de compétence" value="0" min="0" /></td>
 					<td><input type="number" name="attr_arm-spl" title="Échec des sorts profanes" value="0" min="0" /></td>
 				</tr>
 				<tr>
-					<td class="table-label">Type</td>
+					<td colspan="2" class="table-label">Type</td>
 					<td class="table-label" colspan="2">Vitesse max</td>
 					<td class="table-label">Course max</td>
 					<td class="table-label">Dex max</td>
 				</tr>
 				<tr>
-					<td>
+					<td colspan="2">
 						<select name="attr_arm-type" title="Type d’armure">
 							<option value="" selected>&ndash;</option>
 							<option value="lgt" title="Armure légère">Légère</option>
@@ -4187,49 +4271,72 @@
 					<td><input type="number" name="attr_arm-dex" title="Bonus de Dextérité maximum" value="20" min="0" /></td>
 				</tr>
 				<tr>
-					<td colspan="3" class="table-label">Capacités spéciales</td>
+					<td class="table-label"><abbr title="Bonus d’altération">Altération</abbr></td>
+					<td colspan="3" class="table-label">Propriétés spéciales</td>
 					<td class="table-label">Poids</td>
 					<td class="table-label">Prix</td>
 				</tr>
 				<tr>
-					<td colspan="3"><input type="text" name="attr_arm-props" class="sheet-left" title="Capacités spéciales de l’armure" placeholder="Armure de maître, etc." /></td>
+					<td><input type="number" name="attr_arm-enh" title="Bonus d’altération" value="0" min="0" /></td>
+					<td colspan="3"><input type="text" name="attr_arm-props" class="sheet-left" title="Propriétés spéciales de l’armure" placeholder="Armure de maître, etc." /></td>
 					<td><input type="number" name="attr_arm-wgt" title="Poids" value="0" min="0" step="0.1" /></td>
 					<td><input type="number" name="attr_arm-cost" title="Prix" value="0" min="0" step="0" /></td>
 				</tr>
 			</table>
-			<div><label><input type="checkbox" name="attr_shd-worn" value="1" checked />Bouclier équipé</label></div>
+			<div>
+				<label><input type="checkbox" name="attr_shd-worn" value="1" checked />Bouclier porté</label>
+				<label><input type="checkbox" name="attr_shd-eqp" value="1" checked />Bouclier équipé</label>
+			</div>
 			<table class="table-input table-wide black-board">
 				<colgroup>
 					<col>
-					<col style="width: 100px;">
-					<col style="width: 100px;">
-					<col style="width: 100px;">
-					<col style="width: 100px;">
+					<col style="width: 90px;">
+					<col style="width: 90px;">
+					<col style="width: 90px;">
+					<col style="width: 90px;">
+					<col style="width: 90px;">
 				</colgroup>
 				<tr>
-					<td colspan="2" class="table-label big">Bouclier</td>
-					<td class="table-label">Bonus d’armure</td>
-					<td class="table-label"><abbr title="Pénalité d’armure aux tests de compétence">Pén. test</abbr></td>
+					<td colspan="3" class="table-label big">Bouclier</td>
+					<td class="table-label"><abbr title="Bonus de bouclier">Bonus</abbr></td>
+					<td class="table-label"><abbr title="Pénalité de bouclier aux tests de compétence">Pén. test</abbr></td>
 					<td class="table-label">Échec des sorts</td>
 				</tr>
 				<tr>
-					<td colspan="2"><input type="text" name="attr_shd-name" title="Nom du bouclier" placeholder="Écu, etc." /></td>
-					<td><input type="number" name="attr_shd-enh" title="Bonus d’armure" value="0" min="0" /></td>
-					<td><input type="number" name="attr_shd-pen" title="Pénalité d’armure aux tests de compétence" value="0" min="0" /></td>
+					<td colspan="3"><input type="text" name="attr_shd-name" title="Nom du bouclier" placeholder="Écu, etc." list="shields" /></td>
+					<td><input type="number" name="attr_shd-bon" title="Bonus de bouclier" value="0" min="0" /></td>
+					<td><input type="number" name="attr_shd-pen" title="Pénalité de bouclier aux tests de compétence" value="0" min="0" /></td>
 					<td><input type="number" name="attr_shd-spl" title="Échec des sorts profanes" value="0" min="0" /></td>
 				</tr>
 				<tr>
-					<td class="table-label" colspan="3">Capacités spéciales</td>
+					<td class="table-label"><abbr title="Bonus d’altération">Altération</abbr></td>
+					<td class="table-label" colspan="3">Propriétés spéciales</td>
 					<td class="table-label">Poids</td>
 					<td class="table-label">Prix</td>
 				</tr>
 				<tr>
-					<td colspan="3"><input type="text" name="attr_shd-props" class="sheet-left" title="Capacités spéciales du bouclier" placeholder="Bouclier de maître, etc." /></td>
+					<td><input type="number" name="attr_shd-enh" title="Bonus d’altération" value="0" min="0" /></td>
+					<td colspan="3"><input type="text" name="attr_shd-props" class="sheet-left" title="Propriétés spéciales du bouclier" placeholder="Bouclier de maître, etc." /></td>
 					<td><input type="number" name="attr_shd-wgt" title="Poids" value="0" min="0" step="0.1" /></td>
 					<td><input type="number" name="attr_shd-cost" title="Prix" value="0" min="0" step="0" /></td>
 				</tr>
 			</table>
 		</div>
+		<details>
+			<summary>Notice</summary>
+			<p><mark>Armure / Bouclier</mark>&nbsp;<strong>Nom de l’armure / Nom du bouclier</strong>. Intitulé de l’armure ou du bouclier (p. ex. <em>Armure de cuir cloutée</em> ou <em>Écu en acier</em>).</p>
+			<p><mark>Bonus</mark>&nbsp;<strong>Bonus d’armure / Bonus de bouclier</strong>. Bonus de base à la classe d’armure procuré par l’armure ou le bouclier.</p>
+			<p><mark>Pén. Tests</mark>&nbsp;<strong>Pénalité aux tests de compétence</strong>. Le malus infligés aux compétences nécessistant de la mobilité (attention, le nombre est positif et est ensuite retranché).</p>
+			<p><mark>Échec des sorts</mark>&nbsp;<strong>Échec des sorts profanes</strong>. Pourcentage (<em>%</em>) cumulatif de risque d’échec à l’incantation pour les lanceurs de sorts profanes.</p>
+			<p><mark>Type</mark>&nbsp;<strong>Type d’armure</strong>. Catégorie d’armure. Affecte la vitesse de déplacement au sol en armure et le facteur de course maximum en armure.</p>
+			<p><mark>Vitesse max</mark>&nbsp;<strong>Vitesse maximum en armure</strong>. Distance maximale qui peut être parcourue en armure lors d’un mouvement simple.</p>
+			<p><mark>Course max</mark>&nbsp;<strong>Facteur de course maximum en armure</strong>. Multiplicateur maximal applicable lors d’une action de course en armure.</p>
+			<p><mark>Dex max</mark>&nbsp;<strong>Bonus de Dextérité maximum en armure</strong>. Bonus maximal de Dextérité applicable si l’armure est portée.</p>
+			<p><mark>Altération</mark>&nbsp;<strong>Bonus d’altération</strong>. Bonus magique de l’armure ou du bouclier (p. ex. armure +3 ou bouclier +3), s’applique au bonus d’armure ou au bonus de bouclier.</p>
+			<p><mark>Propriétés spéciales</mark> Spécificités de l’armure ou du bouclier (p. ex. armure de maître, en peau de dragon, d’ombre, etc.).</p>
+			<p><mark>Poids</mark> Masse en kilogramme (<em>kg</em>) de l’armure ou du bouclier.</p>
+			<p><mark>Prix</mark> Coût en pièces d’or (<em>po</em>) de l’arme ou du bouclier.</p>
+		</details>
 	</div>
 
 	<div class="sheet-tab-content sheet-tab-modifiers"><!-- Modifiers -->
@@ -5104,6 +5211,8 @@
 							<div class="title-column"><div style="width: 200px;">Objet</div></div>
 							<div class="title-column"><div style="width: 50px;">Nombre</div></div>
 							<div class="title-column"><div style="width: 120px;">Contenant</div></div>
+							<div class="title-column"><div style="width: 60px;">Solidité</div></div>
+							<div class="title-column"><div style="width: 60px;"><abbr title="Points de résistance">PR</abbr></div></div>
 							<div class="title-column"><div style="width: 60px;">Poids</div></div>
 							<div class="title-column"><div style="width: 80px;">Prix</div></div>
 						</div>
@@ -5136,6 +5245,8 @@
 											<option value="Grand coffre">Grand coffre</option>
 										</select>
 									</div>
+									<div><input type="number" name="attr_hard" class="sheet-input" style="width: 60px;" value="0" min="0" /></div>
+									<div><input type="number" name="attr_hp" class="sheet-input" style="width: 60px;" value="0" min="0" /></div>
 									<div><input type="number" name="attr_wgt" class="sheet-input" style="width: 60px;" value="0" min="0" step="0.1" /></div>
 									<div><input type="number" name="attr_cost" class="sheet-input" style="width: 80px;" value="0" min="0" /></div>
 								</div>
@@ -5165,6 +5276,8 @@
 							<div class="title-column"><div style="width: 200px;">Objet</div></div>
 							<div class="title-column"><div style="width: 50px;">Nombre</div></div>
 							<div class="title-column"><div style="width: 120px;">Emplacement</div></div>
+							<div class="title-column"><div style="width: 60px;">Solidité</div></div>
+							<div class="title-column"><div style="width: 60px;"><abbr title="Points de résistance">PR</abbr></div></div>
 							<div class="title-column"><div style="width: 60px;">Poids</div></div>
 							<div class="title-column"><div style="width: 80px;">Prix</div></div>
 						</div>
@@ -5174,6 +5287,7 @@
 							<input type="checkbox" name="attr_show-options" class="show-options" title="Afficher/Masquer options" value="1" /><span></span>
 							<input type="hidden" name="attr_type" />
 							<input type="hidden" name="attr_loc" />
+							<input type="hidden" name="attr_rp" />
 							<div class="sheet-table pad-left">
 								<div class="sheet-table-row">
 									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" title="Nom de l’objet magique" placeholder="Nom de l’objet magique" /></div>
@@ -5245,6 +5359,8 @@
 											<option value="Sac sans fond">Sac sans fond</option>
 										</select>
 									</div>
+									<div><input type="number" name="attr_hard" class="sheet-input" style="width: 60px;" value="0" min="0" /></div>
+									<div><input type="number" name="attr_hp" class="sheet-input" style="width: 60px;" value="0" min="0" /></div>
 									<div><input type="number" name="attr_wgt" class="sheet-input" style="width: 60px;" value="0" min="0" step="0.1" /></div>
 									<div><input type="number" name="attr_cost" class="sheet-input" style="width: 80px;" value="0" min="0" /></div>
 								</div>
@@ -5283,6 +5399,8 @@
 						<fieldset class="repeating_itm">
 							<input type="checkbox" name="attr_show-options" class="show-options" title="Afficher/Masquer options" value="1" /><span></span>
 							<input type="hidden" name="attr_loc" />
+							<input type="hidden" name="attr_hard" />
+							<input type="hidden" name="attr_hp" />
 							<div class="sheet-table pad-left">
 								<div class="sheet-table-row">
 									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" placeholder="Nom du consommable" /></div>
@@ -5353,6 +5471,8 @@
 						<fieldset class="repeating_tra">
 							<input type="checkbox" name="attr_show-options" class="show-options" title="Afficher/Masquer options" value="1" /><span></span>
 							<input type="hidden" name="attr_type" />
+							<input type="hidden" name="attr_hard" />
+							<input type="hidden" name="attr_hp" />
 							<div class="sheet-table pad-left">
 								<div class="sheet-table-row">
 									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" placeholder="Nom de l’équipement transporté" /></div>
@@ -5434,6 +5554,8 @@
 						<fieldset class="repeating_sta">
 							<input type="checkbox" name="attr_show-options" class="show-options" title="Afficher/Masquer options" value="1" /><span></span>
 							<input type="hidden" name="attr_type" />
+							<input type="hidden" name="attr_hard" />
+							<input type="hidden" name="attr_hp" />
 							<div class="sheet-table pad-left">
 								<div class="sheet-table-row">
 									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" placeholder="Nom de l’équipement en demeure" /></div>
@@ -5836,6 +5958,7 @@
 		<div><label class="bottom-5"><input type="checkbox" name="attr_edit-backup" value="1" checked />Éditer les valeurs sauvegardées</label></div>
 		<div><label class="bottom-5"><input type="checkbox" name="attr_cls-autofill" value="1" checked />Activer l’autoremplissage de classe</label></div>
 		<div><label class="bottom-5"><input type="checkbox" name="attr_show-weapons-details" value="1" checked />Voir le détail des jets des armes</label></div>
+		<div><label class="bottom-5"><input type="checkbox" name="attr_show-skill-tricks" value="1" />Voir les Techniques astucieuses</label></div>
 		<details>
 			<summary>Notice</summary>
 			<p><mark>Dé à jouer</mark>&nbsp;<strong>Dé à jouer alternatif</strong>. Cette option ne s’applique qu’aux <em>Jets</em>, pas aux <em>Tests</em>. À <em>D&D&nbsp;v.3.5</em>, les tests sont toujours opposés à des seuils qu’il faut égaler ou surpasser pour réussir, il n’y a donc pas de réussite ou d’échec critique pour les tests de caractéristique, d’initiative ou de compétence.</p>
@@ -5846,6 +5969,7 @@
 			<p><mark>Éditer les valeurs sauvegardées</mark> Lorsque cette option est activée, les champs de texte verrouillés des valeurs de caractéristique peuvent être modifiés.</p>
 			<p><mark>Activer l’autoremplissage de classe</mark> Lorsque cette option est activée, les jets de sauvegarde de base et le bonus de base à l’attaque sont automatiquement mis à jour lorsque le niveau de classe change si une classe de base a été sélectionnée.</p>
 			<p><mark>Voir le détail des jets des armes</mark> Lorsque cette option est activée, l’ensemble des valeurs utilisées pour les jets d’attaque et de dégâts est affiché sous les résultats dans la fenêtre de discussion.</p>
+			<p><mark>Voir les Techniques astucieuses</mark> Lorsque cette option est activée, les Techniques astucieuses seront visibles sur la section <em>Compétences</em> pour la dépense en points de compétences et sur la section <em>Dons</em> pour les descriptions.</p>
 		</details>
 	</div>
 

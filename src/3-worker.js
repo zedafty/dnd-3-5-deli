@@ -110,7 +110,7 @@ on("change:repeating_lang:name", function(e) {
 const autofillClass = function(e, k, b, g) { // e = event, k = class key, b = empty flag, g = lvl flag
 	let s = e.sourceAttribute.substr(0, 5);
 	getAttrs(["cls-autofill", s + "key", s + "lvl"], v => {
-		let o = (v["cls-autofill"] == "1");
+		let o = v["cls-autofill"] == "1";
 		let u = {};
 		let a = classes;
 		if (g) k = v[s + "key"];
@@ -125,12 +125,16 @@ const autofillClass = function(e, k, b, g) { // e = event, k = class key, b = em
 					u[s + "will"] = a[k].will ? Math.floor(2 + lvl / 2) : Math.floor(lvl / 3);
 					u[s + "sk"] = a[k].sk;
 					u[s + "bab"] = Math.floor(lvl * a[k].bab);
-					if (b && lvl == 0) u[s + "lvl"] = 1;
+					if (lvl == 0) u[s + "lvl"] = 1;
 				}
 				setAttrs(u);
 		} else {
 			u[s + "key"] = "";
-			if (o && e.newValue === undefined) {
+			if (o && e.newValue === "none") {
+				u[s + "name"] = "";
+				u[s + "fav"] = 0;
+				u[s + "cast"] = 0;
+				u[s + "prest"] = 0;
 				u[s + "hd"] = "null";
 				u[s + "lvl"] = 0;
 				u[s + "fort"] = 0;
@@ -148,8 +152,38 @@ on("change:cls1-lvl change:cls2-lvl change:cls3-lvl change:cls4-lvl", function(e
 });
 
 on("change:cls1-name change:cls2-name change:cls3-name change:cls4-name", function(e) {
-	autofillClass(e, e.newValue, !e.hasOwnProperty("previousValue"));
+	autofillClass(e, e.newValue, e.previousValue == e.newValue);
 });
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Statistics
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+// Hit points
+on("change:hp", function(e) {
+	let n = e.newValue;
+	let r = new RegExp;
+	let reg = /^(\d+)\s*([\+\-]?)?\s*(\d+)?\s*([\+\-]?)?\s*(\d+)?\s*([\+\-]?)?\s*(\d+)?\s*([\+\-]?)?\s*(\d+)?$/i;
+	n = reg.test(n) ? eval(n) : e.previousValue;
+	setAttrs({"hp" : n}, {"silent" : true});
+});
+
+// Movement
+const updateArmorSpeed = function() {
+	getAttrs(["mvt-land-base", "arm-type", "arm-run"], v => {
+		let a = armorCategory;
+		let k = v["arm-type"];
+		if (k === undefined || !Object.keys(a).includes(k)) k = "nil";
+		let r = a[k].run;
+		let s = toStr(toFlt(v["mvt-land-base"]) * a[k].spd, 1, true) + " m" || "";
+		if (v["arm-run"] == "5") r = k == "med" || k == "hvy" ? 4: 5;
+		setAttrs({"arm-spd" : s, "arm-run" : r}, {"silent" : true});
+	});
+};
+
+on("change:mvt-land-base", updateArmorSpeed);
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -332,32 +366,33 @@ on("change:repeating_wpn:melee", function(e) {
 // Autofill
 const autofillWeapon = function(e) { // e = event
 	let k = e.newValue;
+	let a = weapons;
 	let id = e.sourceAttribute.substr(15, 19);
-	if (weapons.hasOwnProperty(k)) {
+	if (a.hasOwnProperty(k)) {
 		getAttrs(["roll-die"], v => {
 			let u = {};
-			let t = weapons[k].type || 2;
+			let t = a[k].type || 2;
 			let r = t == 4;
-			let c = weapons[k]["crit-min"] || 20;
-			let s = weapons[k]["str"] || false;
+			let c = a[k]["crit-min"] || 20;
+			let s = a[k]["str"] || false;
 			u[`repeating_wpn${id}_name`] = getTranslationByKey("wpn-" + k);
 			u[`repeating_wpn${id}_melee`] = r ? 0 : 1;
-			u[`repeating_wpn${id}_cat`] = weapons[k].cat || "";
-			u[`repeating_wpn${id}_type`] = weapons[k].type || "";
-			u[`repeating_wpn${id}_hand`] = (t == 3 ? 2 : weapons[k].hand) || "";
-			u[`repeating_wpn${id}_range`] = weapons[k].range ? feetToMeter(weapons[k].range) + " m" : "";
+			u[`repeating_wpn${id}_cat`] = a[k].cat || "";
+			u[`repeating_wpn${id}_type`] = a[k].type || "";
+			u[`repeating_wpn${id}_hand`] = (t == 3 ? 2 : a[k].hand) || "";
+			u[`repeating_wpn${id}_range`] = a[k].range ? feetToMeter(a[k].range) + " m" : "";
 			u[`repeating_wpn${id}_abi-atk`] = r ? "@{dex-max}" : "@{str-mod}";
 			u[`repeating_wpn${id}_crit-max`] = c;
 			u[`repeating_wpn${id}_crit-min`] = v["roll-die"] != "20" ? 21 - (20 - c) : c;
-			u[`repeating_wpn${id}_crit-mult`] = weapons[k]["crit-mult"] || 2;
-			u[`repeating_wpn${id}_dmg-type`] = weapons[k]["dmg-type"] || "";
-			u[`repeating_wpn${id}_dmg-num`] = weapons[k]["dmg-num"] || 1;
-			u[`repeating_wpn${id}_dmg-die`] = weapons[k]["dmg-die"] || "d3";
+			u[`repeating_wpn${id}_crit-mult`] = a[k]["crit-mult"] || 2;
+			u[`repeating_wpn${id}_dmg-type`] = a[k]["dmg-type"] || "";
+			u[`repeating_wpn${id}_dmg-num`] = a[k]["dmg-num"] || 1;
+			u[`repeating_wpn${id}_dmg-die`] = a[k]["dmg-die"] || "d3";
 			u[`repeating_wpn${id}_abi-dmg`] = r && !s ? "0" : t == 3 ? "(@{str-mod}+floor(@{str-mod}/2))" : "@{str-mod}";
-			u[`repeating_wpn${id}_ammo`] = weapons[k].ammo || 0;
-			u[`repeating_wpn${id}_wgt`] = poundsToKilos(weapons[k].wgt) || 0;
-			u[`repeating_wpn${id}_cost`] = weapons[k].cost || 0;
-			u[`repeating_wpn${id}_props`] = weapons[k].props !== undefined ? getTranslationByKey("wpn-" + weaponProps[weapons[k].props]) : "";
+			u[`repeating_wpn${id}_ammo`] = a[k].ammo || 0;
+			u[`repeating_wpn${id}_wgt`] = poundsToKilos(a[k].wgt) || 0;
+			u[`repeating_wpn${id}_cost`] = a[k].cost || 0;
+			u[`repeating_wpn${id}_props`] = a[k].props !== undefined ? getTranslationByKey("wpn-" + weaponProps[a[k].props]) : "";
 			setAttrs(u, null, updateModifiers);
 		});
 	}
@@ -369,19 +404,77 @@ on("change:repeating_wpn:name", function(e) {
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-// # Armors
+// # Armor and Shield
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-// Autofill
-on("change:arm-type", function(e) {
+// Armor Speed
+on("change:arm-type", updateArmorSpeed);
+
+// Shield Equipped
+on("change:shd-worn", function(e) {
+	let k = e.newValue;
+	if (k == "0") setAttrs({"shd-eqp" : k});
+});
+
+on("change:shd-eqp", function(e) {
+	let k = e.newValue;
+	if (k == "1") setAttrs({"shd-worn" : k});
+});
+
+// Autofill Armor
+const autofillArmor = function(e) { // e = event
 	let k = e.newValue;
 	let a = armors;
-	if (k === undefined || !Object.keys(a).includes(k)) k = "nil";
-	getAttrs(["mvt-land-base"], v => {
-		let s = toStr(toFlt(v["mvt-land-base"]) * a[k].spd, 1, true) + " m" || "";
-		setAttrs({"arm-spd" : s, "arm-run" : a[k].run}, {"silent" : true});
-	});
+	if (a.hasOwnProperty(k)) {
+		let u = {};
+		let b = k == "none";
+		u["arm-worn"] = b ? "0" : "1";
+		u["arm-name"] = getTranslationByKey("arm-" + k);
+		u["arm-type"] = armorType[a[k].type] || "nil";
+		u["arm-bon"] = a[k].bon || 0;
+		u["arm-pen"] = a[k].pen || 0;
+		u["arm-spl"] = a[k].spl || 0;
+		u["arm-dex"] = a[k].dex || 20;
+		u["arm-wgt"] = poundsToKilos(a[k].wgt) || 0;
+		u["arm-cost"] = a[k].cost || 0;
+		if (k == "none") {
+			u["arm-enh"] = 0;
+			u["arm-props"] = "";
+		}
+		setAttrs(u);
+	}
+};
+
+on("change:arm-name", function(e) {
+	autofillArmor(e);
+});
+
+// Autofill Shield
+const autofillShield = function(e) { // e = event
+	let k = e.newValue;
+	let a = shields;
+	if (a.hasOwnProperty(k)) {
+		let u = {};
+		let b = k == "none";
+		u["shd-worn"] = b ? "0" : "1";
+		u["shd-eqp"] = b ? "0" : "1";
+		u["shd-name"] = getTranslationByKey("shd-" + k);
+		u["shd-bon"] = a[k].bon || 0;
+		u["shd-pen"] = a[k].pen || 0;
+		u["shd-spl"] = a[k].spl || 0;
+		u["shd-wgt"] = poundsToKilos(a[k].wgt) || 0;
+		u["shd-cost"] = a[k].cost || 0;
+		if (k == "none") {
+			u["shd-enh"] = 0;
+			u["shd-props"] = "";
+		}
+		setAttrs(u);
+	}
+};
+
+on("change:shd-name", function(e) {
+	autofillShield(e);
 });
 
 // =============================================================================
@@ -511,7 +604,7 @@ on("change:repeating_mny:ad change:repeating_mny:mi change:repeating_mny:pp chan
 // =============================================================================
 
 const moveItem = function(s, k) { // s = section name, k = item id
-	let a = [`${k}_name`, `${k}_type`, `${k}_qty`, `${k}_slot`, `${k}_loc`, `${k}_wgt`, `${k}_cost`];
+	let a = [`${k}_name`, `${k}_type`, `${k}_qty`, `${k}_slot`, `${k}_loc`, `${k}_hard`, `${k}_hp`, `${k}_wgt`, `${k}_cost`];
 	getAttrs(a, (v) => {
 		let u = {};
 		let n = generateRowID();
@@ -520,6 +613,8 @@ const moveItem = function(s, k) { // s = section name, k = item id
 		u[`repeating_${s}_${n}_qty`] = v[`${k}_qty`];
 		u[`repeating_${s}_${n}_slot`] = v[`${k}_slot`];
 		u[`repeating_${s}_${n}_loc`] = v[`${k}_loc`];
+		u[`repeating_${s}_${n}_hard`] = v[`${k}_hard`];
+		u[`repeating_${s}_${n}_hp`] = v[`${k}_hp`];
 		u[`repeating_${s}_${n}_wgt`] = v[`${k}_wgt`];
 		u[`repeating_${s}_${n}_cost`] = v[`${k}_cost`];
 		removeRepeatingRow(`${k}`);
@@ -1352,11 +1447,190 @@ const weapons = {
 };
 
 // Armors
-const armors = {
+const armorCategory = {
 	"nil" : {"spd" : 1, "run" : 4},
 	"lgt" : {"spd" : 1, "run" : 4},
 	"med" : {"spd" : 0.75, "run" : 4},
 	"hvy" : {"spd" : 0.75, "run" : 3},
+};
+const armorType = ["nil", "lgt", "med", "hvy"];
+const armors = {
+
+	"none" : {
+		"type" : 0,
+		"bon" : 0,
+		"pen" : 0,
+		"spl" : 0,
+		"dex" : 0,
+		"wgt" : 0,
+		"cost" : 0
+	},
+
+	// Light
+	"padded" : {
+		"type" : 1,
+		"bon" : 1,
+		"pen" : 0,
+		"spl" : 5,
+		"dex" : 8,
+		"wgt" : 10,
+		"cost" : 5
+	},
+	"leather" : {
+		"type" : 1,
+		"bon" : 2,
+		"pen" : 0,
+		"spl" : 10,
+		"dex" : 6,
+		"wgt" : 15,
+		"cost" : 10
+	},
+	"studded-leather" : {
+		"type" : 1,
+		"bon" : 3,
+		"pen" : 1,
+		"spl" : 15,
+		"dex" : 5,
+		"wgt" : 20,
+		"cost" : 25
+	},
+	"chain-shirt" : {
+		"type" : 1,
+		"bon" : 4,
+		"pen" : 2,
+		"spl" : 20,
+		"dex" : 4,
+		"wgt" : 25,
+		"cost" : 100
+	},
+
+	// Medium
+	"hide" : {
+		"type" : 2,
+		"bon" : 3,
+		"pen" : 3,
+		"spl" : 20,
+		"dex" : 4,
+		"wgt" : 25,
+		"cost" : 15
+	},
+	"scale-mail" : {
+		"type" : 2,
+		"bon" : 4,
+		"pen" : 4,
+		"spl" : 25,
+		"dex" : 3,
+		"wgt" : 30,
+		"cost" : 50
+	},
+	"chainmail" : {
+		"type" : 2,
+		"bon" : 5,
+		"pen" : 5,
+		"spl" : 30,
+		"dex" : 2,
+		"wgt" : 40,
+		"cost" : 150
+	},
+	"breastplate" : {
+		"type" : 2,
+		"bon" : 5,
+		"pen" : 4,
+		"spl" : 25,
+		"dex" : 3,
+		"wgt" : 30,
+		"cost" : 200
+	},
+
+	// Heavy
+	"splint-mail" : {
+		"type" : 3,
+		"bon" : 6,
+		"pen" : 7,
+		"spl" : 40,
+		"dex" : 0,
+		"wgt" : 45,
+		"cost" : 200
+	},
+	"banded-mail" : {
+		"type" : 3,
+		"bon" : 6,
+		"pen" : 6,
+		"spl" : 35,
+		"dex" : 1,
+		"wgt" : 35,
+		"cost" : 250
+	},
+	"half-plate" : {
+		"type" : 3,
+		"bon" : 7,
+		"pen" : 7,
+		"spl" : 40,
+		"dex" : 0,
+		"wgt" : 50,
+		"cost" : 600
+	},
+	"full-plate" : {
+		"type" : 3,
+		"bon" : 8,
+		"pen" : 6,
+		"spl" : 35,
+		"dex" : 1,
+		"wgt" : 50,
+		"cost" : 1500
+	}
+};
+
+const shields = {
+	"none" : {
+		"bon" : 0,
+		"pen" : 0,
+		"spl" : 0,
+		"wgt" : 0,
+		"cost" : 0
+	},
+	"buckler" : {
+		"bon" : 1,
+		"pen" : 1,
+		"spl" : 5,
+		"wgt" : 5,
+		"cost" : 15
+	},
+	"shield-light-wooden" : {
+		"bon" : 1,
+		"pen" : 1,
+		"spl" : 5,
+		"wgt" : 5,
+		"cost" : 3
+	},
+	"shield-light-steel" : {
+		"bon" : 1,
+		"pen" : 1,
+		"spl" : 5,
+		"wgt" : 6,
+		"cost" : 9
+	},
+	"shield-heavy-wooden" : {
+		"bon" : 2,
+		"pen" : 2,
+		"spl" : 15,
+		"wgt" : 10,
+		"cost" : 7
+	},
+	"shield-heavy-steel" : {
+		"bon" : 2,
+		"pen" : 2,
+		"spl" : 15,
+		"wgt" : 15,
+		"cost" : 20
+	},
+	"shield-tower" : {
+		"bon" : 4,
+		"pen" : 10,
+		"spl" : 50,
+		"wgt" : 45,
+		"cost" : 30
+	}
 };
 
 // Modifiers
