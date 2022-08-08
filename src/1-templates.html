@@ -8,12 +8,24 @@
 		<tr>
 			<th>{{type}}</th>
 		</tr>
+		{{^null}}
 		<tr>
-			<td class="result center"><span>{{roll}}</span></td>
+			<td class="result center"><span class="{{#nocrit}}nocrit{{/nocrit}}">{{roll}}</span></td>
+		</tr>
+		{{^nocrit}}
+		<tr>
+			<td class="center">{{#^rollWasFumble() roll}}{{#rollWasCrit() roll}}<span class="success" data-i18n="tpl_roll_crit"></span>{{/rollWasCrit() roll}}{{/^rollWasFumble() roll}}{{#rollWasFumble() roll}}<span class="failure" data-i18n="tpl_roll_fumble"></span>{{/rollWasFumble() roll}}</td>
+		</tr>
+		{{/nocrit}}
+		{{/null}}
+		{{#null}}
+		<tr>
+			<td class="result center">{{#^rollGreater() roll null}}<span>{{roll}}</span>{{/^rollGreater() roll null}}{{#rollGreater() roll null}}<span class="roll-nil">{{mod}}</span>{{/rollGreater() roll null}}</td>
 		</tr>
 		<tr>
-			<td class="center">{{#^rollWasFumble() roll}}{{#rollWasCrit() roll}}<span class="success">Réussite critique&nbsp;!</span>{{/rollWasCrit() roll}}{{/^rollWasFumble() roll}}{{#rollWasFumble() roll}}<span class="failure">Échec critique&nbsp;&hellip;</span>{{/rollWasFumble() roll}}</td>
+			<td class="center">{{#^rollGreater() roll null}}{{#^rollWasFumble() roll}}{{#rollWasCrit() roll}}<span class="success" data-i18n="tpl_roll_crit"></span>{{/rollWasCrit() roll}}{{/^rollWasFumble() roll}}{{#rollWasFumble() roll}}<span class="failure" data-i18n="tpl_roll_fumble"></span>{{/rollWasFumble() roll}}{{/^rollGreater() roll null}}{{#rollGreater() roll null}}<span class="null" data-i18n="tpl_roll_null"></span>{{/rollGreater() roll null}}</td>
 		</tr>
+		{{/null}}
 		{{#note}}
 		<tr>
 			<td class="note"><span>{{note}}</span></td>
@@ -32,81 +44,81 @@
 			<th>{{name}}</th>
 		</tr>
 		<tr>
-			<td><span class="label">Sort&nbsp;:</span> Niveau&nbsp;{{lvl}}</td>
+			<td><span class="label"><span data-i18n="ui_spl"></span>&nbsp;:</span><span class="value"><span data-i18n="ui_lvl"></span>&nbsp;{{lvl}}</span></td>
 		</tr>
 		{{#cl}}
 		<tr>
-			<td><span class="label" title="Niveau de lanceur de sorts">NLS&nbsp;:</span> {{cl}}</td>
+			<td><span class="label"><span data-i18n="spl_cl"></span>&nbsp;:</span><span class="value">{{cl}}</span></td>
 		</tr>
 		{{/cl}}
-		{{#school}}
+		{{#sch}}
 		<tr>
-			<td><span class="label">École&nbsp;:</span><span class="value">{{school}}</span></td>
+			<td><span class="label"><span data-i18n="spl_sch"></span>&nbsp;:</span><span class="value">{{sch}}</span></td>
 		</tr>
-		{{/school}}
+		{{/sch}}
 		{{#level}}
 		<tr>
-			<td><span class="label">Niveau&nbsp;:</span><span class="value">{{level}}</span></td>
+			<td><span class="label"><span data-i18n="spl_lvl"></span>&nbsp;:</span><span class="value">{{level}}</span></td>
 		</tr>
 		{{/level}}
-		{{#components}}
+		{{#compo}}
 		<tr>
-			<td><span class="label">Composantes&nbsp;:</span><span class="value">{{components}}</span></td>
+			<td><span class="label"><span data-i18n="spl_compo"></span>&nbsp;:</span><span class="value">{{compo}}</span></td>
 		</tr>
-		{{/components}}
-		{{#castingtime}}
+		{{/compo}}
+		{{#ct}}
 		<tr>
-			<td><span class="label">Temps d’incantation&nbsp;:</span><span class="value">{{castingtime}}</span></td>
+			<td><span class="label"><span data-i18n="spl_ct"></span>&nbsp;:</span><span class="value">{{ct}}</span></td>
 		</tr>
-		{{/castingtime}}
+		{{/ct}}
 		{{#range}}
 		<tr>
-			<td><span class="label">Portée&nbsp;:</span><span class="value">{{range}}</span></td>
+			<td><span class="label"><span data-i18n="spl_range"></span>&nbsp;:</span><span class="value">{{range}}</span></td>
 		</tr>
 		{{/range}}
 		{{#target}}
 		<tr>
-			<td><span class="label">Cibles&nbsp;:</span><span class="value">{{target}}</span></td>
+			<td><span class="label"><span data-i18n="spl_target"></span>&nbsp;:</span><span class="value">{{target}}</span></td>
 		</tr>
 		{{/target}}
-		{{#duration}}
+		{{#dur}}
 		<tr>
-			<td><span class="label">Durée&nbsp;:</span><span class="value">{{duration}}</span></td>
+			<td><span class="label"><span data-i18n="spl_dur"></span>&nbsp;:</span><span class="value">{{dur}}</span></td>
 		</tr>
-		{{/duration}}
+		{{/dur}}
 		{{#save}}
 		<tr>
-			<td><span class="label">Jet de sauvegarde&nbsp;:</span><span class="value">{{save}}</span></td>
+			<td><span class="label"><span data-i18n="spl_save"></span>&nbsp;:</span><span class="value">{{save}}</span></td>
 		</tr>
 		{{/save}}
 		{{#dc}}
 		<tr>
-			<td><span class="label" title="Degré de difficulté">DD&nbsp;:</span><span class="value">{{dc}}</span></td>
+			<td><span class="label"><span data-i18n="spl_dc_abbr"></span>&nbsp;:</span><span class="value">{{dc}}</span></td>
 		</tr>
 		{{/dc}}
 		{{#sr}}
 		<tr>
-			<td><span class="label">Résistance à la magie&nbsp;:</span><span class="value">{{sr}}</span></td>
+			<td><span class="label"><span data-i18n="stat_sr"></span>&nbsp;:</span><span class="value" data-i18n="ui_{{sr}}"></span></td>
 		</tr>
 		{{/sr}}
-		{{#src}}
-		<tr>
-			<td><span class="label">Source&nbsp;:</span><span class="value">{{src}}</span></td>
-		</tr>
-		{{/src}}
-		{{#link}}
-		<tr>
-			<td><span class="label">Lien&nbsp;:</span> [URL]({{link}})</td>
-		</tr>
-		{{/link}}
 		{{#desc}}
 		<tr>
-			<td class="heading">Description</td>
+			<td class="heading" data-i18n="spl_desc"></td>
 		</tr>
 		<tr>
 			<td>{{desc}}</td>
 		</tr>
 		{{/desc}}
+		{{#src}}
+		<tr>
+			<td class="note"><span class="label"><span data-i18n="spl_src"></span>&nbsp;:</span><span class="value">{{src}}</span></td>
+		</tr>
+		{{/src}}
+		{{#link}}
+		<tr>
+			<td class="note"><span class="label"><span data-i18n="spl_link"></span>&nbsp;:</span> [URL]({{link}})</td>
+		</tr>
+		{{/link}}
 	</table>
 </rolltemplate>
 <rolltemplate class="sheet-rolltemplate-attack">
@@ -121,8 +133,8 @@
 		</tr>
 		<tr>
 			<td style="width: 10%;"></td>
-			<td style="width: 40%;"><span class="label">Attaque</span></td>
-			<td style="width: 40%;"><span class="label">Dégâts</span></td>
+			<td style="width: 40%;"><span class="label" data-i18n="ui_atk"></span></td>
+			<td style="width: 40%;"><span class="label" data-i18n="ui_dmg"></span></td>
 			<td style="width: 10%;"></td>
 		</tr>
 		{{#roll1}}
@@ -158,95 +170,95 @@
 	{{#rollTotal() show-details 1}}
 	<table class="details">
 		<tr>
-			<td colspan="2" class="heading">Détails</td>
+			<td colspan="2" class="heading" data-i18n="ui_details"></td>
 		</tr>
 		<tr>
-			<td><span class="label">Usage&nbsp;:</span></td>
-			<td><span class="value">{{#rollTotal() melee 0}}<span data-i18n="wpn-range"></span>{{/rollTotal() melee 0}}{{#rollTotal() melee 1}}<span data-i18n="wpn-melee"></span>{{/rollTotal() melee 1}}</span></td>
+			<td><span class="label"><span data-i18n="wpn_use"></span>&nbsp;:</span></td>
+			<td><span class="value">{{#rollTotal() melee 0}}<span data-i18n="wpn_range"></span>{{/rollTotal() melee 0}}{{#rollTotal() melee 1}}<span data-i18n="wpn_melee"></span>{{/rollTotal() melee 1}}</span></td>
 		</tr>
 		<tr>
-			<td><span class="label">Tenue&nbsp;:</span></td>
+			<td><span class="label"><span data-i18n="wpn_wield"></span>&nbsp;:</span></td>
 			<td><span class="value">{{hand}}</span></td>
 		</tr>
 		{{#range}}
 		<tr>
-			<td><span class="label">Portée&nbsp;:</span></td>
+			<td><span class="label"><span data-i18n="wpn_range"></span>&nbsp;:</span></td>
 			<td><span class="value">{{range}}</span></td>
 		</tr>
 		{{/range}}
 		{{#enh}}
 		<tr>
-			<td><span class="label" title="Bonus d’altération">Altération&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_enh_tt"><span data-i18n="wpn_enh"></span>&nbsp;:</span></td>
 			<td><span class="value">{{enh}}</span></td>
 		</tr>
 		{{/enh}}
 		<tr>
-			<td colspan="2" class="heading">Attaque</td>
+			<td colspan="2" class="heading" data-i18n="ui_atk"></td>
 		</tr>
 		{{#abi-atk}}
 		<tr>
-			<td><span class="label" title="Modificateur de caractéristique à l’attaque">Caractéristique&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_atk_abi_tt"><span data-i18n="ui_abi"></span>&nbsp;:</span></td>
 			<td><span class="value">{{abi-atk}}</span></td>
 		</tr>
 		{{/abi-atk}}
 		{{#focus}}
 		<tr>
-			<td><span class="label" title="Bonus du don Arme de prédilection">Prédilection&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_atk_pred_tt"><span data-i18n="wpn_atk_pred_abbr"></span>&nbsp;:</span></td>
 			<td><span class="value">{{focus}}</span></td>
 		</tr>
 		{{/focus}}
 		<tr>
-			<td><span class="label" title="Modificateur global à l’attaque">Modificateur&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="mod_atk_tt"><span data-i18n="ui_mod"></span>&nbsp;:</span></td>
 			<td><span class="value">{{mod-atk}}</span></td>
 		</tr>
 		<tr>
-			<td><span class="label">Critique&nbsp;:</span></td>
+			<td><span class="label"><span data-i18n="wpn_crit"></span>&nbsp;:</span></td>
 			<td><span class="value">{{crit-min}}&ndash;{{crit-die}}/×{{crit-mult}}</span></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="heading">Dégâts</td>
+			<td colspan="2" class="heading" data-i18n="ui_dmg"></td>
 		</tr>
 		{{#dmg-type}}
 		<tr>
-			<td><span class="label" title="Type de dégâts de l’arme">Type de dégâts&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_dmg_type_tt"><span data-i18n="wpn_dmg_type"></span>&nbsp;:</span></td>
 			<td><span class="value">{{dmg-type}}</span></td>
 		</tr>
 		{{/dmg-type}}
 		{{#abi-dmg}}
 		<tr>
-			<td><span class="label" title="Modificateur de caractéristique aux dégâts">Caractéristique&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_dmg_abi_tt"><span data-i18n="ui_abi"></span>&nbsp;:</span></td>
 			<td><span class="value">{{abi-dmg}}</span></td>
 		</tr>
 		{{/abi-dmg}}
 		{{#spec}}
 		<tr>
-			<td><span class="label" title="Bonus du don Spécialisation martiale">Spécialisation&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_spec_tt"><span data-i18n="wpn_spec_abbr"></span>&nbsp;:</span></td>
 			<td><span class="value">{{spec}}</span></td>
 		</tr>
 		{{/spec}}
 		<tr>
-			<td><span class="label" title="Modificateur global aux dégâts">Modificateur&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="mod_dmg_tt"><span data-i18n="ui_mod"></span>&nbsp;:</span></td>
 			<td><span class="value">{{mod-dmg}}</span></td>
 		</tr>
 		<tr>
-			<td><span class="label" title="Dégâts de base de l’arme">Dégâts&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_dmg_tt"><span data-i18n="ui_dmg"></span>&nbsp;:</span></td>
 			<td><span class="value">{{dmg}}</span></td>
 		</tr>
 		{{#dmg-xtra}}
 		<tr>
-			<td><span class="label" title="Dégâts suppplémentaires">Dégâts supp.&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_dmg_xtra_tt"><span data-i18n="wpn_dmg_xtra_abbr"></span>&nbsp;:</span></td>
 			<td><span class="value">{{dmg-xtra}}</span></td>
 		</tr>
 		{{/dmg-xtra}}
 		{{#dmg-xtra-type}}
 		<tr>
-			<td><span class="label" title="Type des dégâts suppplémentaires">Type dégâts supp.&nbsp;:</span></td>
+			<td><span class="label" data-i18n-title="wpn_dmg_xtra_type_tt"><span data-i18n="wpn_dmg_xtra_type_abbr"></span>&nbsp;:</span></td>
 			<td><span class="value">{{dmg-xtra-type}}</span></td>
 		</tr>
 		{{/dmg-xtra-type}}
 		{{#props}}
 		<tr>
-			<td colspan="2" class="heading">Propriétés spéciales</td>
+			<td colspan="2" class="heading" data-i18n="ui_props"></td>
 		</tr>
 		<tr>
 			<td colspan="2">{{props}}</td>
@@ -263,65 +275,65 @@
 		</tr>
 		{{/char-name}}
 		<tr>
-			<th colspan="2">Renvoi des Morts-vivants</th>
+			<th colspan="2" data-i18n="tpl_turn"></th>
 		</tr>
 		<tr>
-			<td colspan="2"><span class="label">Bonus de renvoi&nbsp;:</span><span class="value">{{turn}}</span></td>
+			<td colspan="2"><span class="label"><span data-i18n="turn_bon"></span>&nbsp;:</span><span class="value">{{turn-bon}}</span></td>
 		</tr>
 		<tr>
-			<td colspan="2"><span class="label">Bonus de DV affectés&nbsp;:</span><span class="value">{{turn-hd}}</span>d6</td>
+			<td colspan="2"><span class="label"><span data-i18n="turn_dv"></span>&nbsp;:</span><span class="value">{{turn-hd}}</span>d6</td>
 		</tr>
 		<tr>
-			<td colspan="2"><span class="label">Test de renvoi&nbsp;:</span><span class="value">{{turn-test}}</span></td>
+			<td colspan="2"><span class="label"><span data-i18n="turn_chk"></span>&nbsp;:</span><span class="value">{{turn-chk}}</span></td>
 		</tr>
 		<tr>
-			<td colspan="2"><span class="label">Nombre de DV affectés&nbsp;:</span><span class="value">{{turn-test-hd}}</span></td>
+			<td colspan="2"><span class="label"><span data-i18n="turn_lvl"></span>&nbsp;:</span><span class="value">{{lvl}}</span></td>
 		</tr>
 		<tr>
-			<td colspan="2"><span class="label">Niveau pour renvoi&nbsp;:</span><span class="value">{{lvl}}</span></td>
+			<td colspan="2"><span class="label"><span data-i18n="tpl_turn_hd"></span>s&nbsp;:</span><span class="value">{{turn-chk-hd}}</span></td>
 		</tr>
 		<tr>
-			<td colspan="2" class="heading">Table de Renvoi des Morts-vivants</td>
+			<td colspan="2" class="heading" data-i18n="tpl_turn_table"></td>
 		</tr>
 		<tr>
-			<td><span class="label">Résultat&nbsp;:</span></td>
-			<td><span class="label">DV max affecté&nbsp;:</span></td>
+			<td><span class="label" data-i18n="tpl_result">&nbsp;:</span></td>
+			<td><span class="label" data-i18n="tpl_turn_hd_max">&nbsp;:</span></td>
 		</tr>
 		<tr>
-			<td><span class="label">0 ou moins</span></td>
-			<td><span>Niveau -4</span></td>
+			<td><span class="label">0<span data-i18n="tpl_or_less"></span></span></td>
+			<td><span data-i18n="ui_lvl"></span>&nbsp;-4</td>
 		</tr>
 		<tr>
 			<td><span class="label">1-3</span></td>
-			<td><span>Niveau -3</span></td>
+			<td><span data-i18n="ui_lvl"></span>&nbsp;-3</td>
 		</tr>
 		<tr>
 			<td><span class="label">4-6</span></td>
-			<td><span>Niveau -2</span></td>
+			<td><span data-i18n="ui_lvl"></span>&nbsp;-2</td>
 		</tr>
 		<tr>
 			<td><span class="label">7-9</span></td>
-			<td><span>Niveau -1</span></td>
+			<td><span data-i18n="ui_lvl"></span>&nbsp;-1</td>
 		</tr>
 		<tr>
 			<td><span class="label">10-12</span></td>
-			<td><span>Niveau</span></td>
+			<td><span data-i18n="ui_lvl"></span></td>
 		</tr>
 		<tr>
 			<td><span class="label">13-15</span></td>
-			<td><span>Niveau +1</span></td>
+			<td><span data-i18n="ui_lvl"></span>&nbsp;+1</td>
 		</tr>
 		<tr>
 			<td><span class="label">16-18</span></td>
-			<td><span>Niveau +2</span></td>
+			<td><span data-i18n="ui_lvl"></span>&nbsp;+2</td>
 		</tr>
 		<tr>
 			<td><span class="label">19-21</span></td>
-			<td><span>Niveau +3</span></td>
+			<td><span data-i18n="ui_lvl"></span>&nbsp;+3</td>
 		</tr>
 		<tr>
 			<td><span class="label">22 et plus</span></td>
-			<td><span>Niveau +4</span></td>
+			<td><span data-i18n="ui_lvl"></span>&nbsp;+4</td>
 		</tr>
 	</table>
 </rolltemplate>

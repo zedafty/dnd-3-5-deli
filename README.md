@@ -3,7 +3,7 @@
   Original by Capitaine Red (1.5 FR, Gabmilot project)
   Refactoring by Zedafty (Deli project)
   Testing by Panda
-  Version 1.6.2 Beta FR
+  Version 1.6.3 Beta
 
   Uses [TheAaronSheet](https://github.com/shdwjk/TheAaronSheet) 0.2.5
 
@@ -17,26 +17,22 @@
 
   ### Latest
 
-  * 1.6.2
+  * 1.6.3
 
   ### Features
 
-  * User-friendly character sheet based upon tab navigation
-  * Clear user interface with simple easy-to-fill fields
-  * Data lists improving user experience (for weapons, armors and such)
-  * French character sheet (for now, english translation in progress)
-
-  ### Incoming
-
-  * Full english translation compliance
-  * Character load calculation
-  * Classes abilities
+  * Tab navigation and One-page toggle
+  * Global roll modifier and Whisper to GM toggles
+  * Data lists for character, spell descriptors, weapons, armors, gems and objects of art
+  * Skill Tricks from *Complete Scoundrel* and d23 throws *Hombrew* options
+  * Translation JSON for other language
 
   ### File System
 
   * doc -> documents (txt)
   * img -> images (jpg, png)
-  * scr -> scripts (html, js, json)
+  * rel -> releases (zip)
+  * src -> scripts (html, js, json)
 
   ### License
 

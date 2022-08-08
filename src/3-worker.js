@@ -7,12 +7,13 @@
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-function toInt(s) { // s = string ; returns integer
-	return parseInt(s) || 0;
+function toInt(v) { // v = string or number ; returns integer
+	return parseInt(v) || 0;
 }
 
-function toFlt(s) { // s = string ; returns float
-	return parseFloat(s.replace(",", ".")) || 0;
+function toFlt(v) { // s = string or number ; returns float
+	if (typeof v == "string") v = v.replace(",", ".");
+	return parseFloat(v) || 0;
 }
 
 function roundMeter(n, m) { // n = number (src), m = number (base) ; returns number
@@ -55,6 +56,10 @@ function clamp(n, min, max) { // n = number, min = number, max = number ; return
 	return Math.min(Math.max(n, min), max);
 }
 
+function getTranslation(s) { // s = string ; returns string
+	return getTranslationByKey(s.replaceAll("-", "_"));
+}
+
 // =============================================================================
 // -----------------------------------------------------------------------------
 // # Repeating Sections
@@ -81,18 +86,39 @@ const repeatingCalculateTotal = function(sec, qty, val, tot, dec, mult, func, si
 
 // =============================================================================
 // -----------------------------------------------------------------------------
+// # Races
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+// Autofill Race
+const autofillRace = function(e) { // e = event
+	let k = e.newValue;
+	if (races.includes(k)) {
+		let u = {};
+		u[`char-race`] = getTranslation(`race-${k}`) || k;
+		setAttrs(u, {"silent" : true});
+	}
+};
+
+on("change:char-race", function(e) {
+	autofillRace(e);
+});
+
+// =============================================================================
+// -----------------------------------------------------------------------------
 // # Languages
 // -----------------------------------------------------------------------------
 // =============================================================================
 
+// Autofill Language
 const autofillLanguage = function(e) { // e = event
 	let k = e.newValue;
 	let id = e.sourceAttribute.substr(16, 19);
 	if (languages.includes(k)) {
 		let u = {};
-		u[`repeating_lang${id}_name`] = getTranslationByKey(`lang_${k}`) || k;
-		u[`repeating_lang${id}_users`] = getTranslationByKey(`lang_${k}_users`) || "";
-		u[`repeating_lang${id}_alphabet`] = getTranslationByKey(`lang_${k}_alphabet`) || "";
+		u[`repeating_lang${id}_name`] = getTranslation(`lang-${k}`) || k;
+		u[`repeating_lang${id}_users`] = getTranslation(`lang-${k}-users`) || "";
+		u[`repeating_lang${id}_alphabet`] = getTranslation(`lang-${k}-alphabet`) || "";
 		setAttrs(u, {"silent" : true});
 	}
 };
@@ -107,6 +133,7 @@ on("change:repeating_lang:name", function(e) {
 // -----------------------------------------------------------------------------
 // =============================================================================
 
+// Autofill Class
 const autofillClass = function(e, k, b, g) { // e = event, k = class key, b = empty flag, g = lvl flag
 	let s = e.sourceAttribute.substr(0, 5);
 	getAttrs(["cls-autofill", s + "key", s + "lvl"], v => {
@@ -115,7 +142,7 @@ const autofillClass = function(e, k, b, g) { // e = event, k = class key, b = em
 		let a = classes;
 		if (g) k = v[s + "key"];
 		if (Object.keys(a).includes(k)) {
-				u[s + "name"] = getTranslationByKey(`cls_${k}`) || k;
+				u[s + "name"] = getTranslation(`cls-${k}`) || k;
 				u[s + "key"] = k;
 				if (o) {
 					let lvl = toInt(v[s + "lvl"]) || 0;
@@ -183,7 +210,94 @@ const updateArmorSpeed = function() {
 	});
 };
 
-on("change:mvt-land-base", updateArmorSpeed);
+const updateLoadSpeed = function() {
+	getAttrs(["mvt-land-base", "load-spd"], v => {
+		let s = toStr(toFlt(v["mvt-land-base"]) * toFlt(v["load-spd"]), 1, true) + " m" || "";
+		setAttrs({"load-spd-str" : s,}, {"silent" : true});
+	});
+};
+
+// Armor Speed
+on("change:arm-type", updateArmorSpeed);
+
+// Autofill Movement
+const autofillMovement = function(e) { // e = event
+	let k = e.newValue;
+	if (movement.includes(k)) {
+		let u = {};
+		u[`mvt-land-base`] = getTranslation(`mvt-${k}-val`) || k;
+		setAttrs(u, {"silent" : true}, function() {
+			updateArmorSpeed();
+			updateLoadSpeed();
+		});
+	} else {
+		updateArmorSpeed();
+		updateLoadSpeed();
+	}
+};
+
+on("change:mvt-land-base", autofillMovement);
+
+// Armor Class Ajusted Dexterity Modifier
+const setMaximumDexterity = function() {
+	let a = ["dex-base", "dex-misc", "dex-temp", "brb-fat", "char-aging"];
+	getAttrs([...a, "arm-worn", "arm-dex", "load-dex"], v => {
+		let n = v["arm-worn"] == "1" ? toInt(v["arm-dex"]) : 99;
+		let m = toInt(v["load-dex"]);
+		let i = Math.floor((Math.floor(a.reduce(function(t, n) {return t + toInt(v[n])}, 0)) - 10) / 2);
+		let j = Math.max(Math.min(n, m), 0);
+		setAttrs({"dex-max" : Math.min(i, j)});
+	});
+};
+
+on("change:arm-worn change:arm-dex change:load-dex", setMaximumDexterity);
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Class Abilities
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+// Barbarian
+on("clicked:brb-rage-on", function() {
+	getAttrs(["brb-rage-num", "brb-rage-type"], v => {
+		let n = toInt(v["brb-rage-num"]);
+		if (n > 0) {
+			let u = {};
+			let q = v["brb-rage-type"];
+			let m = q == "2" ? 8 : q == "1" ? 6 : 4;
+			u["brb-rage-step-str"] = getTranslation("brb-rage-step-1");
+			u["brb-rage-step"] = 1;
+			u["brb-rage-num"] = n - 1;
+			u["brb-rage"] = m;
+			u["brb-ac"] = -2;
+			u["brb-will"] = m / 2;
+			setAttrs(u, {"silent" : true});
+		}
+	});
+});
+
+on("clicked:brb-rage-off", function() {
+	getAttrs(["brb-tire"], v => {
+		let u = {};
+		let n = v["brb-tire"] == "0" ? 0 : 2;
+		u["brb-rage-step-str"] = n == 0 ? "" : getTranslation("brb-rage-step-" + n);
+		u["brb-rage-step"] = n;
+		u["brb-rage"] = 0;
+		u["brb-ac"] = 0;
+		u["brb-will"] = 0;
+		u["brb-fat"] = -1 * n;
+		setAttrs(u, {"silent" : true});
+	});
+});
+
+on("clicked:brb-fat-off", function() {
+	let u = {};
+	u["brb-rage-step-str"] = "";
+	u["brb-rage-step"] = 0;
+	u["brb-fat"] = 0;
+	setAttrs(u, {"silent" : true});
+});
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -231,8 +345,10 @@ const clearSpellSlotsTotal = function(k) { // k = repeating section key
 };
 
 const getSpellSlotsListener = function() {
-	let i = j = 0;
-	let r = s = "";
+	let i = 0;
+	let j = 0;
+	let r = "";
+	let s = "";
 	for (i; i <= 9; i++) {
 		j = 1;
 		s = "";
@@ -271,9 +387,9 @@ const updateSpellDC = function(e) {
 	let sec = s[1];
 	let k = `repeating_${sec}_${id}_`;
 	let j = toInt(sec.slice(-1));
-	getAttrs([k + "cls-num", k + "school"], v => {
+	getAttrs([k + "cls-num", k + "sch"], v => {
 		let u = {};
-		let q = v[k + "school"];
+		let q = v[k + "sch"];
 		let i = v[k + "cls-num"];
 		u[k + "dc-cls"] = `@{cls${i}-spl-${j}-dc}`;
 		u[k + "spl-focus"] = q == "universal" ? "0" : `@{spl-focus-${q}}`;
@@ -281,7 +397,7 @@ const updateSpellDC = function(e) {
 	});
 };
 
-on(getSpellListener("change:repeating_$0-cls-num change:repeating_$0:school"), function(e) {
+on(getSpellListener("change:repeating_$0-cls-num change:repeating_$0:sch"), function(e) {
 	updateSpellDC(e);
 });
 
@@ -298,19 +414,55 @@ on(getSpellListener("change:repeating_$0:cls-num"), function(e) {
 	});
 });
 
-// Spell Autofill
-const spellRange = ["touch", "personal", "short", "medium", "long"];
-const spellDuration = ["instantaneous", "permanent", "concentration", "1-round", "1-minute", "10-minutes", "1-round-per-level", "1-minute-per-level", "10-minutes-per-level"];
+// Autofill Spell
+const spellLevel = ["brd", "clr", "drd", "rgr", "pal", "sor-wiz", "brd-sor-wiz", "sor-wiz-clr", "brd-clr-sor-wiz", "brd-clr-drd-sor-wiz"];
 
-on(getSpellListener("change:repeating_$0:range change:repeating_$0:duration"), function(e) {
+on(getSpellListener("change:repeating_$0:level"), function(e) {
+	let k = e.newValue;
+	if (spellLevel.includes(k)) {
+		let src = e.sourceAttribute.split("_");
+		let p = `repeating_${src[1]}_${src[2]}_`;
+		getAttrs([p + "lvl"], v => {
+			let u = {};
+			let lvl = toInt(v[p + "lvl"]);
+			if (lvl == 0 || lvl > 4) {
+				k = k.replace("rgr", "");
+				k = k.replace("pal", "");
+			}
+			if (lvl > 6) {
+				k = k.replace("brd-", "");
+				k = k.replace("brd", "");
+			}
+			u[p + "level"] = k.length > 0 ? getTranslation(`spl_level_${k}`).replaceAll("$0", lvl) : "";
+			setAttrs(u, {"silent" : true});
+		});
+	}
+});
+
+const spellComponents = ["vs", "vsm", "vsdf", "v", "s"];
+const spellCastingTime = ["1-std", "1-rnd", "1-min", "10-min"];
+const spellRange = ["touch", "personal", "short", "medium", "long"];
+const spellTarget = ["self", "1-touch", "1-living", "1-dead"];
+const spellDuration = ["instant", "perm", "concent", "1-rnd", "1-min", "10-min", "1-rnd-lvl", "1-min-lvl", "10-min-lvl"];
+const spellSave = ["refl-neg", "refl-half", "fort-neg", "fort-harmless", "fort-partial", "will-neg", "will-harmless", "will-reveal",];
+
+on(getSpellListener("change:repeating_$0:compo change:repeating_$0:ct change:repeating_$0:range change:repeating_$0:target change:repeating_$0:dur change:repeating_$0:save"), function(e) {
 	let src = e.sourceAttribute.split("_");
 	let q = src[3];
-	let a = q == "range" ? spellRange : spellDuration;
+	let a;
+	switch(q) {
+		case "compo" : a = spellComponents; break;
+		case "ct" : a = spellCastingTime; break;
+		case "range" : a = spellRange; break;
+		case "target" : a = spellTarget; break;
+		case "dur" : a = spellDuration; break;
+		case "save" : a = spellSave; break;
+	}
 	let k = e.newValue;
 	if (a.includes(k)) {
-		let p = `repeating_${src[1]}_${src[2]}_`;
 		let u = {};
-		u[p + q] = getTranslationByKey("spl-" + q + "-" + k);
+		let p = `repeating_${src[1]}_${src[2]}_`;
+		u[p + q] = getTranslation(`spl_${q}_${k}`);
 		setAttrs(u, {"silent" : true});
 	}
 });
@@ -321,7 +473,7 @@ on(getSpellListener("change:repeating_$0:range change:repeating_$0:duration"), f
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-// Roll Die
+// Critical Threshold
 on("change:roll-die", function(e) {
 	let i = 20;
 	switch(e.newValue) {
@@ -363,7 +515,7 @@ on("change:repeating_wpn:melee", function(e) {
 	setAttrs(u, {"silent" : true});
 });
 
-// Autofill
+// Autofill Weapon
 const autofillWeapon = function(e) { // e = event
 	let k = e.newValue;
 	let a = weapons;
@@ -375,7 +527,7 @@ const autofillWeapon = function(e) { // e = event
 			let r = t == 4;
 			let c = a[k]["crit-min"] || 20;
 			let s = a[k]["str"] || false;
-			u[`repeating_wpn${id}_name`] = getTranslationByKey("wpn-" + k);
+			u[`repeating_wpn${id}_name`] = getTranslation(`wpn-${k}`);
 			u[`repeating_wpn${id}_melee`] = r ? 0 : 1;
 			u[`repeating_wpn${id}_cat`] = a[k].cat || "";
 			u[`repeating_wpn${id}_type`] = a[k].type || "";
@@ -392,7 +544,7 @@ const autofillWeapon = function(e) { // e = event
 			u[`repeating_wpn${id}_ammo`] = a[k].ammo || 0;
 			u[`repeating_wpn${id}_wgt`] = poundsToKilos(a[k].wgt) || 0;
 			u[`repeating_wpn${id}_cost`] = a[k].cost || 0;
-			u[`repeating_wpn${id}_props`] = a[k].props !== undefined ? getTranslationByKey("wpn-" + weaponProps[a[k].props]) : "";
+			u[`repeating_wpn${id}_props`] = a[k].props !== undefined ? getTranslation(`wpn-${weaponProps[a[k].props]}`) : "";
 			setAttrs(u, null, updateModifiers);
 		});
 	}
@@ -408,9 +560,6 @@ on("change:repeating_wpn:name", function(e) {
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-// Armor Speed
-on("change:arm-type", updateArmorSpeed);
-
 // Shield Equipped
 on("change:shd-worn", function(e) {
 	let k = e.newValue;
@@ -422,6 +571,18 @@ on("change:shd-eqp", function(e) {
 	if (k == "1") setAttrs({"shd-worn" : k});
 });
 
+// Armor and Shield Weight
+const updateArmorShieldWeight = function() {
+	getAttrs(["arm-wgt", "arm-worn", "shd-wgt", "shd-worn"], v => {
+		let n = 0;
+		if (v["arm-worn"] == "1") n += toFlt(v["arm-wgt"]);
+		if (v["shd-worn"] == "1") n += toFlt(v["shd-wgt"]);
+		setAttrs({"def-wgt-tot" : n});
+	});
+};
+
+on("change:arm-wgt change:arm-worn change:shd-wgt change:shd-worn", updateArmorShieldWeight);
+
 // Autofill Armor
 const autofillArmor = function(e) { // e = event
 	let k = e.newValue;
@@ -430,12 +591,12 @@ const autofillArmor = function(e) { // e = event
 		let u = {};
 		let b = k == "none";
 		u["arm-worn"] = b ? "0" : "1";
-		u["arm-name"] = getTranslationByKey("arm-" + k);
+		u["arm-name"] = getTranslation(`arm-${k}`);
 		u["arm-type"] = armorType[a[k].type] || "nil";
 		u["arm-bon"] = a[k].bon || 0;
 		u["arm-pen"] = a[k].pen || 0;
 		u["arm-spl"] = a[k].spl || 0;
-		u["arm-dex"] = a[k].dex || 20;
+		u["arm-dex"] = a[k].dex || 99;
 		u["arm-wgt"] = poundsToKilos(a[k].wgt) || 0;
 		u["arm-cost"] = a[k].cost || 0;
 		if (k == "none") {
@@ -459,7 +620,7 @@ const autofillShield = function(e) { // e = event
 		let b = k == "none";
 		u["shd-worn"] = b ? "0" : "1";
 		u["shd-eqp"] = b ? "0" : "1";
-		u["shd-name"] = getTranslationByKey("shd-" + k);
+		u["shd-name"] = getTranslation(`shd-${k}`);
 		u["shd-bon"] = a[k].bon || 0;
 		u["shd-pen"] = a[k].pen || 0;
 		u["shd-spl"] = a[k].spl || 0;
@@ -526,14 +687,14 @@ on("change:repeating_mod:active change:repeating_mod:melee-atk change:repeating_
 	updateModifiers();
 });
 
-// Conditions
+// Autofill Conditions
 const autofillCondition = function(e) { // e = event
 	let k = e.newValue;
 	let a = conditions;
 	let id = e.sourceAttribute.substr(15, 19);
 	if (a.hasOwnProperty(k)) {
 		let u = {};
-		u[`repeating_mod${id}_name`] = a[k].name;
+		u[`repeating_mod${id}_name`] = getTranslation(`cond-${k}`);
 		u[`repeating_mod${id}_melee-atk`] = a[k]["melee-atk"] || 0;
 		u[`repeating_mod${id}_melee-dmg`] = a[k]["melee-dmg"] || 0;
 		u[`repeating_mod${id}_range-atk`] = a[k]["range-atk"] || 0;
@@ -549,19 +710,153 @@ on("change:repeating_mod:name", function(e) {
 
 // =============================================================================
 // -----------------------------------------------------------------------------
+// # Load
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+const loadBase = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260, 300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400];
+
+const loadPenalties = {};
+loadPenalties["lgt"] = {"dex" : "–", "pen" : 0, "spd" : 1, "run" : "–"};
+loadPenalties["med"] = {"dex" : 3, "pen" : -3, "spd" : 0.75, "run" : 4};
+loadPenalties["hvy"] = {"dex" : 1, "pen" : -6, "spd" : 0.75, "run" : 3};
+loadPenalties["min"] = loadPenalties.lgt;
+loadPenalties["max"] = loadPenalties.hvy;
+
+const updateLoad = function() {
+	let a = ["str-base", "str-misc", "str-temp", "brb-rage", "brb-fat", "char-aging"];
+	let b = ["wpn-wgt-tot", "def-wgt-tot", "eqp-wgt-tot", "mag-wgt-tot", "itm-wgt-tot", "mny-wgt-tot", "gem-wgt-tot", "art-wgt-tot"];
+	getAttrs([...a, ...b, "char-size", "char-legs", "load-mod", "mvt-land-base"], v => {
+		let i = Math.floor(a.reduce(function(t, n) {return t + toInt(v[n])}, 0));
+		let n = Math.floor(b.reduce(function(t, n) {return t + toFlt(v[n])}, 0));
+		let hvy, med, lft;
+		let s;
+		let m = 1;
+		let l = toInt(v["char-legs"]) > 3;
+		switch(v["char-size"]) {
+			case "8" : m = l ? 0.25 : 0.125; break;
+			case "4" : m = l ? 0.5 : 0.25; break;
+			case "2" : m = l ? 0.75 : 0.5; break;
+			case "1" : m = l ? 1 : 0.75; break;
+			case "0" : m = l ? 1.5 : 1; break;
+			case "-1" : m = l ? 3 : 2; break;
+			case "-2" : m = l ? 6 : 4; break;
+			case "-4" : m = l ? 12 : 8; break;
+			case "-8" : m = l ? 24 : 16; break;
+		}
+		if (i < 1) i = 1;
+		i += toInt(v["load-mod"]);
+		hvy = i <= 29 ? loadBase[i] : loadBase[("2" + i.toString().slice(-1))] * (Math.floor((i - 20) / 10) * 4);
+		med = Math.floor(hvy *2 / 3);
+		lgt = Math.floor(med / 2);
+		if (true) {
+			hvy = poundsToKilos(hvy);
+			med = poundsToKilos(med);
+			lgt = poundsToKilos(lgt);
+		}
+		if (n == 0) s = "min";
+		else if (n <= lgt) s = "lgt";
+		else if (n <= med) s = "med";
+		else if (n <= hvy) s = "hvy";
+		else s = "max";
+		let u = {};
+		let q = loadPenalties;
+		u["load-tot-str"] = getTranslation(`load-${s}-subt`);
+		u["load-tot"] = s;
+		u["load-lgt"] = lgt;
+		u["load-med"] = med;
+		u["load-hvy"] = hvy;
+		u["load-lift"] = hvy;
+		u["load-drag"] = hvy * 2;
+		u["load-dex-str"] = signInt(q[s].dex);
+		u["load-dex"] = Number.isInteger(q[s].dex) ? q[s].dex : 99;
+		u["load-pen"] = q[s].pen;
+		u["load-spd-str"] = toStr(toFlt(v["mvt-land-base"]) * q[s].spd, 1, true) + " m" || "";
+		u["load-spd"] = q[s].spd;
+		u["load-run-str"] = (Number.isInteger(q[s].run) ? "×" : "") + q[s].run;
+		u["load-run"] = Number.isInteger(q[s].run) ? q[s].run : 10;
+		u["load-size"] = "×" + toStr(m);
+		setAttrs(u);
+	});
+};
+
+on("change:char-size change:char-legs change:str change:char-wgt-tot change:load-mod", updateLoad);
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Items
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+const moveItem = function(s, k) { // s = section name, k = item id
+	let a = [`${k}_name`, `${k}_type`, `${k}_qty`, `${k}_slot`, `${k}_bag`, `${k}_loc`, `${k}_hard`, `${k}_hp`, `${k}_wgt`, `${k}_cost`];
+	getAttrs(a, (v) => {
+		let u = {};
+		let n = generateRowID();
+		u[`repeating_${s}_${n}_name`] = v[`${k}_name`];
+		u[`repeating_${s}_${n}_type`] = v[`${k}_type`];
+		u[`repeating_${s}_${n}_qty`] = v[`${k}_qty`];
+		u[`repeating_${s}_${n}_slot`] = v[`${k}_slot`];
+		u[`repeating_${s}_${n}_bag`] = v[`${k}_bag`];
+		u[`repeating_${s}_${n}_loc`] = v[`${k}_loc`];
+		u[`repeating_${s}_${n}_hard`] = v[`${k}_hard`];
+		u[`repeating_${s}_${n}_hp`] = v[`${k}_hp`];
+		u[`repeating_${s}_${n}_wgt`] = v[`${k}_wgt`];
+		u[`repeating_${s}_${n}_cost`] = v[`${k}_cost`];
+		removeRepeatingRow(`${k}`);
+		setAttrs(u, {"silent" : true}, () => {
+			updateEachWeight(s);
+			updateEachWeight(k.split("_")[1]);
+		});
+	});
+};
+
+on("clicked:repeating_eqp:mag clicked:repeating_eqp:itm clicked:repeating_eqp:tra clicked:repeating_eqp:sta clicked:repeating_mag:eqp clicked:repeating_mag:itm clicked:repeating_mag:tra clicked:repeating_mag:sta clicked:repeating_itm:eqp clicked:repeating_itm:mag clicked:repeating_itm:tra clicked:repeating_itm:sta clicked:repeating_tra:eqp clicked:repeating_tra:mag clicked:repeating_tra:itm clicked:repeating_tra:sta clicked:repeating_sta:eqp clicked:repeating_sta:mag clicked:repeating_sta:itm clicked:repeating_sta:tra", (e) => {
+	let r = e.sourceAttribute.split("_");
+	moveItem(r[3], r[0] + "_" + r[1] + "_" + r[2]);
+});
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Wealth
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+const wealthGems = ["agate", "azurite", "cat-s-eye", "hematite", "lapis-lazuli", "malachite", "obsidian", "pearl-irregular", "quartz-blue", "rhodochrosite", "tiger-eye", "turquoise", "bloodstone", "carnelian", "chalcedony", "chrysoprase", "citrine", "iolite", "jasper", "moonstone", "onyx", "peridot", "quartz", "rock-crystal", "sardonyx", "zircon", "amber", "amethyst", "chrysoberyl", "coral", "garnet", "jade", "jet", "pearl", "spinel", "tourmaline", "alexandrite", "aquamarine", "garnet-violet", "pearl-black", "spinel-deep-blue", "topaz", "corundum", "emerald", "opal", "ruby", "sapphire", "diamond", "emerald-flawless", "jacinth"];
+const wealthArtObjects = ["silver-ewer", "ivory-statuette", "gold-bracelet", "gold-cloth", "velvet-mask", "silver-chalic", "wool-tapestry", "brass-mug", "silver-comb", "silver-longsword", "carved-harp", "gold-idol", "gold-comb", "gold-bottle", "electrum-dagger", "sapphire-eyepatch", "opal-pendant", "masterpiece-painting", "embroidered-mantle", "sapphire-pendant", "embroidered-glove", "jeweled-anklet", "gold-music-box", "gold-circlet", "pearl-necklace", "gold-crown", "electrum-ring", "gold-ring", "gold-cup-set"];
+
+on("change:repeating_gem:name change:repeating_art:name", function(e) {
+	let src = e.sourceAttribute.split("_");
+	let q = src[1];
+	let a;
+	switch(q) {
+		case "gem" : a = wealthGems; break;
+		case "art" : a = wealthArtObjects; break;
+	}
+	let k = e.newValue;
+	if (a.includes(k)) {
+		let u = {};
+		let p = `repeating_${q}_${src[2]}_`;
+		u[p + "name"] = getTranslation(`${q}_${k}`);
+		setAttrs(u, {"silent" : true});
+	}
+});
+
+// =============================================================================
+// -----------------------------------------------------------------------------
 // # Weights
 // -----------------------------------------------------------------------------
 // =============================================================================
 
 // All Weights
 const updateEachWeight = function(k) { // k = section key
-	repeatingCalculateTotal(k, "qty", "wgt", k + "-wgt-tot", 1, null, function() {}, true);
+	repeatingCalculateTotal(k, "qty", "wgt", k + "-wgt-tot", 1, null, function() {}, false);
 };
 
 const weightSections = {
 	"weapons" : ["wpn"],
 	"equipment" : ["eqp", "mag", "itm"],
-	"wealth" : ["gem", "val"]
+	"wealth" : ["gem", "art"]
 };
 
 const weightTriggers = function() {
@@ -584,9 +879,9 @@ on(weightTriggers(), function(e) {
 const updateMoneyWeights = function() {
 	TAS.repeating("mny")
 		.attr("mny-wgt-tot")
-		.field(["ad", "mi", "pp", "gp", "sp", "cp", "loc", "wgt"])
+		.field(["pp", "gp", "sp", "cp", "loc", "wgt"])
 		.reduce(function(m, r) {
-			let n = r["loc"] == "–" ? (r.I["ad"] + r.I["mi"] + r.I["pp"] + r.I["gp"] + r.I["sp"] + r.I["cp"]) / 100 : 0;
+			let n = r["loc"] == "" ? (r.I["pp"] + r.I["gp"] + r.I["sp"] + r.I["cp"]) / 100 : 0;
 			r["wgt"] = toStr(n, 1);
 			return m + n;
 		}, null, function(m, r, a) {
@@ -595,40 +890,7 @@ const updateMoneyWeights = function() {
 		.execute();
 };
 
-on("change:repeating_mny:ad change:repeating_mny:mi change:repeating_mny:pp change:repeating_mny:gp change:repeating_mny:sp change:repeating_mny:cp change:repeating_mny:loc remove:repeating_mny", updateMoneyWeights);
-
-// =============================================================================
-// -----------------------------------------------------------------------------
-// # Items
-// -----------------------------------------------------------------------------
-// =============================================================================
-
-const moveItem = function(s, k) { // s = section name, k = item id
-	let a = [`${k}_name`, `${k}_type`, `${k}_qty`, `${k}_slot`, `${k}_loc`, `${k}_hard`, `${k}_hp`, `${k}_wgt`, `${k}_cost`];
-	getAttrs(a, (v) => {
-		let u = {};
-		let n = generateRowID();
-		u[`repeating_${s}_${n}_name`] = v[`${k}_name`];
-		u[`repeating_${s}_${n}_type`] = v[`${k}_type`];
-		u[`repeating_${s}_${n}_qty`] = v[`${k}_qty`];
-		u[`repeating_${s}_${n}_slot`] = v[`${k}_slot`];
-		u[`repeating_${s}_${n}_loc`] = v[`${k}_loc`];
-		u[`repeating_${s}_${n}_hard`] = v[`${k}_hard`];
-		u[`repeating_${s}_${n}_hp`] = v[`${k}_hp`];
-		u[`repeating_${s}_${n}_wgt`] = v[`${k}_wgt`];
-		u[`repeating_${s}_${n}_cost`] = v[`${k}_cost`];
-		removeRepeatingRow(`${k}`);
-		setAttrs(u, {"silent" : true}, () => {
-			updateEachWeight(s);
-			updateEachWeight(k.split("_")[1]);
-		});
-	});
-};
-
-on("clicked:repeating_eqp:mag clicked:repeating_eqp:itm clicked:repeating_eqp:tra clicked:repeating_eqp:sta clicked:repeating_mag:eqp clicked:repeating_mag:itm clicked:repeating_mag:tra clicked:repeating_mag:sta clicked:repeating_itm:eqp clicked:repeating_itm:mag clicked:repeating_itm:tra clicked:repeating_itm:sta clicked:repeating_tra:eqp clicked:repeating_tra:mag clicked:repeating_tra:itm clicked:repeating_tra:sta clicked:repeating_sta:eqp clicked:repeating_sta:mag clicked:repeating_sta:itm clicked:repeating_sta:tra", (e) => {
-	let r = e.sourceAttribute.split("_");
-	moveItem(r[3], r[0] + "_" + r[1] + "_" + r[2]);
-});
+on("change:repeating_mny:pp change:repeating_mny:gp change:repeating_mny:sp change:repeating_mny:cp change:repeating_mny:loc remove:repeating_mny", updateMoneyWeights);
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -638,9 +900,10 @@ on("clicked:repeating_eqp:mag clicked:repeating_eqp:itm clicked:repeating_eqp:tr
 
 const subsection = {
 	"character" : ["languages", "physical", "psychical", "relational"],
+	"class" : ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"],
 	"spell" : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
 	"equipment" : ["worn", "magical", "usable", "travel", "stash"],
-	"wealth" : ["money", "gems", "valuables"]
+	"wealth" : ["money", "gems", "art"]
 };
 
 const getSubsectionsListener = function() {
@@ -668,7 +931,7 @@ on(getSubsectionsListener(), function(e) {
 
 // Roll Modifier
 on("change:ask-mod", function(e) {
-	let s = e.newValue == "1" ? "?{" + getTranslationByKey("modifier") + "|0}" : "0";
+	let s = e.newValue == "1" ? "?{" + getTranslationByKey("ui_modifier") + "|0}" : "0";
 	setAttrs({"r-mod" : s});
 });
 
@@ -680,7 +943,7 @@ on("change:ask-gm", function(e) {
 
 // Roll Modifier
 on("change:ask-mod", function(e) {
-	let s = e.newValue == "1" ? "?{" + getTranslationByKey("modifier") + "|0}" : "0";
+	let s = e.newValue == "1" ? "?{" + getTranslationByKey("ui_modifier") + "|0}" : "0";
 	setAttrs({"r-mod" : s});
 });
 
@@ -690,11 +953,31 @@ on("change:show-name", function(e) {
 	setAttrs({"roll-name": v}, {"silent": true});
 });
 
+// Use d23
+on("change:use-d23", function(e) {
+	let u = {};
+	if (e.newValue == "1") {
+		u["roll-die"] = "23";
+		u["roll-cf-ope"] = ">";
+		u["roll-cf-val"] = "22";
+		u["roll-nil"] = "22";
+	} else {
+		u["roll-die"] = "20";
+		u["roll-cf-ope"] = "<";
+		u["roll-cf-val"] = "1";
+		u["roll-nil"] = "100";
+	}
+	setAttrs(u);
+});
+
 // =============================================================================
 // -----------------------------------------------------------------------------
 // # Constants
 // -----------------------------------------------------------------------------
 // =============================================================================
+
+// Races
+const races = ["none", "human", "halfelf", "halforc", "elf", "gnome", "halfling", "dwarf"];
 
 // Languages
 const languages = ["abyssal", "aquan", "auran", "celestial", "common", "draconic", "druidic", "dwarven", "elven", "giant", "gnome", "goblin", "gnoll", "halfling", "ignan", "infernal", "orc", "sylvan", "terran", "undercommon"];
@@ -714,6 +997,9 @@ const classes = {
 	"warlock" : {"hd" : "d6", "fort" : null, "refl" : null, "will" : true, "sk" : 2, "bab" : 0.75},
 	"wizard" : {"hd" : "d4", "fort" : null, "refl" : null, "will" : true, "sk" : 2, "bab" : 0.5}
 };
+
+// Movement
+const movement = ["30ft", "20ft"];
 
 // Weapons
 const weaponCategory = ["simple", "martial", "exotic"];
@@ -743,7 +1029,7 @@ const weapons = {
 		"type" : 1,
 		"range" : 10,
 		"crit-min" : 19,
-		"dmg-type" : "p-s",
+		"dmg-type" : "ps",
 		"dmg-die" : "d4",
 		"wgt" : 1,
 		"cost" : 2
@@ -802,7 +1088,7 @@ const weapons = {
 	"morningstar" : {
 		"cat" : 1,
 		"type" : 2,
-		"dmg-type" : "b-p",
+		"dmg-type" : "bp",
 		"dmg-die" : "d8",
 		"wgt" : 6,
 		"cost" : 8
@@ -1148,7 +1434,7 @@ const weapons = {
 		"cat" : 2,
 		"type" : 3,
 		"crit-mult" : 3,
-		"dmg-type" : "p-s",
+		"dmg-type" : "ps",
 		"dmg-die" : "d10",
 		"wgt" : 12,
 		"cost" : 10
@@ -1178,7 +1464,7 @@ const weapons = {
 		"cat" : 2,
 		"type" : 3,
 		"crit-mult" : 4,
-		"dmg-type" : "p-s",
+		"dmg-type" : "ps",
 		"dmg-num" : 2,
 		"dmg-die" : "d4",
 		"wgt" : 10,
@@ -1333,7 +1619,7 @@ const weapons = {
 		"cat" : 3,
 		"type" : 3,
 		"crit-mult" : 3,
-		"dmg-type" : "b-p",
+		"dmg-type" : "bp",
 		"dmg-die" : "d8",
 		"wgt" : 6,
 		"cost" : 20,
@@ -1635,44 +1921,45 @@ const shields = {
 
 // Modifiers
 const conditions = {
-	"ability_damaged" : {"name" : "Affaibli de façon temporaire"},
-	"ability_drained" : {"name" : "Affaibli de façon temporaire"},
-	"blinded" : {"name" : "Aveuglé", "ac" : -2},
-	"blown_away" : {"name" : "Emporté par le vent"},
-	"checked" : {"name" : "Stoppé"},
-	"confused" : {"name" : "Confus"},
-	"cowering" : {"name" : "Recroquevillé sur soi-même", "ac" : -2},
-	"dazed" : {"name" : "Hébété"},
-	"dazzled" : {"name" : "Ébloui", "melee-atk" : -1, "range-atk" : -1},
-	"dead" : {"name" : "Mort"},
-	"deafened" : {"name" : "Assourdi"},
-	"disabled" : {"name" : "Hors de combat"},
-	"dying" : {"name" : "Mourant"},
-	"energy_drained" : {"name" : "Vidé de son énergie"},
-	"entangled" : {"name" : "Enchevêtré", "melee-atk" : -2, "range-atk" : -2},
-	"exhausted" : {"name" : "Épuisé"},
-	"fascinated" : {"name" : "Fasciné"},
-	"fatigued" : {"name" : "Fatigué"},
-	"flat-footed" : {"name" : "Pris au dépourvu"},
-	"frightened" : {"name" : "Effrayé", "ac" : -2},
-	"grappling" : {"name" : "Agrippé", "melee-atk" : -4},
-	"helpless" : {"name" : "Sans défense"},
-	"incorporeal" : {"name" : "Intangible"},
-	"invisible" : {"name" : "Invisible", "melee-atk" : 2},
-	"knocked_down" : {"name" : "Renversé"},
-	"nauseated" : {"name" : "Nauséeux"},
-	"panicked" : {"name" : "Paniqué"},
-	"paralyzed" : {"name" : "Paralysé"},
-	"petrified" : {"name" : "Pétrifié"},
-	"pinned" : {"name" : "Immobilisé (en situation de lutte)"},
-	"prone" : {"name" : "À terre", "melee-atk" : -4, "ac" : -4},
-	"shaken" : {"name" : "Secoué", "melee-atk" : -2, "range-atk" : -2},
-	"sickened" : {"name" : "Fiévreux", "melee-atk" : -2, "range-atk" : -2},
-	"stable" : {"name" : "Stable"},
-	"staggered" : {"name" : "Chancelant"},
-	"stunned" : {"name" : "Étourdi", "ac" : -2},
-	"turned" : {"name" : "Renvoyé (ou repoussé)"},
-	"unconscious" : {"name" : "Inconscient"}
+	"none" : {"melee-atk" : 0, "range-atk" : 0, "melee-dmg" : 0, "range-dmg" : 0, "ac" : 0},
+	"ability-damaged" : {},
+	"ability-drained" : {},
+	"blinded" : {"ac" : -2},
+	"blown-away" : {},
+	"checked" : {},
+	"confused" : {},
+	"cowering" : {"ac" : -2},
+	"dazed" : {},
+	"dazzled" : {"melee-atk" : -1, "range-atk" : -1},
+	"dead" : {},
+	"deafened" : {},
+	"disabled" : {},
+	"dying" : {},
+	"energy-drained" : {},
+	"entangled" : {"melee-atk" : -2, "range-atk" : -2},
+	"exhausted" : {},
+	"fascinated" : {},
+	"fatigued" : {},
+	"flat-footed" : {},
+	"frightened" : {"ac" : -2},
+	"grappling" : {"melee-atk" : -4},
+	"helpless" : {},
+	"incorporeal" : {},
+	"invisible" : {"melee-atk" : 2},
+	"knocked_down" : {},
+	"nauseated" : {},
+	"panicked" : {},
+	"paralyzed" : {},
+	"petrified" : {},
+	"pinned" : {},
+	"prone" : {"melee-atk" : -4, "ac" : -4},
+	"shaken" : {"melee-atk" : -2, "range-atk" : -2},
+	"sickened" : {"melee-atk" : -2, "range-atk" : -2},
+	"stable" : {},
+	"staggered" : {},
+	"stunned" : {"ac" : -2},
+	"turned" : {},
+	"unconscious" : {}
 };
 
 // =============================================================================
