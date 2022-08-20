@@ -50,6 +50,12 @@ module.exports = function(grunt) {
 				dest: "dnd-3-5-deli.html",
 				nonull: true
 			}
+		},
+		copy: {
+			main: {
+				src: "src/0-styles.css",
+				dest: "dnd-3-5-deli.css"
+			}
 		}
 	});
 
@@ -57,8 +63,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-htmlmin");
 	grunt.loadNpmTasks("grunt-replace");
 	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks("grunt-copy");
 
 	// Default tasks
-	grunt.registerTask("default", ["htmlmin", "replace", "concat"]);
+	grunt.registerTask("default", ["htmlmin", "replace", "concat", "copy"]);
 
 };

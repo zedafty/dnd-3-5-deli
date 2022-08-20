@@ -22,8 +22,10 @@ function roundMeter(n, m) { // n = number (src), m = number (base) ; returns num
 	return r * m;
 }
 
-function feetToMeter(n) { // n = number ; returns number
-	return roundMeter(n / 5 * 1.5);
+function feetToMeter(n, b) { // n = number, b = dot to colon ; returns string
+	n = Math.max(roundMeter(n / 5 * 1.5), 1.5).toFixed(1).replace(".0", "");
+	if (b) n = n.replace(".", ",");
+	return n;
 }
 
 function poundsToKilos(n) { // n = number ; returns number
@@ -62,42 +64,55 @@ function getTranslation(s) { // s = string ; returns string
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-// # Repeating Sections
-// -----------------------------------------------------------------------------
-// =============================================================================
-
-const repeatingCalculateTotal = function(sec, qty, val, tot, dec, mult, func, silent) {
-	TAS.repeating(sec, silent)
-		.attr(tot)
-		.field([val, qty])
-		.reduce(function(m, r) {
-			let n = r[val];
-			if (mult) {
-				n *= mult;
-				r[val] = n;
-			}
-			return m + n * r[qty];
-		}, null, function(m, r, a) {
-			a[tot] = toStr(m, dec);
-		})
-		.after(func)
-		.execute();
-};
-
-// =============================================================================
-// -----------------------------------------------------------------------------
 // # Races
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-// Autofill Race
+// Races
+const races = {
+	"none" : {},
+	"human" : {"size" : "m", "spd" : 30, "key" : "hu", "attr" : ["feat", "sk", "cls-fav"]},
+	"halfelf" : {"size" : "m", "spd" : 30, "key" : "he", "attr" : ["immunity", "save", "vision", "sk1", "sk2", "blood", "cls-fav"]},
+	"halforc" : {"size" : "m", "spd" : 30, "key" : "ho", "attr" : ["abi", "vision", "blood", "cls-fav"]},
+	"elf" : {"size" : "m", "spd" : 30, "key" : "el", "attr" : ["abi", "immunity", "save", "vision", "wpn", "sk", "detect", "cls-fav"]},
+	"dwarf" : {"size" : "m", "spd" : 20, "key" : "dw", "attr" : ["abi", "vision", "stone", "wpn", "stab", "save1", "save2", "atk", "def", "sk1", "sk2", "cls-fav"]},
+	"gnome" : {"size" : "s", "spd" : 20, "key" : "gn", "attr" : ["abi", "vision", "wpn", "save", "spl-dc", "atk", "def", "sk1", "sk2", "spl-like", "cls-fav"]},
+	"halfling" : {"size" : "s", "spd" : 20, "key" : "ha", "attr" : ["abi", "save1", "save2", "atk", "sk1", "sk2", "cls-fav"]}
+};
+
+// Autofill Races
 const autofillRace = function(e) { // e = event
-	let k = e.newValue;
-	if (races.includes(k)) {
-		let u = {};
-		u[`char-race`] = getTranslation(`race-${k}`) || k;
-		setAttrs(u, {"silent" : true});
-	}
+	getAttrs(["race-autofill"], v => {
+		let a = Object.keys(races);
+		let k = e.newValue;
+		let y = e.previousValue;
+		if (a.includes(k)) {
+			if (y != undefined) k = "none";
+			let u = {};
+			let i, o, p, b;
+			u["char-race"] = k == "none" ? "" : (getTranslation(`race-${k}`) || k);
+			if (v["race-autofill"] == "1") {
+				u["char-size"] = races[k].size || "m";
+				u["mvt-land-base"] = races[k].spd ? feetToMeter(races[k].spd, true) + " m" : "";
+				u["mvt-swim"] = races[k].spd ? feetToMeter(races[k].spd / 4, true) + " m" : "";
+				if (k == "none") {
+					for (i = 0; i < a.length; i++) {
+						if (a[i] == "none") continue;
+						p = races[a[i]].key;
+						b = races[a[i]].attr;
+						u[`show-race-${a[i]}`] = "0";
+						for (o in b) u[`${p}-${b[o]}`] = "0";
+					}
+				} else {
+					p = races[k].key;
+					b = races[k].attr;
+					u[`show-race-${k}`] = "1";
+					for (o in b) u[`${p}-${b[o]}`] = "1";
+				}
+			}
+			setAttrs(u);
+		}
+	});
 };
 
 on("change:char-race", function(e) {
@@ -106,11 +121,44 @@ on("change:char-race", function(e) {
 
 // =============================================================================
 // -----------------------------------------------------------------------------
+// # Size
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+const getCharacterSizeModifier = function(k, g, h) { // k = size cat, g = grapple, h = hide
+	let m = h ? -1 : 1;
+	switch (k) {
+		case "f" : return g || h ? -16 * m : 8;
+		case "d" : return g || h ? -12 * m : 4;
+		case "t" : return g || h ? -8 * m : 2;
+		case "s" : return g || h ? -4 * m : 1;
+		case "l" : return g || h ? 4 * m : -1;
+		case "h" : return g || h ? 8 * m : -2;
+		case "g" : return g || h ? 12 * m : -4;
+		case "c" : return g || h ? 16 * m : -8;
+	}
+	return 0;
+};
+
+const setCharacterSize = function(k) { // k = size cat
+	let u = {};
+	u["char-size-mod"] = getCharacterSizeModifier(k);
+	u["char-size-grapple"] = getCharacterSizeModifier(k, true);
+	u["char-size-hide"] = getCharacterSizeModifier(k, null, true);
+	setAttrs(u);
+};
+
+on("change:char-size", function(e) {
+	setCharacterSize(e.newValue);
+});
+
+// =============================================================================
+// -----------------------------------------------------------------------------
 // # Languages
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-// Autofill Language
+// Autofill Languages
 const autofillLanguage = function(e) { // e = event
 	let k = e.newValue;
 	let id = e.sourceAttribute.substr(16, 19);
@@ -133,7 +181,7 @@ on("change:repeating_lang:name", function(e) {
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-// Autofill Class
+// Autofill Classes
 const autofillClass = function(e, k, b, g) { // e = event, k = class key, b = empty flag, g = lvl flag
 	let s = e.sourceAttribute.substr(0, 5);
 	getAttrs(["cls-autofill", s + "key", s + "lvl"], v => {
@@ -225,7 +273,8 @@ const autofillMovement = function(e) { // e = event
 	let k = e.newValue;
 	if (movement.includes(k)) {
 		let u = {};
-		u[`mvt-land-base`] = getTranslation(`mvt-${k}-val`) || k;
+		u["mvt-land-base"] = getTranslation(`mvt-${k}-val`) || k;
+		u["mvt-swim"] = feetToMeter(toFlt(u["mvt-land-base"]) / 4, true) + " m";
 		setAttrs(u, {"silent" : true}, function() {
 			updateArmorSpeed();
 			updateLoadSpeed();
@@ -251,6 +300,103 @@ const setMaximumDexterity = function() {
 };
 
 on("change:arm-worn change:arm-dex change:load-dex", setMaximumDexterity);
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Racial Abilities
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+// Racial Abilities
+const racialAbilities = {
+	"ho" : {"str" : 2, "int" : -2, "cha" : -2},
+	"el" : {"dex" : 2, "con" : -2},
+	"dw" : {"con" : 2, "cha" : -2},
+	"gn" : {"str" : -2, "con" : 2},
+	"ha" : {"str" : -2, "dex" : 2}
+};
+
+const setRacialAbilities = function(k, m, y) { // k = race key, m = new value, y = old value
+	let o = racialAbilities[k];
+	let a = Object.keys(o);
+	getAttrs(a.map(k => `${k}-race`), v => {
+		let u = {};
+		a.forEach(k => {
+			u[`${k}-race`] = toInt(v[`${k}-race`]) + (o[k] * (m == "1" ? 1 : y == "1" ? -1 : 0));
+		});
+		setAttrs(u);
+	});
+};
+
+on("change:ho-abi change:el-abi change:dw-abi change:gn-abi change:ha-abi", function(e) {
+	setRacialAbilities(e.sourceAttribute.split("-")[0], e.newValue, e.previousValue);
+});
+
+// Racial Saves
+const setRacialSaves = function(a, n, m, y) { // k = skill key array, n = number, m = new value, y = old value
+	getAttrs(a.map(k => `${k}-race`), v => {
+		let u = {};
+		a.forEach(k => {
+			u[`${k}-race`] = toInt(v[`${k}-race`]) + (n * (m == "1" ? 1 : y == "1" ? -1 : 0));
+		});
+		setAttrs(u);
+	});
+};
+
+on("change:ha-save1", function(e) {
+	setRacialSaves(["fort", "refl", "will"], 1, e.newValue, e.previousValue);
+});
+
+// Racial Skills
+const setRacialSkill = function(a, n, m, y) { // k = skill key array, n = number, m = new value, y = old value
+	getAttrs(a.map(k => `sk-${k}-race`), v => {
+		let u = {};
+		a.forEach(k => {
+			u[`sk-${k}-race`] = toInt(v[`sk-${k}-race`]) + (n * (m == "1" ? 1 : y == "1" ? -1 : 0));
+		});
+		setAttrs(u);
+	});
+};
+
+on("change:he-sk1", function(e) {
+	setRacialSkill(["listen", "search", "spot"], 1, e.newValue, e.previousValue);
+});
+
+on("change:he-sk2", function(e) {
+	setRacialSkill(["diplomacy", "gatherinformation"], 2, e.newValue, e.previousValue);
+});
+
+on("change:el-sk", function(e) {
+	setRacialSkill(["listen", "search", "spot"], 2, e.newValue, e.previousValue);
+});
+
+on("change:gn-sk1", function(e) {
+	setRacialSkill(["listen"], 2, e.newValue, e.previousValue);
+});
+on("change:gn-sk2", function(e) {
+	setRacialSkill(["craftalchemy"], 2, e.newValue, e.previousValue);
+});
+
+on("change:ha-sk1", function(e) {
+	setRacialSkill(["climb", "jump", "movesilently"], 2, e.newValue, e.previousValue);
+});
+
+on("change:ha-sk2", function(e) {
+	setRacialSkill(["listen"], 2, e.newValue, e.previousValue);
+});
+
+// Visions
+on("change:he-vision change:el-vision change:gn-vision", function(e) {
+	setAttrs({"vis-low" : e.newValue});
+});
+
+on("change:ho-vision change:dw-vision", function(e) {
+	let u = {};
+	let n = e.newValue;
+	u["vis-dark"] = n;
+	u["vis-dark-range"] = n == "1" ? getTranslation("stat-vis-dark-range-pl") : "";
+	setAttrs(u);
+});
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -414,7 +560,7 @@ on(getSpellListener("change:repeating_$0:cls-num"), function(e) {
 	});
 });
 
-// Autofill Spell
+// Autofill Spells
 const spellLevel = ["brd", "clr", "drd", "rgr", "pal", "sor-wiz", "brd-sor-wiz", "sor-wiz-clr", "brd-clr-sor-wiz", "brd-clr-drd-sor-wiz"];
 
 on(getSpellListener("change:repeating_$0:level"), function(e) {
@@ -515,7 +661,7 @@ on("change:repeating_wpn:melee", function(e) {
 	setAttrs(u, {"silent" : true});
 });
 
-// Autofill Weapon
+// Autofill Weapons
 const autofillWeapon = function(e) { // e = event
 	let k = e.newValue;
 	let a = weapons;
@@ -734,15 +880,15 @@ const updateLoad = function() {
 		let m = 1;
 		let l = toInt(v["char-legs"]) > 3;
 		switch(v["char-size"]) {
-			case "8" : m = l ? 0.25 : 0.125; break;
-			case "4" : m = l ? 0.5 : 0.25; break;
-			case "2" : m = l ? 0.75 : 0.5; break;
-			case "1" : m = l ? 1 : 0.75; break;
-			case "0" : m = l ? 1.5 : 1; break;
-			case "-1" : m = l ? 3 : 2; break;
-			case "-2" : m = l ? 6 : 4; break;
-			case "-4" : m = l ? 12 : 8; break;
-			case "-8" : m = l ? 24 : 16; break;
+			case "f" : m = l ? 0.25 : 0.125; break;
+			case "d" : m = l ? 0.5 : 0.25; break;
+			case "t" : m = l ? 0.75 : 0.5; break;
+			case "s" : m = l ? 1 : 0.75; break;
+			case "m" : m = l ? 1.5 : 1; break;
+			case "l" : m = l ? 3 : 2; break;
+			case "h" : m = l ? 6 : 4; break;
+			case "g" : m = l ? 12 : 8; break;
+			case "c" : m = l ? 24 : 16; break;
 		}
 		if (i < 1) i = 1;
 		i += toInt(v["load-mod"]);
@@ -805,8 +951,8 @@ const moveItem = function(s, k) { // s = section name, k = item id
 		u[`repeating_${s}_${n}_cost`] = v[`${k}_cost`];
 		removeRepeatingRow(`${k}`);
 		setAttrs(u, {"silent" : true}, () => {
-			updateEachWeight(s);
-			updateEachWeight(k.split("_")[1]);
+			updateWeight(s);
+			updateWeight(k.split("_")[1]);
 		});
 	});
 };
@@ -849,8 +995,21 @@ on("change:repeating_gem:name change:repeating_art:name", function(e) {
 // =============================================================================
 
 // All Weights
-const updateEachWeight = function(k) { // k = section key
-	repeatingCalculateTotal(k, "qty", "wgt", k + "-wgt-tot", 1, null, function() {}, false);
+const updateWeight = function(k, b, x) { // k = section key, b = update with loc, x = weight mutiplier
+	TAS.repeating(k)
+		.attr(k + "-wgt-tot")
+		.field(["wgt", "qty", "loc"])
+		.reduce(function(m, r) {
+			let n = !b || b && r["loc"] == "" ? r["wgt"] : 0;
+			if (x) {
+				n *= x;
+				r["wgt"] = n;
+			}
+			return m + n * r["qty"];
+		}, null, function(m, r, a) {
+			a[k + "-wgt-tot"] = toStr(m, 1);
+		})
+		.execute();
 };
 
 const weightSections = {
@@ -859,20 +1018,23 @@ const weightSections = {
 	"wealth" : ["gem", "art"]
 };
 
-const weightTriggers = function() {
+const weightListeners = function() {
 	let o = weightSections;
 	let k;
 	let s = "";
 	for (k in o) {
 		o[k].forEach(v => {
 			s += `change:repeating_${v}:qty change:repeating_${v}:wgt remove:repeating_${v} `;
+			if (k == "wealth") s += `change:repeating_${v}:loc `;
 		});
 	}
 	return s;
 };
 
-on(weightTriggers(), function(e) {
-	updateEachWeight(e.sourceAttribute.split("_")[1]);
+on(weightListeners(), function(e) {
+	let k = e.sourceAttribute.split("_")[1];
+	let b = weightSections.wealth.includes(k) ? true : false;
+	updateWeight(k, b);
 });
 
 // Money Weight
@@ -900,6 +1062,7 @@ on("change:repeating_mny:pp change:repeating_mny:gp change:repeating_mny:sp chan
 
 const subsection = {
 	"character" : ["languages", "physical", "psychical", "relational"],
+	"race" : ["human", "halfelf", "halforc", "elf", "dwarf", "gnome", "halfling"],
 	"class" : ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"],
 	"spell" : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
 	"equipment" : ["worn", "magical", "usable", "travel", "stash"],
@@ -919,7 +1082,7 @@ const getSubsectionsListener = function() {
 
 on(getSubsectionsListener(), function(e) {
 	let u = {};
-	u[`tab-show-${e.triggerName.substr(13)}`] = "0";
+	u[`show-${e.triggerName.substr(13)}`] = "0";
 	setAttrs(u, {"silent" : true});
 });
 
@@ -972,12 +1135,21 @@ on("change:use-d23", function(e) {
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-// # Constants
+// # Translatioins
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-// Races
-const races = ["none", "human", "halfelf", "halforc", "elf", "gnome", "halfling", "dwarf"];
+on("sheet:opened", function() {
+	let u = {};
+	u["sk-craftalchemy-name"] = getTranslationByKey("sk_craftalchemy");
+	setAttrs(u);
+});
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Constants
+// -----------------------------------------------------------------------------
+// =============================================================================
 
 // Languages
 const languages = ["abyssal", "aquan", "auran", "celestial", "common", "draconic", "druidic", "dwarven", "elven", "giant", "gnome", "goblin", "gnoll", "halfling", "ignan", "infernal", "orc", "sylvan", "terran", "undercommon"];
