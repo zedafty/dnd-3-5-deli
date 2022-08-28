@@ -62,6 +62,15 @@ function getTranslation(s) { // s = string ; returns string
 	return getTranslationByKey(s.replaceAll("-", "_"));
 }
 
+function testPositiveSum(s) { // s = string ; returns boolean
+	let reg = /^[\+]?\d+\s*([\+]\s*\d+)?\s*([\+]\s*\d+)?\s*([\+]\s*\d+)?\s*([\+]\s*\d+)?\s*([\+]\s*\d+)?$/i;
+	return reg.test(s);
+}
+
+function parsePositiveSum(s) { // s = string ; returns integer
+	return testPositiveSum(s) ? eval(s) : 0;
+}
+
 // =============================================================================
 // -----------------------------------------------------------------------------
 // # Races
@@ -117,6 +126,40 @@ const autofillRace = function(e) { // e = event
 
 on("change:char-race", function(e) {
 	autofillRace(e);
+});
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Karma
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+/**
+	This section is a user request.
+	Select a token binded to a sheet,
+	Then type one of the below command:
+	— %{selected|karma-show} >>>> Notice GM of a character karma number.
+	— %{selected|karma-toggle} >>>> Hide/Show karma number to the player.
+	— %{selected|karma-increase} >>>> Add 1 point to karma number.
+	— %{selected|karma-decrease} >>>> Substract 1 point to karma number (min 0).
+*/
+
+const setKarma = function(n) { // n = number to add/substract
+	getAttrs(["char-karma"], v => {
+		setAttrs({"char-karma" : Math.max(n + toInt(v["char-karma"]), 0)}, {"silent" : true});
+	});
+};
+
+on("clicked:karma-toggle", function() {
+	getAttrs(["show-karma"], v => {
+		setAttrs({"show-karma" : toInt(v["show-karma"]) == 0 ? 1 : 0}, {"silent" : true});
+	});
+});
+on("clicked:karma-increase", function() {
+	setKarma(1);
+});
+on("clicked:karma-decrease", function() {
+	setKarma(-1);
 });
 
 // =============================================================================
@@ -181,19 +224,74 @@ on("change:repeating_lang:name", function(e) {
 // -----------------------------------------------------------------------------
 // =============================================================================
 
+const getCharacterLevel = function(v, b) { // v = attribute list, b = ajusted flag
+	let n = toInt(v["cls1-lvl"]) + toInt(v["cls2-lvl"]) + toInt(v["cls3-lvl"]) + toInt(v["cls4-lvl"]) + toInt(v["race-lvl"]);
+	if (b) n += toInt(v["lvl-adj"]);
+	return n;
+};
+
+const getClassSkillsReset = function() { // returns object
+	let u = {};
+	let v, l = skills;
+	let n, m, i;
+	let b = ["craftalchemy", "craft", "profession"];
+	for (v in l) {
+		n = b.includes(l[v]) ? 1 : 0;
+		m = l[v] == "profession" ? 2 : l[v] == "craft" || l[v] == "perform" ? 3 : l[v] == "other" ? 6 : 0;
+		if (m > 0) {
+			for (i = 1; i <= m; i++) u[`sk-${l[v]}${i}-cls`] = n;
+		} else {
+			u[`sk-${l[v]}-cls`] = n;
+		}
+	}
+	return u;
+};
+
+const getClassSkillsUpdate = function(k) { // k = class key ; returns object
+	let u = {};
+	let a = classes;
+	let v, l = a[k]["sk-cls"];
+	for (v in l) {
+		if (l[v] == "knowledgeall") {
+			u["sk-knowledgearcana"] = 1;
+			u["sk-knowledgearchitecture-cls"] = 1;
+			u["sk-knowledgedungeon-cls"] = 1;
+			u["sk-knowledgegeography-cls"] = 1;
+			u["sk-knowledgehistory-cls"] = 1;
+			u["sk-knowledgelocal-cls"] = 1;
+			u["sk-knowledgenature-cls"] = 1;
+			u["sk-knowledgenobility-cls"] = 1;
+			u["sk-knowledgereligion-cls"] = 1;
+			u["sk-knowledgeplanes-cls"] = 1;
+		} else if (l[v] == "perform") {
+			u["sk-perform1-cls"] = 1;
+			u["sk-perform2-cls"] = 1;
+			u["sk-perform3-cls"] = 1;
+		} else {
+			u[`sk-${l[v]}-cls`] = 1;
+		}
+	}
+	return u;
+};
+
 // Autofill Classes
-const autofillClass = function(e, k, b, g) { // e = event, k = class key, b = empty flag, g = lvl flag
+const autofillClass = function(e, b) { // e = event, b = lvl flag
+	let k = e.newValue;
 	let s = e.sourceAttribute.substr(0, 5);
-	getAttrs(["cls-autofill", s + "key", s + "lvl"], v => {
-		let o = v["cls-autofill"] == "1";
+	getAttrs(["cls-autofill", "cls1-key", "cls2-key", "cls3-key", "cls4-key", s + "lvl"], v => {
+		let autofill = v["cls-autofill"] == "1";
 		let u = {};
 		let a = classes;
-		if (g) k = v[s + "key"];
+		if (b) k = v[s + "key"];
 		if (Object.keys(a).includes(k)) {
-				u[s + "name"] = getTranslation(`cls-${k}`) || k;
-				u[s + "key"] = k;
-				if (o) {
+				if (!b) {
+					u[s + "name"] = getTranslation(`cls-${k}`) || k;
+					u[s + "key"] = k;
+				}
+				if (autofill) {
 					let lvl = toInt(v[s + "lvl"]) || 0;
+					u[s + "cast"] = a[k].cast ? 1 : 0;
+					u[s + "cast"] = a[k].cast ? 1 : 0;
 					u[s + "hd"] = a[k].hd;
 					u[s + "fort"] = a[k].fort ? Math.floor(2 + lvl / 2) : Math.floor(lvl / 3);
 					u[s + "refl"] = a[k].refl ? Math.floor(2 + lvl / 2) : Math.floor(lvl / 3);
@@ -201,34 +299,62 @@ const autofillClass = function(e, k, b, g) { // e = event, k = class key, b = em
 					u[s + "sk"] = a[k].sk;
 					u[s + "bab"] = Math.floor(lvl * a[k].bab);
 					if (lvl == 0) u[s + "lvl"] = 1;
+					u = Object.assign(u, getClassSkillsUpdate(k));
 				}
 				setAttrs(u);
 		} else {
-			u[s + "key"] = "";
-			if (o && e.newValue === "none") {
-				u[s + "name"] = "";
-				u[s + "fav"] = 0;
-				u[s + "cast"] = 0;
-				u[s + "prest"] = 0;
-				u[s + "hd"] = "null";
-				u[s + "lvl"] = 0;
-				u[s + "fort"] = 0;
-				u[s + "refl"] = 0;
-				u[s + "will"] = 0;
-				u[s + "sk"] = 0;
-				u[s + "bab"] = 0;
-			} setAttrs(u);
+			if (e.newValue === "none") {
+				u[s + "key"] = "";
+				if (autofill) {
+					u[s + "name"] = "";
+					u[s + "fav"] = 0;
+					u[s + "cast"] = 0;
+					u[s + "prest"] = 0;
+					u[s + "hd"] = "null";
+					u[s + "lvl"] = 0;
+					u[s + "fort"] = 0;
+					u[s + "refl"] = 0;
+					u[s + "will"] = 0;
+					u[s + "sks"] = 0;
+					u[s + "bab"] = 0;
+					u = Object.assign(u, getClassSkillsReset());
+					let i;
+					let n = parseInt(s.substr(3,1));
+					for (i = 1; i <= 4; i++) {
+						if (i == n) continue;
+						if (Object.keys(a).includes(v[`cls${i}-key`])) {
+							u = Object.assign(u, getClassSkillsUpdate(v[`cls${i}-key`]));
+						}
+					}
+				}
+				setAttrs(u);
+			}
 		}
 	});
 };
 
 on("change:cls1-lvl change:cls2-lvl change:cls3-lvl change:cls4-lvl", function(e) {
-	autofillClass(e, null, null, true);
+	autofillClass(e, true);
 });
 
 on("change:cls1-name change:cls2-name change:cls3-name change:cls4-name", function(e) {
-	autofillClass(e, e.newValue, e.previousValue == e.newValue);
+	autofillClass(e);
 });
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Abilities
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+// Constitution
+const getConstitution = function(v) { // v = attribute list
+	return toInt(v["con-base"]) + toInt(v["con-dmg"]) + toInt(v["con-race"]) + toInt(v["con-item"]) + toInt(v["con-misc"]) + toInt(v["con-temp"]) + toInt(v["brb-rage"]) - toInt(v["char-aging"]);
+};
+
+const getConstitutionModifier = function(v, l) { // v = attribute list, l = character level
+	return (Math.floor((getConstitution(v))/2)-5) * l;
+};
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -237,12 +363,26 @@ on("change:cls1-name change:cls2-name change:cls3-name change:cls4-name", functi
 // =============================================================================
 
 // Hit points
+const getHitPointsMax = function(v, m) { // v = attribute list, m = constitution modifier
+	let n = parsePositiveSum(v["hp-roll1"]) + parsePositiveSum(v["hp-roll2"]) + parsePositiveSum(v["hp-roll3"]) + parsePositiveSum(v["hp-roll4"]) + toInt(v["hp-feat"]) + toInt(v["hp-item"]);
+	return n + m;
+};
+
 on("change:hp", function(e) {
 	let n = e.newValue;
 	let r = new RegExp;
-	let reg = /^(\d+)\s*([\+\-]?)?\s*(\d+)?\s*([\+\-]?)?\s*(\d+)?\s*([\+\-]?)?\s*(\d+)?\s*([\+\-]?)?\s*(\d+)?$/i;
+	let reg = /^[\+\-]?\d+\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?$/i;
 	n = reg.test(n) ? eval(n) : e.previousValue;
 	setAttrs({"hp" : n}, {"silent" : true});
+});
+
+on("change:hp-roll1 change:hp-roll2 change:hp-roll3 change:hp-roll4", function(e) {
+	let s = e.newValue;
+	if (!testPositiveSum(s)) {
+		let u = {};
+		u[e.sourceAttribute] = 0;
+		setAttrs(u);
+	}
 });
 
 // Movement
@@ -300,6 +440,84 @@ const setMaximumDexterity = function() {
 };
 
 on("change:arm-worn change:arm-dex change:load-dex", setMaximumDexterity);
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Skills
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+// Synergies
+const skillSynergies = {
+	"bluff" : [
+		"diplomacy",
+		"disguise-cond",
+		"sleightofhand"
+	],
+	"craft1" : ["appraise-cond"],
+	"craft2" : ["appraise-cond"],
+	"craft3" : ["appraise-cond"],
+	"craftalchemy" : ["appraise-cond"],
+	"decipher" : ["usemagicdevice-cond"],
+	"escapeartist" : ["userope-cond"],
+	"userope" : [
+		"climb-cond",
+		"escapeartist-cond"
+	],
+	"handleanimal" : [
+		// "animalempathy", // Ranger ability -- TODO
+		"ride"
+	],
+	"jump" : ["tumble"],
+	"knowledgearcana" : ["spellcraft"],
+	"knowledgearchitecture" : ["search-cond"],
+	"knowledgedungeon" : ["survival2-cond"],
+	"knowledgegeography" : ["survival3-cond"],
+	// "knowledgehistory" : ["bardicknowledge"], // Bard ability -- TODO
+	"knowledgelocal" : ["gatherinformation"],
+	"knowledgenature" : ["survival4-cond"],
+	"knowledgenobility" : ["diplomacy"],
+	"knowledgeplanes" : ["survival5-cond"],
+	// "knowledgereligion" : [turnundead], // Cleric ability -- TODO
+	"search" : ["survival1-cond"],
+	"sensemotive" : ["intimidate"],
+	"spellcraft" : ["usemagicdevice-cond"],
+	"survival" : ["knowledgenature"],
+	"tumble" : ["jump", "balance"],
+	"usemagicdevice" : ["spellcraft-cond"]
+};
+
+const checkSkillSynergy = function(k) { // k = skill key
+	getAttrs([`sk-${k}-rank`, "sk-decipher-rank", "sk-spellcraft-rank", "sk-craft1-rank", "sk-craft2-rank", "sk-craft3-rank", "sk-craftalchemy-rank", "sk-bluff-rank", "sk-knowledgenobility-rank"], v => {
+		let c = ["craft1", "craft2", "craft3", "craftalchemy"];
+		let u = {};
+		let q, i, a = skillSynergies;
+		let b = toInt(v[`sk-${k}-rank`]) >= 5;
+		let n = b ? 2 : 0;
+		if ((k == "bluff" && toInt(v["sk-knowledgenobility-rank"]) >= 5) || (k == "knowledgenobility" && toInt(v["sk-bluff-rank"]) >= 5)) n += 2;
+		if (c.includes(k)) for (q in c) if (v[`sk-${c[q]}-rank`] >= 5) b = true;
+		if (k == "decipher" || k == "spellcraft") {
+			let c1 = toInt(v["sk-decipher-rank"]) >= 5;
+			let c2 = toInt(v["sk-spellcraft-rank"]) >= 5;
+			u["sk-usemagicdevice-cond-syn"] = c1 && c2 ? getTranslation("sk-usemagicdevice-cond-syn2") : c1 || c2 ? getTranslation("sk-usemagicdevice-cond-syn1") : "";
+		} else {
+			for (i = 0; i < a[k].length; i++) {
+				if (a[k][i].endsWith("-cond")) {
+					u[`sk-${a[k][i]}-syn`] = b ? getTranslation(`sk-${a[k][i]}-syn`) : "";
+				} else {
+					u[`sk-${a[k][i]}-syn`] = n;
+				}
+			}
+		}
+		setAttrs(u);
+	});
+};
+
+Object.keys(skillSynergies).forEach(k => {
+	on(`change:sk-${k}-rank`, function(e) {
+			checkSkillSynergy(k);
+	});
+});
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -657,7 +875,7 @@ on("change:bab", function() {
 // Melee Weapon
 on("change:repeating_wpn:melee", function(e) {
 	let u = {};
-	u[`repeating_wpn_${e.sourceAttribute.split("_")[2]}_abi-atk`] = e.newValue == "1" ? "@{str-mod}" : "@{dex-max}";
+	u[`repeating_wpn_${e.sourceAttribute.split("_")[2]}_abi-atk`] = e.newValue == "1" ? "@{str-mod}" : "@{dex-mod}";
 	setAttrs(u, {"silent" : true});
 });
 
@@ -679,7 +897,7 @@ const autofillWeapon = function(e) { // e = event
 			u[`repeating_wpn${id}_type`] = a[k].type || "";
 			u[`repeating_wpn${id}_hand`] = (t == 3 ? 2 : a[k].hand) || "";
 			u[`repeating_wpn${id}_range`] = a[k].range ? feetToMeter(a[k].range) + " m" : "";
-			u[`repeating_wpn${id}_abi-atk`] = r ? "@{dex-max}" : "@{str-mod}";
+			u[`repeating_wpn${id}_abi-atk`] = r ? "@{dex-mod}" : "@{str-mod}";
 			u[`repeating_wpn${id}_crit-max`] = c;
 			u[`repeating_wpn${id}_crit-min`] = v["roll-die"] != "20" ? 21 - (20 - c) : c;
 			u[`repeating_wpn${id}_crit-mult`] = a[k]["crit-mult"] || 2;
@@ -740,7 +958,7 @@ const autofillArmor = function(e) { // e = event
 		u["arm-name"] = getTranslation(`arm-${k}`);
 		u["arm-type"] = armorType[a[k].type] || "nil";
 		u["arm-bon"] = a[k].bon || 0;
-		u["arm-pen"] = a[k].pen || 0;
+		u["arm-pen"] = a[k].pen * -1 || 0;
 		u["arm-spl"] = a[k].spl || 0;
 		u["arm-dex"] = a[k].dex || 99;
 		u["arm-wgt"] = poundsToKilos(a[k].wgt) || 0;
@@ -768,7 +986,7 @@ const autofillShield = function(e) { // e = event
 		u["shd-eqp"] = b ? "0" : "1";
 		u["shd-name"] = getTranslation(`shd-${k}`);
 		u["shd-bon"] = a[k].bon || 0;
-		u["shd-pen"] = a[k].pen || 0;
+		u["shd-pen"] = a[k].pen * -1 || 0;
 		u["shd-spl"] = a[k].spl || 0;
 		u["shd-wgt"] = poundsToKilos(a[k].wgt) || 0;
 		u["shd-cost"] = a[k].cost || 0;
@@ -1070,14 +1288,27 @@ const subsection = {
 };
 
 const getSubsectionsListener = function() {
-	let l = subsection;
-	let s = "";
+	let k, l = subsection, s = "";
 	for (k in l) {
 		l[k].forEach(v => {
 			s += `clicked:hide-${k}-${v} `;
 		});
 	}
 	return s;
+};
+
+const switchAllSubsections = function(q) { // q = value (1 for shown, 0 for hidden)
+	let k, l = subsection, a = [];
+	for (k in l) {
+		l[k].forEach(v => {
+			a.push(`show-${k}-${v}`);
+		});
+	}
+	let u = {};
+	a.forEach(v => {
+		u[v] = q;
+	});
+	setAttrs(u, {"silent" : true});
 };
 
 on(getSubsectionsListener(), function(e) {
@@ -1089,6 +1320,40 @@ on(getSubsectionsListener(), function(e) {
 // =============================================================================
 // -----------------------------------------------------------------------------
 // # Options
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+const options = ["feat", "trick", "spl-0", "spl-1", "spl-2", "spl-3", "spl-4", "spl-5", "spl-6", "spl-7", "spl-8", "spl-9", "wpn", "eqp", "mag", "itm", "tra", "sta"];
+
+const switchOptions = function(k, v) { // k = repeating section key, v = value (1 for shown, 0 for hidden)
+	TAS.repeating(k, true)
+		.field("show-options")
+		.each(function(r) {
+			r["show-options"] = v;
+		})
+		.execute();
+};
+
+const switchAllOptions = function(v) { // v = value (1 for shown, 0 for hidden)
+	let i, a = options, b = ["show-ac", "show-hp"], u = {};
+	for (i = 0; i < a.length ; i++) switchOptions(a[i], v);
+	for (i = 0; i < b.length ; i++) u[b[i]] = v;
+	setAttrs(u);
+};
+
+on("clicked:hide-all-options", function() {
+	switchAllOptions(0);
+	switchAllSubsections(0);
+});
+
+on("clicked:show-all-options", function() {
+	switchAllOptions(1);
+	switchAllSubsections(1);
+});
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Toggles
 // -----------------------------------------------------------------------------
 // =============================================================================
 
@@ -1109,6 +1374,12 @@ on("change:ask-mod", function(e) {
 	let s = e.newValue == "1" ? "?{" + getTranslationByKey("ui_modifier") + "|0}" : "0";
 	setAttrs({"r-mod" : s});
 });
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Settings
+// -----------------------------------------------------------------------------
+// =============================================================================
 
 // Show Name
 on("change:show-name", function(e) {
@@ -1133,9 +1404,53 @@ on("change:use-d23", function(e) {
 	setAttrs(u);
 });
 
+// Rest
+const rest = function() {
+	console.info("-- Rest character (8 hours) --"); // DEBUG
+	let a = ["str-dmg", "dex-dmg", "con-dmg", "int-dmg", "wis-dmg", "cha-dmg"], i;
+	let b = ["cls1-lvl", "cls2-lvl", "cls3-lvl", "cls4-lvl", "race-lvl"];
+	let c = ["con", "hp-roll1", "hp-roll2", "hp-roll3", "hp-roll4", "hp-feat", "hp-item"];
+	let d = ["con-base", "con-dmg", "con-race", "con-item", "con-misc", "con-temp", "brb-rage", "char-aging"];
+	getAttrs([...a, ...b, ...c, ...d, "hp", "nld"], v => {
+		let u = {};
+		let hp = toInt(v["hp"]);
+		let nld = toInt(v["nld"]);
+		let lvl = getCharacterLevel(v);
+		let mod = getConstitutionModifier(v, lvl);
+		let hpm = getHitPointsMax(v, mod);
+		for(i = 0; i < a.length; i++) u[a[i]] = Math.min(toInt(v[a[i]]) + 1, 0);
+		u["hp"] = Math.min(hp + lvl, hpm);
+		u["nld"] = Math.max(nld - (lvl * 8), 0);
+		setAttrs(u);
+	});
+};
+
+on("clicked:rest", rest);
+
+// Clear
+const clear = function() {
+	console.info("-- Clear temporary values --"); // DEBUG
+	let i, a = ["str-temp", "dex-temp", "con-temp", "int-temp", "wis-temp", "cha-temp", "fort-temp", "refl-temp", "will-temp", "hp-temp", "sk-temp"];
+	let u = {};
+	for (i = 0; i < a.length; i++) u[a[i]] = 0;
+	setAttrs(u);
+};
+
+on("clicked:clear", clear);
+
+// Recalc
+const recalc = function() {
+	console.info("-- Recalculate --"); // DEBUG
+	Object.keys(skillSynergies).forEach(k => { // Skill synergies
+		checkSkillSynergy(k);
+	});
+};
+
+on("clicked:recalc", recalc);
+
 // =============================================================================
 // -----------------------------------------------------------------------------
-// # Translatioins
+// # Translations
 // -----------------------------------------------------------------------------
 // =============================================================================
 
@@ -1156,22 +1471,30 @@ const languages = ["abyssal", "aquan", "auran", "celestial", "common", "draconic
 
 // Classes
 const classes = {
-	"barbarian" : {"hd" : "d12", "fort" : true, "refl" : null, "will" : null, "sk" : 4, "bab" : 1},
-	"bard" : {"hd" : "d6", "fort" : null, "refl" : true, "will" : true, "sk" : 6, "bab" : 0.75},
-	"cleric" : {"hd" : "d8", "fort" : true, "refl" : null, "will" : true, "sk" : 2, "bab" : 0.75},
-	"druid" : {"hd" : "d8", "fort" : true, "refl" : null, "will" : true, "sk" : 4, "bab" : 0.75},
-	"fighter" : {"hd" : "d10", "fort" : true, "refl" : null, "will" : null, "sk" : 2, "bab" : 1},
-	"monk" : {"hd" : "d8", "fort" : true, "refl" : true, "will" : true, "sk" : 4, "bab" : 0.75},
-	"paladin" : {"hd" : "d10", "fort" : true, "refl" : null, "will" : null, "sk" : 2, "bab" : 1},
-	"ranger" : {"hd" : "d8", "fort" : true, "refl" : true, "will" : null, "sk" : 6, "bab" : 1},
-	"rogue" : {"hd" : "d6", "fort" : null, "refl" : true, "will" : null, "sk" : 8, "bab" : 0.75},
-	"sorcerer" : {"hd" : "d4", "fort" : null, "refl" : null, "will" : true, "sk" : 2, "bab" : 0.5},
-	"warlock" : {"hd" : "d6", "fort" : null, "refl" : null, "will" : true, "sk" : 2, "bab" : 0.75},
-	"wizard" : {"hd" : "d4", "fort" : null, "refl" : null, "will" : true, "sk" : 2, "bab" : 0.5}
+	"barbarian" : {"hd" : "d12", "fort" : true, "sk" : 4, "bab" : 1, "sk-cls" : ["climb", "handleanimal", "intimidate", "jump", "listen", "ride", "survival", "swim"]},
+	"bard" : {"cast" : true, "hd" : "d6", "refl" : true, "will" : true, "sk" : 6, "bab" : 0.75, "sk-cls" : ["appraise", "balance", "bluff", "climb", "concentration", "decipher", "diplomacy", "disabledevice", "disguise", "escapeartist", "gatherinformation", "hide", "jump", "knowledgeall", "speaklanguage", "listen", "movesilently", "perform", "sensemotive", "sleightofhand", "spellcraft", "swim", "tumble", "usemagicdevice"]},
+	"cleric" : {"cast" : true, "hd" : "d8", "fort" : true, "will" : true, "sk" : 2, "bab" : 0.75, "sk-cls" : ["concentration", "heal", "knowledgearcana", "knowledgehistory", "knowledgeplanes", "knowledgereligion", "spellcraft"]},
+	"druid" : {"cast" : true, "hd" : "d8", "fort" : true, "will" : true, "sk" : 4, "bab" : 0.75, "sk-cls" : ["concentration", "diplomacy", "handleanimal", "heal", "knowledgenature", "listen", "ride", "spellcraft", "spot", "survival", "swim"]},
+	"fighter" : {"hd" : "d10", "fort" : true, "sk" : 2, "bab" : 1, "sk-cls" : ["climb", "handleanimal", "intimidate", "jump", "ride", "swim"]},
+	"monk" : {"hd" : "d8", "fort" : true, "refl" : true, "will" : true, "sk" : 4, "bab" : 0.75, "sk-cls" : ["balance", "climb", "concentration", "diplomacy", "escapeartist", "hide", "jump", "knowledgearcana", "knowledgereligion", "listen", "movesilently", "perform", "sensemotive", "spot", "swim", "tumble"]},
+	"paladin" : {"cast" : true, "hd" : "d10", "fort" : true, "sk" : 2, "bab" : 1, "sk-cls" : ["concentration", "diplomacy", "handleanimal", "heal", "knowledgenobility", "knowledgereligion", "ride", "sensemotive"]},
+	"ranger" : {"cast" : true, "hd" : "d8", "fort" : true, "refl" : true, "sk" : 6, "bab" : 1, "sk-cls" : ["climb", "concentration", "handleanimal", "heal", "hide", "jump", "knowledgedungeon", "knowledgegeography", "knowledgenature", "listen", "movesilently", "search", "spot", "survival", "swim", "userope"]},
+	"rogue" : {"hd" : "d6", "refl" : true, "sk" : 8, "bab" : 0.75, "sk-cls" : ["appraise", "balance", "bluff", "climb", "decipher", "diplomacy", "disabledevice", "disguise", "escapeartist", "forgery", "gatherinformation", "hide", "intimidate", "jump", "knowledgelocal", "listen", "movesilently", "openlock", "perform", "search", "sensemotive", "sleightofhand", "spot", "swim", "tumble", "usemagicdevice", "userope"]},
+	"sorcerer" : {"cast" : true, "hd" : "d4", "will" : true, "sk" : 2, "bab" : 0.5, "sk-cls" : ["bluff", "concentration", "knowledgearcana", "spellcraft"]},
+	"warlock" : {"cast" : true, "hd" : "d6", "will" : true, "sk" : 2, "bab" : 0.75, "sk-cls" : ["bluff", "concentration", "disguise", "intimidate", "jump", "knowledgearcana", "knowledgeplanes", "knowledgereligion", "sensemotive", "spellcraft", "usemagicdevice"]},
+	"wizard" : {"cast" : true, "hd" : "d4", "will" : true, "sk" : 2, "bab" : 0.5, "sk-cls" : ["concentration", "decipher", "knowledgeall", "spellcraft"]},
+	"adept" : {"cast" : true, "hd" : "d6", "will" : true, "sk" : 2, "bab" : 0.75, "sk-cls" : ["concentration", "handleanimal", "heal", "knowledgeall", "spellcraft", "survival"]},
+	"aristocrat" : {"hd" : "d8", "will" : true, "sk" : 4, "bab" : 0.75, "sk-cls" : ["appraise", "bluff", "diplomacy", "disguise", "forgery", "gatherinformation", "handleanimal", "intimidate", "knowledgeall", "speaklanguage", "listen", "perform", "ride", "sensemotive", "spot", "survival", "swim"]},
+	"commoner" : {"hd" : "d4", "sk" : 2, "bab" : 0.75, "sk-cls" : ["climb", "handleanimal", "jump", "listen", "ride", "spot", "swim", "userope"]},
+	"expert" : {"hd" : "d6", "will" : true, "sk" : 6, "bab" : 0.75, "sk-cls" : []},
+	"warrior" : {"hd" : "d8", "fort" : true, "sk" : 2, "bab" : 1, "sk-cls" : ["climb", "handleanimal", "intimidate", "jump", "ride", "swim", "tumble"]}
 };
 
 // Movement
 const movement = ["30ft", "20ft"];
+
+// Skills
+const skills = ["athletism", "appraise", "balance", "bluff", "climb", "concentration", "craftalchemy", "craft", "decipher", "diplomacy", "disabledevice", "disguise", "escapeartist", "forgery", "gatherinformation", "handleanimal", "heal", "hide", "intimidate", "jump", "knowledgearcana", "knowledgearchitecture", "knowledgedungeon", "knowledgegeography", "knowledgehistory", "knowledgelocal", "knowledgenature", "knowledgenobility", "knowledgereligion", "knowledgeplanes", "listen", "movesilently", "openlock", "perform", "profession", "ride", "search", "sensemotive", "sleightofhand", "speaklanguage", "spellcraft", "spot", "survival", "swim", "tumble", "usemagicdevice", "userope", "other"];
 
 // Weapons
 const weaponCategory = ["simple", "martial", "exotic"];
