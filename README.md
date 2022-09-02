@@ -1,8 +1,11 @@
   ## D&D 3.5 Deli Character Sheet
 
   Original by Capitaine Red (1.5 FR, Gabmilot project)
+
   Refactoring by Zedafty (Deli project)
+
   Managing by Panda
+
   Version 1.6.6 Beta
 
   Uses [TheAaronSheet](https://github.com/shdwjk/TheAaronSheet) 0.2.5
@@ -31,7 +34,6 @@
 
   ### File System
 
-  * doc -> documents (txt)
   * img -> images (jpg, png)
   * rel -> releases (zip)
   * src -> scripts (html, js, json)
