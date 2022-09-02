@@ -1563,7 +1563,7 @@ on("change:int change:wis change:cha", updatePsychicalTotal);
 
 // Hit Points
 const updateHitPointsAliases = function(e) { // e = event
-	let s = e.sourceAttribute;
+	let s = e !== undefined ? e.sourceAttribute : "";
 	getAttrs([...attrs.Char.Lvl, ...attrs.Abi.Con, ...attrs.Stat.Hp, "brb-rage", "char-aging"], v => {
 		let u = {};
 		let hp;
@@ -2218,7 +2218,6 @@ const intializeAttributes = function(f) { // f = function
 		"sk-diplomacy-misc" : 0,
 		"sk-diplomacy-race" : 0,
 		"sk-diplomacy-rank" : 0,
-		"tab-show" : 1,
 		"sk-diplomacy-syn" : 0,
 		"sk-disabledevice-misc" : 0,
 		"sk-disabledevice-race" : 0,
@@ -2411,6 +2410,12 @@ const intializeAttributes = function(f) { // f = function
 		"spl-focus-necromancy" : 0,
 		"spl-focus-transmutation" : 0,
 		"sr" : 0,
+		"state-dead" : 0,
+		"state-disabled" : 0,
+		"state-dying" : 0,
+		"state-enc-hvy" : 0,
+		"state-enc-med" : 0,
+		"state-unconscious" : 0,
 		"str-base" : 10,
 		"str-bck" : 10,
 		"str-dmg" : 0,
@@ -2418,6 +2423,7 @@ const intializeAttributes = function(f) { // f = function
 		"str-misc" : 0,
 		"str-race" : 0,
 		"str-temp" : 0,
+		"tab-show" : 1,
 		"use-d23" : 1,
 		"version" : version,
 		"vis-dark" : 0,
