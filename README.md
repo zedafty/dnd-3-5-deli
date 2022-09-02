@@ -3,7 +3,7 @@
   Original by Capitaine Red (1.5 FR, Gabmilot project)
   Refactoring by Zedafty (Deli project)
   Managing by Panda
-  Version 1.6.5 Beta
+  Version 1.6.6 Beta
 
   Uses [TheAaronSheet](https://github.com/shdwjk/TheAaronSheet) 0.2.5
 
@@ -17,7 +17,7 @@
 
   ### Latest
 
-  * 1.6.5
+  * 1.6.6
 
   ### Features
 

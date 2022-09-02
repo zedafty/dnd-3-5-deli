@@ -212,19 +212,19 @@
 	"char_physical_name" : "Nom",
 	"char_physical_name_pl" : "Nom du trait physique",
 	"char_physical_desc" : "Description",
-	"char_physical_desc_pl" : "Description du trait physique",
+	"char_physical_desc_pl" : "Description du trait physique …",
 
 	// Character Psychical
 	"char_psychical_name" : "Nom",
 	"char_psychical_name_pl" : "Nom du trait psychique",
 	"char_psychical_desc" : "Description",
-	"char_psychical_desc_pl" : "Description du trait psychique",
+	"char_psychical_desc_pl" : "Description du trait psychique …",
 
 	// Character Relational
 	"char_relational_name" : "Nom",
 	"char_relational_name_pl" : "Nom de la relation",
 	"char_relational_desc" : "Description",
-	"char_relational_desc_pl" : "Description de la relation",
+	"char_relational_desc_pl" : "Description de la relation …",
 
 	// Character Experience
 	"char_xp_mod" : "Modificateur d’expérience",
@@ -348,11 +348,13 @@
 	"cls_will_tot" : "Bonus total aux jets de Volonté",
 	"cls_bab_tot" : "Bonus de base à l’attaque total",
 	// English
-	//"classes_list" : "none,barbarian,bard,cleric,druid,fighter,monk,paladin,ranger,rogue,sorcerer,warlock,wizard,adept,aristocrat,commoner,expert,warrior",
+	//"char_cls_list" : "fav,cast,prest,class,lvl,hd,fort,refl,will,sk_pts,bab,adj",
 	// French
-	"classes_list" : "none,barbarian,bard,druid,sorcerer,fighter,wizard,monk,paladin,cleric,ranger,rogue,warlock,adept,expert,warrior,aristocrat,commoner",
+	"char_cls_list" : "fav,cast,prest,class,lvl,hd,refl,fort,will,sk_pts,bab,adj",
 
 	// Abilities
+	"abi_physical" : "Physique",
+	"abi_psychical" : "Psychique",
 	"abi_str_abbr" : "For",
 	"abi_str" : "Force",
 	"abi_str_chk" : "Test de Force",
@@ -425,6 +427,8 @@
 	"abi_cha_misc" : "Modificateur divers à la valeur de Charisme",
 	"abi_cha_temp" : "Modificateur temporaire à la valeur de Charisme",
 	"abi_cha_bck" : "Valeur de Charisme sauvegardée",
+	"abi_phy_tot_tt" : "Valeurs de caractéristiques physiques cumulées – @{_CumulPhysique}",
+	"abi_psy_tot_tt" : "Valeurs de caractéristiques psychiques cumulées – @{_CumulPsychique}",
 
 	// Saves
 	"save_fort_abbr" : "Vig",
@@ -460,12 +464,16 @@
 	"save_will_misc" : "Modificateur de Volonté divers",
 	"save_will_temp" : "Modificateur de Volonté temporaire",
 	"save_will_bck" : "Valeur de Volonté sauvegardée",
+	// English
+	//"saves_list" : "header,fort,refl,will",
+	// French
+	"saves_list" : "header,refl,fort,will",
 
 	// Statistics
 	"stat_hp_abbr" : "PV",
 	"stat_hp" : "Points de vie",
-	"stat_hp_cur" : "Points de vie actuels",
-	"stat_hp_max" : "Points de vie maximum",
+	"stat_hp_cur" : "Points de vie actuels — @{_PointsDeVie}",
+	"stat_hp_max" : "Points de vie maximum — @{_PointsDeVie|max}",
 	"stat_hp_temp" : "Points de vie temporaires",
 	"stat_nld_abbr" : "DNL",
 	"stat_nld" : "Dégâts non létaux",
@@ -495,12 +503,13 @@
 	"stat_init_tot" : "Initiative totale",
 	"stat_ac_abbr" : "CA",
 	"stat_ac" : "Classe d’armure",
+	"stat_ac_tt" : "Classe d’armure totale – @{_CaTotale}",
 	"stat_ac_tot" : "Classe d’armure totale",
 	"stat_ac_normal" : "Normal",
 	"stat_ac_touch" : "Contact",
-	"stat_ac_touch_tt" : "Classe d’armure de contact",
+	"stat_ac_touch_tt" : "Classe d’armure de contact – @{_CaContact}",
 	"stat_ac_flat" : "Dépourvu",
-	"stat_ac_flat_tt" : "Classe d’armure pris au dépourvu",
+	"stat_ac_flat_tt" : "Classe d’armure pris au dépourvu – @{_CaDepourvu}",
 	"stat_ac_arm" : "Armure",
 	"stat_ac_arm_tt" : "Bonus d’armure",
 	"stat_ac_shd" : "Bouclier",
@@ -671,10 +680,11 @@
 	"feat_cat" : "Catégorie",
 	"feat_cat_tt" : "Catégorie du don",
 	"feat_cat_general" : "Général",
-	"feat_cat_fighter" : "Guerrier",
+	"feat_cat_combat" : "Combat",
 	"feat_cat_metamagic" : "Métamagie",
 	"feat_cat_itemcreation" : "Création d’objets",
 	"feat_cat_monstrous" : "Monstrueux",
+	"feat_cat_psionic" : "Psionique",
 	"feat_cat_epic" : "Épique",
 	"feat_lvl" : "Niveau",
 	"feat_lvl_tt" : "Niveau de personnage d’acquisition du don",
@@ -712,7 +722,7 @@
 
 	// Racial Abilities
 	"race_abi_name_pl" : "Nom de la capacité raciale",
-	"race_abi_desc_pl" : "Description de la capacité raciale",
+	"race_abi_desc_pl" : "Description de la capacité raciale …",
 	"race_list": "show-human,span-human,show-halfelf,span-halfelf,show-halforc,span-halforc,show-elf,span-elf,show-dwarf,span-dwarf,show-gnome,span-gnome,show-halfling,span-halfling,human,halfelf,halforc,elf,dwarf,gnome,halfling",
 	"race_abi_name" : "Nom",
 	"race_abi_desc" : "Description",
@@ -836,12 +846,8 @@
 	"ha_cls_fav_desc" : "La classe de roublard d’un halfelin multiclassé n’est pas prise en compte quand on détermine s’il subit ou non un malus de points d’expérience.",
 
 	// Class Abilities
-	// English List
-	// "cls_list": "show-barbarian,span-barbarian,show-bard,span-bard,show-cleric,span-cleric,show-druid,span-druid,show-fighter,span-fighter,show-monk,span-monk,show-paladin,span-paladin,show-ranger,span-ranger,show-rogue,span-rogue,show-sorcerer,span-sorcerer,show-warlock,span-warlock,show-wizard,span-wizard,barbarian,bard,cleric,druid,fighter,monk,paladin,ranger,rogue,sorcerer,warlock,wizard",
-	// French List
-	"cls_list": "show-barbarian,span-barbarian,show-bard,span-bard,show-druid,span-druid,show-sorcerer,span-sorcerer,show-fighter,span-fighter,show-wizard,span-wizard,show-monk,span-monk,show-paladin,span-paladin,show-cleric,span-cleric,show-ranger,span-ranger,show-rogue,span-rogue,show-warlock,span-warlock,barbarian,bard,druid,sorcerer,fighter,wizard,monk,paladin,cleric,ranger,rogue,warlock",
 	"cls_abi_name" : "Nom",
-
+	"cls_abi_name_pl" : "Nom de la capacité de classe",
 	"cls_abi_type" : "Type",
 	"cls_abi_type_tt" : "Type de capacité spéciale",
 	"cls_abi_type_sp" : "(Mag)",
@@ -852,12 +858,20 @@
 	"cls_abi_type_su_tt" : "Surnaturelle",
 	"cls_abi_type_ex_tt" : "Extraordinaire",
 	"cls_abi_type_na_tt" : "Naturelle",
-	
-	
-	
+	"cls_abi_use" : "Usage",
+	"cls_abi_use_pl" : "Permanent, 1×/jour, etc.",
+	"cls_abi_lvl" : "Niveau",
+	"cls_abi_lvl_tt" : "Niveau de personnage d’acquisition de la capacité de classe",
+	"cls_abi_acquired" : "Acquis",
+	"cls_abi_acquired_tt" : "Acquisition de la capacité (décocher si la capacité n’a pas encore été obtenue)",
 	"cls_abi_desc" : "Description",
-	"cls_abi_name_pl" : "Nom de la capacité de classe",
-	"cls_abi_desc_pl" : "Description de la capacité de classe",
+	"cls_abi_desc_pl" : "Description de la capacité de classe …",
+	"cls_abi_src" : "Source",
+	"cls_abi_src_pl" : "Manuel des Joueurs v.3.5 p. …",
+	// English List
+	// "cls_list": "show-barbarian,span-barbarian,show-bard,span-bard,show-cleric,span-cleric,show-druid,span-druid,show-fighter,span-fighter,show-monk,span-monk,show-paladin,span-paladin,show-ranger,span-ranger,show-rogue,span-rogue,show-sorcerer,span-sorcerer,show-warlock,span-warlock,show-wizard,span-wizard,barbarian,bard,cleric,druid,fighter,monk,paladin,ranger,rogue,sorcerer,warlock,wizard",
+	// French List
+	"cls_list": "show-barbarian,span-barbarian,show-bard,span-bard,show-druid,span-druid,show-sorcerer,span-sorcerer,show-fighter,span-fighter,show-wizard,span-wizard,show-monk,span-monk,show-paladin,span-paladin,show-cleric,span-cleric,show-ranger,span-ranger,show-rogue,span-rogue,show-warlock,span-warlock,barbarian,bard,druid,sorcerer,fighter,wizard,monk,paladin,cleric,ranger,rogue,warlock",
 
 	// Turn Undead
 	"turn_abbr" : "Renvoi",
@@ -1032,6 +1046,7 @@
 	"wpn_atk2" : "Deux attaques",
 	"wpn_atk3" : "Trois attaques",
 	"wpn_atk4" : "Quatre attaques",
+	"wpn_dmg_roll" : "Jet de dégâts",
 	"wpn_name_ph" : "Nom de l’arme",
 	"wpn_melee" : "Arme de mêlée",
 	"wpn_melee_tt" : "Arme de corps à corps (décocher pour une arme à distance)",
@@ -1088,6 +1103,9 @@
 	"arm_dex_max" : "Bonus de Dextérité maximum",
 	"arm_dex_max_tt" : "Dextérité modifié par le port de l’armure",
 	"arm_worn" : "Armure portée",
+	"arm_worn_tt" : "Armure sur soi ou dans un contenant (affecte le poids transporté)",
+	"arm_eqp" : "Armure équipée",
+	"arm_eqp_tt" : "Armure enfilée et prête à servir (affecte la Classe d’armure)",
 	"arm_name_tt" : "Nom de l’armure",
 	"arm_name_ph" : "Cotte de mailles, etc.",
 	"arm_type" : "Type",
@@ -1110,7 +1128,9 @@
 
 	// Shield
 	"shd_worn" : "Bouclier porté",
+	"shd_worn_tt" : "Bouclier au bras ou dans un contenant (affecte le poids transporté)",
 	"shd_eqp" : "Bouclier équipé",
+	"shd_eqp_tt" : "Bouclier en mains et prêt à servir (affecte la Classe d’armure)",
 	"shd_pen_abbr" : "Pén. test",
 	"shd_pen" : "Pénalité aux tests de compétence",
 	"shd_pen_tt" : "Pénalité de bouclier aux tests de compétence",
@@ -1167,6 +1187,10 @@
 	"eqp_hard" : "Solidité",
 	"eqp_hp_abbr" : "PR",
 	"eqp_hp" : "Points de résistance",
+	"eqp_desc" : "Description",
+	"eqp_desc_pl" : "Description de l’objet …",
+	"eqp_src" : "Source",
+	"eqp_src_pl" : "Manuel des Joueurs v.3.5 p. …",
 	"eqp_transfer" : "Transférer",
 
 	// Load
@@ -1428,6 +1452,7 @@
 	"ui_atk" : "Attaque",
 	"ui_dmg_abbr" : "Dég.",
 	"ui_dmg" : "Dégâts",
+	"ui_dmg_crit" : "Dégâts critiques",
 	"ui_props" : "Propriétés spéciales",
 	"ui_spl" : "Sort",
 	"ui_qty_abbr" : "Qté.",
@@ -1450,6 +1475,10 @@
 	"tpl_roll_null" : "Jet nul&nbsp;&hellip;",
 	"tpl_result" : "Résultat",
 	"tpl_or_less" : " ou moins",
+	"tpl_dmg_roll" : "Dégâts",
+	"tpl_dmg_roll_tt" : "Cliquer pour lancer les dégâts",
+	"tpl_crit_roll" : "Critique",
+	"tpl_crit_roll_tt" : "Cliquer pour lancer les dégâts critiques",
 	"tpl_turn" : "Renvoi des morts-vivants",
 	"tpl_turn_table" : "Table de renvoi",
 	"tpl_turn_hd" : "Nombre de DV affecté",
@@ -1550,6 +1579,10 @@
 	"cls_commoner" : "Roturier",
 	"cls_expert" : "Expert",
 	"cls_warrior" : "Homme d’armes",
+	// English
+	//"classes_list" : "none,barbarian,bard,cleric,druid,fighter,monk,paladin,ranger,rogue,sorcerer,warlock,wizard,adept,aristocrat,commoner,expert,warrior",
+	// French
+	"classes_list" : "none,barbarian,bard,druid,sorcerer,fighter,wizard,monk,paladin,cleric,ranger,rogue,warlock,adept,expert,warrior,aristocrat,commoner",
 
 	// Movement Land Speed
 	"mvt_30ft_race" : "Humain, Elfe, Demi-elfe, Demi-orque",
@@ -1839,6 +1872,10 @@
 	"cond_stunned" : "Étourdi",
 	"cond_turned" : "Renvoyé (ou repoussé)",
 	"cond_unconscious" : "Inconscient",
+
+	// States
+	"state_enc_med" : "Modérément encombré",
+	"state_enc_hvy" : "Lourdement encombré",
 
 	// Gems
 	"gem_agate_str" : "Agate (mousse ou xyloïde) (10 po)",

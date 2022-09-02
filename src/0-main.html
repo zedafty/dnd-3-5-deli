@@ -2,15 +2,25 @@
 <!-- Original by Capitaine Red (1.5 FR, Gabmilot project) -->
 <!-- Refactoring by Zedafty (Deli project) -->
 <!-- Managing by Panda -->
-<!-- Version 1.6.5 Beta -->
+<!-- Version 1.6.6 Beta -->
 
 <!-- Version -->
-<input type="hidden" name="attr_version" value="1.6.5">
+<input type="hidden" name="attr_version" value="">
+<input type="hidden" name="attr_build" value="beta FR">
 
 <!-- Global Attributes -->
 <input type="hidden" name="attr_r-mod" value="0">
 <input type="hidden" name="attr_w-gm" value="">
 <input type="hidden" name="attr_roll-name" value="">
+
+<!-- Aliases -->
+<input type="hidden" name="attr__CumulPhysique">
+<input type="hidden" name="attr__CumulPsychique">
+<input type="hidden" name="attr__PointsDeVie">
+<input type="hidden" name="attr__PointsDeVie_max">
+<input type="hidden" name="attr__CaTotale">
+<input type="hidden" name="attr__CaContact">
+<input type="hidden" name="attr__CaDepourvu">
 
 <!-- Page -->
 <div class="page">
@@ -36,6 +46,14 @@
 			<div class="action-bar">
 				<button type="action" name="act_hide-all-options" data-i18n-title="ui_hide_all_options">J</button>
 				<button type="action" name="act_show-all-options" data-i18n-title="ui_show_all_options">`</button>
+			</div>
+			<div class="state-bar">
+				<input type="hidden" name="attr_state-disabled" value="0"><span data-i18n-title="cond_disabled"></span>
+				<input type="hidden" name="attr_state-unconscious" value="0"><span data-i18n-title="cond_unconscious"></span>
+				<input type="hidden" name="attr_state-dying" value="0"><span data-i18n-title="cond_dying"></span>
+				<input type="hidden" name="attr_state-dead" value="0"><span data-i18n-title="cond_dead"></span>
+				<input type="hidden" name="attr_state-enc-med" value="0"><span data-i18n-title="state_enc_med"></span>
+				<input type="hidden" name="attr_state-enc-hvy" value="0"><span data-i18n-title="state_enc_hvy"></span>
 			</div>
 		</div>
 		<div>
@@ -133,7 +151,7 @@
 				<div><input type="text" name="attr_char-homeland" id="char_homeland" class="sheet-input" style="width: 175px;" data-i18n-title="char_homeland_tt" data-i18n-placeholder="char_homeland_pl"></div>
 			</div>
 		</div>
-		<input type="hidden" name="attr_show-xtra-fields" value="0">
+		<input type="hidden" name="attr_show-xtra-fields" value="1">
 		<div class="sheet-table table-bloat bottom-15"><!-- Line 4 -->
 			<div class="table-row">
 				<div class="title-label"><label for="char_ambition" style="width: 80px;" data-i18n="char_ambition"></label></div>
@@ -359,7 +377,7 @@
 				<div class="sheet-table">
 					<div class="table-row">
 						<div style="width: 200px;" data-i18n="char_relational_name"></div>
-						<div style="width: 560px; data-i18n="char_relational_desc"></div>
+						<div style="width: 560px;" data-i18n="char_relational_desc"></div>
 					</div>
 				</div>
 				<div class="fieldset">
@@ -385,27 +403,27 @@
 			</div>
 		</div>
 		<div class="sheet-table table-hefty bottom-5">
-			<div class="table-row">
-				<div><abbr class="pictos" data-i18n-title="cls_fav">S</abbr></div>
-				<div><abbr class="pictos-three" data-i18n-title="cls_cast">j</abbr></div>
-				<div><abbr class="pictos-three" data-i18n-title="cls_prest">a</abbr></div>
-				<div data-i18n="cls_class"></div>
-				<div><abbr data-i18n-title="cls_lvl" data-i18n="cls_lvl_abbr"></abbr>.</div>
-				<div><abbr data-i18n-title="cls_hd" data-i18n="cls_hd_abbr"></abbr></div>
-				<div><abbr data-i18n-title="cls_fort" data-i18n="cls_fort_abbr"></abbr></div>
-				<div><abbr data-i18n-title="cls_refl" data-i18n="cls_refl_abbr"></abbr></div>
-				<div><abbr data-i18n-title="cls_will" data-i18n="cls_will_abbr"></abbr></div>
-				<div><abbr data-i18n-title="cls_sk_pts" data-i18n="cls_sk_pts_abbr"></abbr></div>
-				<div><abbr data-i18n-title="cls_bab" data-i18n="cls_bab_abbr"></abbr></div>
-				<div><abbr data-i18n-title="cls_adj" data-i18n="cls_adj_abbr"></abbr></div>
+			<div class="table-row" data-i18n-list="char_cls_list">
+				<div data-i18n-list-item="fav"><abbr class="pictos" data-i18n-title="cls_fav">S</abbr></div>
+				<div data-i18n-list-item="cast"><abbr class="pictos-three" data-i18n-title="cls_cast">j</abbr></div>
+				<div data-i18n-list-item="prest"><abbr class="pictos-three" data-i18n-title="cls_prest">a</abbr></div>
+				<div data-i18n-list-item="class" data-i18n="cls_class"></div>
+				<div data-i18n-list-item="lvl"><abbr data-i18n-title="cls_lvl" data-i18n="cls_lvl_abbr"></abbr>.</div>
+				<div data-i18n-list-item="hd"><abbr data-i18n-title="cls_hd" data-i18n="cls_hd_abbr"></abbr></div>
+				<div data-i18n-list-item="fort"><abbr data-i18n-title="cls_fort" data-i18n="cls_fort_abbr"></abbr></div>
+				<div data-i18n-list-item="refl"><abbr data-i18n-title="cls_refl" data-i18n="cls_refl_abbr"></abbr></div>
+				<div data-i18n-list-item="will"><abbr data-i18n-title="cls_will" data-i18n="cls_will_abbr"></abbr></div>
+				<div data-i18n-list-item="sk_pts"><abbr data-i18n-title="cls_sk_pts" data-i18n="cls_sk_pts_abbr"></abbr></div>
+				<div data-i18n-list-item="bab"><abbr data-i18n-title="cls_bab" data-i18n="cls_bab_abbr"></abbr></div>
+				<div data-i18n-list-item="adj"><abbr data-i18n-title="cls_adj" data-i18n="cls_adj_abbr"></abbr></div>
 			</div>
-			<div class="table-row">
-				<div class="sheet-center"><input type="checkbox" name="attr_cls1-fav" data-i18n-title="cls_fav" value="1"></div>
-				<div class="sheet-center"><input type="checkbox" name="attr_cls1-cast" data-i18n-title="cls_cast" value="1"></div>
-				<div class="sheet-center"><input type="checkbox" name="attr_cls1-prest" data-i18n-title="cls_prest" value="1"></div>
-				<div><input type="hidden" name="attr_cls2-key"><input type="text" name="attr_cls1-name" class="sheet-input" style="width: 175px;" data-i18n-title="cls_name" data-i18n-placeholder="ui_cls_1" list="classes"></div>
-				<div><input type="number" name="attr_cls1-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl" value="0" min="0"></div>
-				<div>
+			<div class="table-row" data-i18n-list="char_cls_list">
+				<div data-i18n-list-item="fav" class="sheet-center"><input type="checkbox" name="attr_cls1-fav" data-i18n-title="cls_fav" value="1"></div>
+				<div data-i18n-list-item="cast" class="sheet-center"><input type="checkbox" name="attr_cls1-cast" data-i18n-title="cls_cast" value="1"></div>
+				<div data-i18n-list-item="prest" class="sheet-center"><input type="checkbox" name="attr_cls1-prest" data-i18n-title="cls_prest" value="1"></div>
+				<div data-i18n-list-item="class"><input type="hidden" name="attr_cls2-key"><input type="text" name="attr_cls1-name" class="sheet-input" style="width: 175px;" data-i18n-title="cls_name" data-i18n-placeholder="ui_cls_1" list="classes"></div>
+				<div data-i18n-list-item="lvl"><input type="number" name="attr_cls1-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl" value="0" min="0"></div>
+				<div data-i18n-list-item="hd">
 					<select name="attr_cls1-hd" class="sheet-input" style="width: 45px;" data-i18n-title="cls_hd">
 						<option selected="selected">&ndash;</option>
 						<option value="d4">d4</option>
@@ -415,20 +433,20 @@
 						<option value="d12">d12</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_cls1-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls1-refl" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_refl" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls1-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls1-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_sk_pts" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls1-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab" value="0" min="0"></div>
-				<div></div>
+				<div data-i18n-list-item="fort"><input type="number" name="attr_cls1-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort" value="0" min="0"></div>
+				<div data-i18n-list-item="refl"><input type="number" name="attr_cls1-refl" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_refl" value="0" min="0"></div>
+				<div data-i18n-list-item="will"><input type="number" name="attr_cls1-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will" value="0" min="0"></div>
+				<div data-i18n-list-item="sk_pts"><input type="number" name="attr_cls1-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_sk_pts" value="0" min="0"></div>
+				<div data-i18n-list-item="bab"><input type="number" name="attr_cls1-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab" value="0" min="0"></div>
+				<div data-i18n-list-item="adj"></div>
 			</div>
-			<div class="table-row">
-				<div class="sheet-center"><input type="checkbox" name="attr_cls2-fav" data-i18n-title="cls_fav" value="1"></div>
-				<div class="sheet-center"><input type="checkbox" name="attr_cls2-cast" data-i18n-title="cls_cast" value="1"></div>
-				<div class="sheet-center"><input type="checkbox" name="attr_cls2-prest" data-i18n-title="cls_prest" value="1"></div>
-				<div><input type="hidden" name="attr_cls2-key"><input type="text" name="attr_cls2-name" class="sheet-input" style="width: 175px;" data-i18n-title="cls_name" data-i18n-placeholder="ui_cls_2" list="classes"></div>
-				<div><input type="number" name="attr_cls2-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl" value="0" min="0"></div>
-				<div>
+			<div class="table-row" data-i18n-list="char_cls_list">
+				<div data-i18n-list-item="fav" class="sheet-center"><input type="checkbox" name="attr_cls2-fav" data-i18n-title="cls_fav" value="1"></div>
+				<div data-i18n-list-item="cast" class="sheet-center"><input type="checkbox" name="attr_cls2-cast" data-i18n-title="cls_cast" value="1"></div>
+				<div data-i18n-list-item="prest" class="sheet-center"><input type="checkbox" name="attr_cls2-prest" data-i18n-title="cls_prest" value="1"></div>
+				<div data-i18n-list-item="class"><input type="hidden" name="attr_cls2-key"><input type="text" name="attr_cls2-name" class="sheet-input" style="width: 175px;" data-i18n-title="cls_name" data-i18n-placeholder="ui_cls_2" list="classes"></div>
+				<div data-i18n-list-item="lvl"><input type="number" name="attr_cls2-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl" value="0" min="0"></div>
+				<div data-i18n-list-item="hd">
 					<select name="attr_cls2-hd" class="sheet-input" style="width: 45px;" data-i18n-title="cls_hd">
 						<option selected="selected">&ndash;</option>
 						<option value="d4">d4</option>
@@ -438,20 +456,20 @@
 						<option value="d12">d12</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_cls2-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls2-refl" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_refl" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls2-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls2-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_sk_pts" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls2-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab" value="0" min="0"></div>
-				<div></div>
+				<div data-i18n-list-item="fort"><input type="number" name="attr_cls2-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort" value="0" min="0"></div>
+				<div data-i18n-list-item="refl"><input type="number" name="attr_cls2-refl" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_refl" value="0" min="0"></div>
+				<div data-i18n-list-item="will"><input type="number" name="attr_cls2-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will" value="0" min="0"></div>
+				<div data-i18n-list-item="sk_pts"><input type="number" name="attr_cls2-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_sk_pts" value="0" min="0"></div>
+				<div data-i18n-list-item="bab"><input type="number" name="attr_cls2-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab" value="0" min="0"></div>
+				<div data-i18n-list-item="adj"></div>
 			</div>
-			<div class="table-row">
-				<div class="sheet-center"><input type="checkbox" name="attr_cls3-fav" data-i18n-title="cls_fav" value="1"></div>
-				<div class="sheet-center"><input type="checkbox" name="attr_cls3-cast" data-i18n-title="cls_cast" value="1"></div>
-				<div class="sheet-center"><input type="checkbox" name="attr_cls3-prest" data-i18n-title="cls_prest" value="1"></div>
-				<div><input type="hidden" name="attr_cls3-key"><input type="text" name="attr_cls3-name" class="sheet-input" style="width: 175px;" data-i18n-title="cls_name" data-i18n-placeholder="ui_cls_3" list="classes"></div>
-				<div><input type="number" name="attr_cls3-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl" value="0" min="0"></div>
-				<div>
+			<div class="table-row" data-i18n-list="char_cls_list">
+				<div data-i18n-list-item="fav" class="sheet-center"><input type="checkbox" name="attr_cls3-fav" data-i18n-title="cls_fav" value="1"></div>
+				<div data-i18n-list-item="cast" class="sheet-center"><input type="checkbox" name="attr_cls3-cast" data-i18n-title="cls_cast" value="1"></div>
+				<div data-i18n-list-item="prest" class="sheet-center"><input type="checkbox" name="attr_cls3-prest" data-i18n-title="cls_prest" value="1"></div>
+				<div data-i18n-list-item="class"><input type="hidden" name="attr_cls3-key"><input type="text" name="attr_cls3-name" class="sheet-input" style="width: 175px;" data-i18n-title="cls_name" data-i18n-placeholder="ui_cls_3" list="classes"></div>
+				<div data-i18n-list-item="lvl"><input type="number" name="attr_cls3-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl" value="0" min="0"></div>
+				<div data-i18n-list-item="hd">
 					<select name="attr_cls3-hd" class="sheet-input" style="width: 45px;" data-i18n-title="cls_hd">
 						<option selected="selected">&ndash;</option>
 						<option value="d4">d4</option>
@@ -461,20 +479,20 @@
 						<option value="d12">d12</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_cls3-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls3-refl" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_refl" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls3-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls3-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_sk_pts" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls3-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab" value="0" min="0"></div>
-				<div></div>
+				<div data-i18n-list-item="fort"><input type="number" name="attr_cls3-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort" value="0" min="0"></div>
+				<div data-i18n-list-item="refl"><input type="number" name="attr_cls3-refl" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_refl" value="0" min="0"></div>
+				<div data-i18n-list-item="will"><input type="number" name="attr_cls3-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will" value="0" min="0"></div>
+				<div data-i18n-list-item="sk_pts"><input type="number" name="attr_cls3-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_sk_pts" value="0" min="0"></div>
+				<div data-i18n-list-item="bab"><input type="number" name="attr_cls3-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab" value="0" min="0"></div>
+				<div data-i18n-list-item="adj"></div>
 			</div>
-			<div class="table-row">
-				<div class="sheet-center"><input type="checkbox" name="attr_cls4-fav" data-i18n-title="cls_fav" value="1"></div>
-				<div class="sheet-center"><input type="checkbox" name="attr_cls4-cast" data-i18n-title="cls_cast" value="1"></div>
-				<div class="sheet-center"><input type="checkbox" name="attr_cls4-prest" data-i18n-title="cls_prest" value="1"></div>
-				<div><input type="hidden" name="attr_cls4-key"><input type="text" name="attr_cls4-name" class="sheet-input" style="width: 175px;" data-i18n-title="cls_name" data-i18n-placeholder="ui_cls_4" list="classes"></div>
-				<div><input type="number" name="attr_cls4-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl" value="0" min="0"></div>
-				<div>
+			<div class="table-row" data-i18n-list="char_cls_list">
+				<div data-i18n-list-item="fav" class="sheet-center"><input type="checkbox" name="attr_cls4-fav" data-i18n-title="cls_fav" value="1"></div>
+				<div data-i18n-list-item="cast" class="sheet-center"><input type="checkbox" name="attr_cls4-cast" data-i18n-title="cls_cast" value="1"></div>
+				<div data-i18n-list-item="prest" class="sheet-center"><input type="checkbox" name="attr_cls4-prest" data-i18n-title="cls_prest" value="1"></div>
+				<div data-i18n-list-item="class"><input type="hidden" name="attr_cls4-key"><input type="text" name="attr_cls4-name" class="sheet-input" style="width: 175px;" data-i18n-title="cls_name" data-i18n-placeholder="ui_cls_4" list="classes"></div>
+				<div data-i18n-list-item="lvl"><input type="number" name="attr_cls4-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl" value="0" min="0"></div>
+				<div data-i18n-list-item="hd">
 					<select name="attr_cls4-hd" class="sheet-input" style="width: 45px;" data-i18n-title="cls_hd">
 						<option selected="selected">&ndash;</option>
 						<option value="d4">d4</option>
@@ -484,20 +502,20 @@
 						<option value="d12">d12</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_cls4-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls4-refl" class="sheet-input base" style="number" data-i18n-title="cls_refl" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls4-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls4-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_sk_pts" value="0" min="0"></div>
-				<div><input type="number" name="attr_cls4-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab" value="0" min="0"></div>
-				<div></div>
+				<div data-i18n-list-item="fort"><input type="number" name="attr_cls4-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort" value="0" min="0"></div>
+				<div data-i18n-list-item="refl"><input type="number" name="attr_cls4-refl" class="sheet-input base" style="number" data-i18n-title="cls_refl" value="0" min="0"></div>
+				<div data-i18n-list-item="will"><input type="number" name="attr_cls4-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will" value="0" min="0"></div>
+				<div data-i18n-list-item="sk_pts"><input type="number" name="attr_cls4-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_sk_pts" value="0" min="0"></div>
+				<div data-i18n-list-item="bab"><input type="number" name="attr_cls4-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab" value="0" min="0"></div>
+				<div data-i18n-list-item="adj"></div>
 			</div>
-			<div class="table-row">
-				<div class="sheet-center"><input type="checkbox" disabled checked></div>
-				<div class="sheet-center"><input type="checkbox" disabled></div>
-				<div class="sheet-center"><input type="checkbox" disabled></div>
-				<div><span name="attr_char-race" class="sheet-input" style="width: 175px;" data-i18n-title="cls_race_name"></span></div>
-				<div><input type="number" name="attr_race-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_race_lvl" value="0" min="0"></div>
-				<div>
+			<div class="table-row" data-i18n-list="char_cls_list">
+				<div data-i18n-list-item="fav" class="sheet-center"><input type="checkbox" disabled checked></div>
+				<div data-i18n-list-item="cast" class="sheet-center"><input type="checkbox" disabled></div>
+				<div data-i18n-list-item="prest" class="sheet-center"><input type="checkbox" disabled></div>
+				<div data-i18n-list-item="class"><span name="attr_char-race" class="sheet-input" style="width: 175px;" data-i18n-title="cls_race_name"></span></div>
+				<div data-i18n-list-item="lvl"><input type="number" name="attr_race-lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_race_lvl" value="0" min="0"></div>
+				<div data-i18n-list-item="hd">
 					<select name="attr_race-hd" class="sheet-input" style="width: 45px;" data-i18n-title="cls_race_hd">
 						<option selected="selected">&ndash;</option>
 						<option value="d4">d4</option>
@@ -507,26 +525,26 @@
 						<option value="d12">d12</option>
 					</select>
 				</div>
-				<div><input type="number" name="attr_race-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_race_fort" value="0" min="0"></div>
-				<div><input type="number" name="attr_race-refl" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_race_refl" value="0" min="0"></div>
-				<div><input type="number" name="attr_race-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_race_will" value="0" min="0"></div>
-				<div><input type="number" name="attr_race-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_race_sk_pts" value="0" min="0"></div>
-				<div><input type="number" name="attr_race-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_race_bab" value="0" min="0"></div>
-				<div><input type="number" name="attr_lvl-adj" class="sheet-input" style="width: 45px;" data-i18n-title="cls_adj" value="0" min="0"></div>
+				<div data-i18n-list-item="fort"><input type="number" name="attr_race-fort" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_race_fort" value="0" min="0"></div>
+				<div data-i18n-list-item="refl"><input type="number" name="attr_race-refl" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_race_refl" value="0" min="0"></div>
+				<div data-i18n-list-item="will"><input type="number" name="attr_race-will" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_race_will" value="0" min="0"></div>
+				<div data-i18n-list-item="sk_pts"><input type="number" name="attr_race-sk" class="sheet-input" style="width: 45px;" data-i18n-title="cls_race_sk_pts" value="0" min="0"></div>
+				<div data-i18n-list-item="bab"><input type="number" name="attr_race-bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_race_bab" value="0" min="0"></div>
+				<div data-i18n-list-item="adj"><input type="number" name="attr_lvl-adj" class="sheet-input" style="width: 45px;" data-i18n-title="cls_adj" value="0" min="0"></div>
 			</div>
-			<div class="table-row pad-top">
-				<div></div>
-				<div></div>
-				<div></div>
-				<div data-i18n="ui_tot"></div>
-				<div><input type="number" name="attr_lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl_tot" value="(@{cls1-lvl}+@{cls2-lvl}+@{cls3-lvl}+@{cls4-lvl}+@{race-lvl})" disabled></div>
-				<div></div>
-				<div><input type="number" name="attr_fort-base-tot" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort_tot" value="floor(@{cls1-fort}+@{cls2-fort}+@{cls3-fort}+@{cls4-fort}+@{race-fort})" disabled></div>
-				<div><input type="number" name="attr_refl-base-tot" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_refl_tot" value="floor(@{cls1-refl}+@{cls2-refl}+@{cls3-refl}+@{cls4-refl}+@{race-refl})" disabled></div>
-				<div><input type="number" name="attr_will-base-tot" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will_tot" value="floor(@{cls1-will}+@{cls2-will}+@{cls3-will}+@{cls4-will}+@{race-will})" disabled></div>
-				<div></div>
-				<div><input type="number" name="attr_bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab_tot" value="floor(@{cls1-bab}+@{cls2-bab}+@{cls3-bab}+@{cls4-bab}+@{race-bab})" disabled></div>
-				<div></div>
+			<div class="table-row pad-top" data-i18n-list="char_cls_list">
+				<div data-i18n-list-item="fav"></div>
+				<div data-i18n-list-item="cast"></div>
+				<div data-i18n-list-item="prest"></div>
+				<div data-i18n-list-item="class" data-i18n="ui_tot"></div>
+				<div data-i18n-list-item="lvl"><input type="number" name="attr_lvl" class="sheet-input" style="width: 45px;" data-i18n-title="cls_lvl_tot" value="(@{cls1-lvl}+@{cls2-lvl}+@{cls3-lvl}+@{cls4-lvl}+@{race-lvl})" disabled></div>
+				<div data-i18n-list-item="hd"></div>
+				<div data-i18n-list-item="fort"><input type="number" name="attr_fort-base-tot" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_fort_tot" value="floor(@{cls1-fort}+@{cls2-fort}+@{cls3-fort}+@{cls4-fort}+@{race-fort})" disabled></div>
+				<div data-i18n-list-item="refl"><input type="number" name="attr_refl-base-tot" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_refl_tot" value="floor(@{cls1-refl}+@{cls2-refl}+@{cls3-refl}+@{cls4-refl}+@{race-refl})" disabled></div>
+				<div data-i18n-list-item="will"><input type="number" name="attr_will-base-tot" class="sheet-input base" style="width: 45px;" data-i18n-title="cls_will_tot" value="floor(@{cls1-will}+@{cls2-will}+@{cls3-will}+@{cls4-will}+@{race-will})" disabled></div>
+				<div data-i18n-list-item="sk_pts"></div>
+				<div data-i18n-list-item="bab"><input type="number" name="attr_bab" class="sheet-input mod" style="width: 45px;" data-i18n-title="cls_bab_tot" value="floor(@{cls1-bab}+@{cls2-bab}+@{cls3-bab}+@{cls4-bab}+@{race-bab})" disabled></div>
+				<div data-i18n-list-item="adj"></div>
 			</div>
 		</div>
 		<div class="sheet-table experience">
@@ -588,91 +606,118 @@
 				</div>
 			</div>
 		</div>
-		<div class="sheet-table table-hefty">
+		<div class="sheet-table table-hefty abilities physical">
 			<input type="hidden" name="attr_edit-backup" value="1">
+			<div class="table-caption" data-i18n="abi_physical"></div>
 			<div class="table-row">
 				<div><abbr data-i18n-title="ui_abi" data-i18n="ui_abi_abbr"></abbr></div>
 				<div><abbr data-i18n-title="ui_mod" data-i18n="ui_mod_abbr"></abbr></div>
 				<div data-i18n="ui_tot"></div>
+				<div><abbr data-i18n-title="ui_bck" data-i18n="ui_bck_abbr"></abbr></div>
 				<div data-i18n="ui_base"></div>
 				<div><abbr data-i18n-title="ui_dmg" data-i18n="ui_dmg_abbr"></abbr></div>
 				<div data-i18n="ui_race"></div>
 				<div data-i18n="ui_itm"></div>
 				<div data-i18n="ui_misc"></div>
 				<div><abbr data-i18n-title="ui_temp" data-i18n="ui_temp_abbr"></abbr></div>
-				<div><abbr data-i18n-title="ui_bck" data-i18n="ui_bck_abbr"></abbr></div>
 			</div>
 			<div class="table-row">
 				<div class="title-box"><button type="roll" name="roll_str" data-i18n-title="abi_str_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_str}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{str-mod}]]]]}}"><span class="uppercase" data-i18n="abi_str_abbr"></span><br><small data-i18n="abi_str"></small></button></div>
 				<div><input type="text" name="attr_str-mod" class="sheet-input mod big" style="width: 40px;" data-i18n-title="abi_str_mod" value="(floor((@{str})/2)-5)" disabled></div>
 				<div><input type="text" name="attr_str" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_str_tot" value="(@{str-base}+@{str-dmg}+@{str-race}+@{str-item}+@{str-misc}+@{str-temp}+@{brb-rage}+@{brb-fat}-@{char-aging})" disabled></div>
+				<div class="sheet-center"><span name="attr_str-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_str_bck"></span><input type="number" name="attr_str-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_str_bck" value="10"></div>
 				<div><input type="number" name="attr_str-base" class="sheet-input base" style="width: 35px;" data-i18n-title="abi_str_base" value="10"></div>
 				<div><input type="number" name="attr_str-dmg" class="sheet-input mod" style="width: 35px;" data-i18n-title="abi_str_dmg" value="0" max="0"></div>
 				<div><input type="number" name="attr_str-race" class="sheet-input" style="width: 35px;" data-i18n-title="abi_str_race" value="0"></div>
 				<div><input type="number" name="attr_str-item" class="sheet-input" style="width: 35px;" data-i18n-title="abi_str_item" value="0"></div>
 				<div><input type="number" name="attr_str-misc" class="sheet-input" style="width: 35px;" data-i18n-title="abi_str_misc" value="0"></div>
 				<div><input type="number" name="attr_str-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="abi_str_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_str-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_str_bck"></span><input type="number" name="attr_str-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_str_bck" value="10"></div>
 			</div>
 			<div class="table-row">
 				<div class="title-box"><button type="roll" name="roll_dex" data-i18n-title="abi_dex_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_dex}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{dex-mod}]]]]}}"><span class="uppercase" data-i18n="abi_dex_abbr"></span><br><small data-i18n="abi_dex"></small></button></div>
 				<div><input type="text" name="attr_dex-mod" class="sheet-input mod big" style="width: 40px;" data-i18n-title="abi_dex_mod" value="(floor((@{dex})/2)-5)" disabled></div>
 				<div><input type="text" name="attr_dex" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_dex_tot" value="(@{dex-base}+@{dex-dmg}+@{dex-race}+@{dex-item}+@{dex-misc}+@{dex-temp}+@{brb-fat}-@{char-aging})" disabled></div>
+				<div class="sheet-center"><span name="attr_dex-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_dex_bck"></span><input type="number" name="attr_dex-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_dex_bck" value="10"></div>
 				<div><input type="number" name="attr_dex-base" class="sheet-input base" style="width: 35px;" data-i18n-title="abi_dex_base" value="10"></div>
 				<div><input type="number" name="attr_dex-dmg" class="sheet-input mod" style="width: 35px;" data-i18n-title="abi_dex_dmg" value="0" max="0"></div>
 				<div><input type="number" name="attr_dex-race" class="sheet-input" style="width: 35px;" data-i18n-title="abi_dex_race" value="0"></div>
 				<div><input type="number" name="attr_dex-item" class="sheet-input" style="width: 35px;" data-i18n-title="abi_dex_item" value="0"></div>
 				<div><input type="number" name="attr_dex-misc" class="sheet-input" style="width: 35px;" data-i18n-title="abi_dex_misc" value="0"></div>
 				<div><input type="number" name="attr_dex-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="abi_dex_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_dex-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_dex_bck"></span><input type="number" name="attr_dex-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_dex_bck" value="10"></div>
 			</div>
 			<div class="table-row">
 				<div class="title-box"><button type="roll" name="roll_con" data-i18n-title="abi_con_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_con}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{con-mod}]]]]}}"><span class="uppercase" data-i18n="abi_con_abbr"></span><br><small data-i18n="abi_con"></small></button></div>
 				<div><input type="text" name="attr_con-mod" class="sheet-input mod big" style="width: 40px;" data-i18n-title="abi_con_mod" value="(floor((@{con})/2)-5)" disabled></div>
 				<div><input type="text" name="attr_con" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_con_tot" value="(@{con-base}+@{con-dmg}+@{con-race}+@{con-item}+@{con-misc}+@{con-temp}+@{brb-rage}-@{char-aging})" disabled></div>
+				<div class="sheet-center"><span name="attr_con-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_con_bck"></span><input type="number" name="attr_con-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_con_bck" value="10"></div>
 				<div><input type="number" name="attr_con-base" class="sheet-input base" style="width: 35px;" data-i18n-title="abi_con_base" value="10"></div>
 				<div><input type="number" name="attr_con-dmg" class="sheet-input mod" style="width: 35px;" data-i18n-title="abi_con_dmg" value="0" max="0"></div>
 				<div><input type="number" name="attr_con-race" class="sheet-input" style="width: 35px;" data-i18n-title="abi_con_race" value="0"></div>
 				<div><input type="number" name="attr_con-item" class="sheet-input" style="width: 35px;" data-i18n-title="abi_con_item" value="0"></div>
 				<div><input type="number" name="attr_con-misc" class="sheet-input" style="width: 35px;" data-i18n-title="abi_con_misc" value="0"></div>
 				<div><input type="number" name="attr_con-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="abi_con_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_con-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_con_bck"></span><input type="number" name="attr_con-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_con_bck" value="10"></div>
 			</div>
 			<div class="table-row">
-				<div class="title-box"><button type="roll" name="roll_int" data-i18n-title="abi_int_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_int}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{int-mod}]]]]}}"><span class="uppercase" data-i18n="abi_int_abbr"></span><br><small data-i18n="abi_int"></small></button></div>
-				<div><input type="text" name="attr_int-mod" class="sheet-input mod big" style="width: 40px;" data-i18n-title="abi_int_mod" value="(floor((@{int})/2)-5)" disabled></div>
-				<div><input type="text" name="attr_int" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_int_tot" value="(round(@{int-base}+@{int-dmg}+@{int-race}+@{int-item}+@{int-misc}+@{int-temp}+(@{char-aging}/2)))" disabled></div>
+				<div></div>
+				<div><span data-i18n="ui_tot"></span></div>
+				<div><input type="number" name="attr_abi-phy-tot" class="sheet-input" style="width: 45px;" data-i18n-title="abi_phy_tot_tt" value="30" readonly></div>
+			</div>
+		</div>
+		<div class="sheet-table table-hefty abilities psychical">
+			<input type="hidden" name="attr_edit-backup" value="1">
+			<div class="table-caption" data-i18n="abi_psychical"></div>
+			<div class="table-row">
+				<div><abbr data-i18n-title="ui_abi" data-i18n="ui_abi_abbr"></abbr></div>
+				<div><abbr data-i18n-title="ui_mod" data-i18n="ui_mod_abbr"></abbr></div>
+				<div data-i18n="ui_tot"></div>
+				<div><abbr data-i18n-title="ui_bck" data-i18n="ui_bck_abbr"></abbr></div>
+				<div data-i18n="ui_base"></div>
+				<div><abbr data-i18n-title="ui_dmg" data-i18n="ui_dmg_abbr"></abbr></div>
+				<div data-i18n="ui_race"></div>
+				<div data-i18n="ui_itm"></div>
+				<div data-i18n="ui_misc"></div>
+				<div><abbr data-i18n-title="ui_temp" data-i18n="ui_temp_abbr"></abbr></div>
+			</div>
+			<div class="table-row">
+				<div class="title-box"><button type="roll" class="alternate" name="roll_int" data-i18n-title="abi_int_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_int}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{int-mod}]]]]}}"><span class="uppercase" data-i18n="abi_int_abbr"></span><br><small data-i18n="abi_int"></small></button></div>
+				<div><input type="text" name="attr_int-mod" class="sheet-input mod big alt" style="width: 40px;" data-i18n-title="abi_int_mod" value="(floor((@{int})/2)-5)" disabled></div>
+				<div><input type="text" name="attr_int" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_int_tot" value="(@{int-base}+@{int-dmg}+@{int-race}+@{int-item}+@{int-misc}+@{int-temp}+floor(@{char-aging}/2))" disabled></div>
+				<div class="sheet-center"><span name="attr_int-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_int_bck"></span><input type="number" name="attr_int-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_int_bck" value="10"></div>
 				<div><input type="number" name="attr_int-base" class="sheet-input base" style="width: 35px;" data-i18n-title="abi_int_base" value="10"></div>
 				<div><input type="number" name="attr_int-dmg" class="sheet-input mod" style="width: 35px;" data-i18n-title="abi_int_dmg" value="0" max="0"></div>
 				<div><input type="number" name="attr_int-race" class="sheet-input" style="width: 35px;" data-i18n-title="abi_int_race" value="0"></div>
 				<div><input type="number" name="attr_int-item" class="sheet-input" style="width: 35px;" data-i18n-title="abi_int_item" value="0"></div>
 				<div><input type="number" name="attr_int-misc" class="sheet-input" style="width: 35px;" data-i18n-title="abi_int_misc" value="0"></div>
 				<div><input type="number" name="attr_int-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="abi_int_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_int-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_int_bck"></span><input type="number" name="attr_int-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_int_bck" value="10"></div>
 			</div>
 			<div class="table-row">
-				<div class="title-box"><button type="roll" name="roll_wis" data-i18n-title="abi_wis_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_wis}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{wis-mod}]]]]}}"><span class="uppercase" data-i18n="abi_wis_abbr"></span><br><small data-i18n="abi_wis"></small></button></div>
-				<div><input type="text" name="attr_wis-mod" class="sheet-input mod big" style="width: 40px;" data-i18n-title="abi_wis_mod" value="(floor((@{wis})/2)-5)" disabled></div>
-				<div><input type="text" name="attr_wis" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_wis_tot" value="(round(@{wis-base}+@{wis-dmg}+@{wis-race}+@{wis-item}+@{wis-misc}+@{wis-temp}+(@{char-aging}/2)))" disabled></div>
+				<div class="title-box"><button type="roll" name="roll_wis" class="alternate" data-i18n-title="abi_wis_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_wis}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{wis-mod}]]]]}}"><span class="uppercase" data-i18n="abi_wis_abbr"></span><br><small data-i18n="abi_wis"></small></button></div>
+				<div><input type="text" name="attr_wis-mod" class="sheet-input mod big alt" style="width: 40px;" data-i18n-title="abi_wis_mod" value="(floor((@{wis})/2)-5)" disabled></div>
+				<div><input type="text" name="attr_wis" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_wis_tot" value="(@{wis-base}+@{wis-dmg}+@{wis-race}+@{wis-item}+@{wis-misc}+@{wis-temp}+floor(@{char-aging}/2))" disabled></div>
+				<div class="sheet-center"><span name="attr_wis-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_wis_bck"></span><input type="number" name="attr_wis-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_wis_bck" value="10"></div>
 				<div><input type="number" name="attr_wis-base" class="sheet-input base" style="width: 35px;" data-i18n-title="abi_wis_base" value="10"></div>
 				<div><input type="number" name="attr_wis-dmg" class="sheet-input mod" style="width: 35px;" data-i18n-title="abi_wis_dmg" value="0" max="0"></div>
 				<div><input type="number" name="attr_wis-race" class="sheet-input" style="width: 35px;" data-i18n-title="abi_wis_race" value="0"></div>
 				<div><input type="number" name="attr_wis-item" class="sheet-input" style="width: 35px;" data-i18n-title="abi_wis_item" value="0"></div>
 				<div><input type="number" name="attr_wis-misc" class="sheet-input" style="width: 35px;" data-i18n-title="abi_wis_misc" value="0"></div>
 				<div><input type="number" name="attr_wis-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="abi_wis_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_wis-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_wis_bck"></span><input type="number" name="attr_wis-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_wis_bck" value="10"></div>
 			</div>
 			<div class="table-row">
-				<div class="title-box"><button type="roll" name="roll_cha" data-i18n-title="abi_cha_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_cha}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{cha-mod}]]]]}}"><span class="uppercase" data-i18n="abi_cha_abbr"></span><br><small data-i18n="abi_cha"></small></button></div>
-				<div><input type="text" name="attr_cha-mod" class="sheet-input mod big" style="width: 40px;" data-i18n-title="abi_cha_mod" value="(floor((@{cha})/2)-5)" disabled></div>
-				<div><input type="text" name="attr_cha" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_cha_tot" value="(round(@{cha-base}+@{cha-dmg}+@{cha-race}+@{cha-item}+@{cha-misc}+@{cha-temp}+(@{char-aging}/2)))" disabled></div>
+				<div class="title-box"><button type="roll" name="roll_cha" class="alternate" data-i18n-title="abi_cha_chk" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{sk_chk_of}^{abi_cha}}} {{roll=[[1d20cs21cf0+@{r-mod}+[[@{cha-mod}]]]]}}"><span class="uppercase" data-i18n="abi_cha_abbr"></span><br><small data-i18n="abi_cha"></small></button></div>
+				<div><input type="text" name="attr_cha-mod" class="sheet-input mod big alt" style="width: 40px;" data-i18n-title="abi_cha_mod" value="(floor((@{cha})/2)-5)" disabled></div>
+				<div><input type="text" name="attr_cha" class="sheet-input total" style="width: 45px;" data-i18n-title="abi_cha_tot" value="(@{cha-base}+@{cha-dmg}+@{cha-race}+@{cha-item}+@{cha-misc}+@{cha-temp}+floor(@{char-aging}/2))" disabled></div>
+				<div class="sheet-center"><span name="attr_cha-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_cha_bck"></span><input type="number" name="attr_cha-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_cha_bck" value="10"></div>
 				<div><input type="number" name="attr_cha-base" class="sheet-input base" style="width: 35px;" data-i18n-title="abi_cha_base" value="10"></div>
 				<div><input type="number" name="attr_cha-dmg" class="sheet-input mod" style="width: 35px;" data-i18n-title="abi_cha_dmg" value="0" max="0"></div>
 				<div><input type="number" name="attr_cha-race" class="sheet-input" style="width: 35px;" data-i18n-title="abi_cha_race" value="0"></div>
 				<div><input type="number" name="attr_cha-item" class="sheet-input" style="width: 35px;" data-i18n-title="abi_cha_item" value="0"></div>
 				<div><input type="number" name="attr_cha-misc" class="sheet-input" style="width: 35px;" data-i18n-title="abi_cha_misc" value="0"></div>
 				<div><input type="number" name="attr_cha-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="abi_cha_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_cha-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_cha_bck"></span><input type="number" name="attr_cha-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="abi_cha_bck" value="10"></div>
+			</div>
+			<div class="table-row">
+				<div></div>
+				<div><span data-i18n="ui_tot"></span></div>
+				<div><input type="number" name="attr_abi-psy-tot" class="sheet-input" style="width: 45px;" data-i18n-title="abi_psy_tot_tt" value="30" readonly></div>
 			</div>
 		</div>
 	</div>
@@ -706,12 +751,12 @@
 						<td><div class="subtitle"><abbr data-i18n-title="ui_temp" data-i18n="ui_temp_abbr"></abbr></div></td>
 					</tr>
 				</table>
-				<input type="checkbox" name="attr_show-ac" class="show-options" data-i18n-title="ui_opts_show" value="1"><span></span>
+				<input type="checkbox" name="attr_show-hp" class="show-options" data-i18n-title="ui_opts_show" value="1"><span></span>
 				<div class="options">
 					<div class="sheet-table table-input table-hefty">
 						<div class="table-row">
 							<div style="width: 100px;" data-i18n="stat_hp_roll1"></div>
-							<div style="width: 140px;"><input type="text" name="attr_hp-roll1" class="sheet-input" data-i18n-placeholder="stat_hp_roll1_pl" value="1"></div>
+							<div style="width: 140px;"><input type="text" name="attr_hp-roll1" class="sheet-input" data-i18n-placeholder="stat_hp_roll1_pl" value="6"></div>
 							<div style="width: 10px;">+</div>
 							<div style="width: 45px;"><abbr data-i18n="stat_hp_bon_abbr" data-i18n-title="stat_hp_bon"></abbr></div>
 							<div style="width: 35px;"><input type="number" name="attr_hp-bon" class="sheet-input" data-i18n-title="stat_hp_bon_tt" value="(@{con-mod}*@{lvl})" disabled></div>
@@ -788,7 +833,7 @@
 					</colgroup>
 					<tr>
 						<td rowspan="2"><div class="title-box"><span class="uppercase" data-i18n="stat_ac_abbr"></span><small data-i18n="stat_ac"></small></div></td>
-						<td><input type="text" name="attr_ac" class="sheet-input total long" data-i18n-title="stat_ac" value="10+@{ac-arm}+@{ac-shd}+@{dex-max}+@{char-size-mod}+@{ac-nat}+@{ac-def}+@{ac-misc}+@{brb-ac}" disabled></td>
+						<td><input type="text" name="attr_ac" class="sheet-input total long" data-i18n-title="stat_ac_tt" value="10+@{ac-arm}+@{ac-shd}+@{dex-max}+@{char-size-mod}+@{ac-nat}+@{ac-def}+@{ac-misc}+@{brb-ac}" disabled></td>
 						<td><input type="text" name="attr_ac-touch" class="sheet-input mod long" data-i18n-title="stat_ac_touch_tt" value="10+@{ac-dex}+@{char-size-mod}+@{ac-def}+@{ac-misc}+@{brb-ac}" disabled></td>
 						<td><input type="text" name="attr_ac-flat" class="sheet-input base long" data-i18n-title="stat_ac_flat_tt" value="10+@{ac-arm}+@{ac-shd}+@{char-size-mod}+@{ac-nat}+@{ac-def}+@{ac-misc}+@{brb-ac}" disabled></td>
 					</tr>
@@ -798,7 +843,7 @@
 						<td><div class="subtitle" data-i18n="stat_ac_flat"></div></td>
 					</tr>
 				</table>
-				<input type="checkbox" name="attr_show-hp" class="show-options" data-i18n-title="ui_opts_show" value="1"><span></span>
+				<input type="checkbox" name="attr_show-ac" class="show-options" data-i18n-title="ui_opts_show" value="1"><span></span>
 				<div class="options">
 					<table class="armor-class-details">
 						<colgroup>
@@ -812,12 +857,12 @@
 							<td><strong>10</strong></td>
 							<td>
 								<span class="w10" >+</span>
-								<input type="text" name="attr_ac-arm" class="sheet-input" data-i18n-title="stat_ac_arm_tt" value="(@{arm-bon}*(@{arm-worn})+@{arm-enh}*(@{arm-worn}))" disabled>
+								<input type="text" name="attr_ac-arm" class="sheet-input" data-i18n-title="stat_ac_arm_tt" value="((@{arm-bon}+@{arm-enh})*@{arm-eqp})" disabled>
 								<span class="w10"></span>
 							</td>
 							<td>
 								<span class="w10">+</span>
-								<input type="text" name="attr_ac-shd" class="sheet-input" data-i18n-title="stat_ac_shd_tt" value="(@{shd-bon}*(@{shd-eqp})+@{shd-enh}*(@{shd-eqp}))" disabled>
+								<input type="text" name="attr_ac-shd" class="sheet-input" data-i18n-title="stat_ac_shd_tt" value="((@{shd-bon}+@{shd-enh})*@{shd-eqp})" disabled>
 								<span class="w10"></span>
 							</td>
 							<td>
@@ -956,51 +1001,51 @@
 				</div>
 			</div>
 		</div>
-		<div class="sheet-table table-hefty">
+		<div class="sheet-table table-hefty" data-i18n-list="saves_list">
 			<input type="hidden" name="attr_edit-backup" value="1">
-			<div class="table-row">
+			<div class="table-row" data-i18n-list-item="header">
 				<div><abbr data-i18n-title="ui_save" data-i18n="ui_save_abbr"></abbr></div>
 				<div data-i18n="ui_tot"></div>
+				<div><abbr data-i18n-title="ui_bck" data-i18n="ui_bck_abbr"></abbr></div>
 				<div data-i18n="ui_base"></div>
 				<div><abbr data-i18n-title="ui_mod" data-i18n="ui_mod_abbr"></abbr></div>
 				<div data-i18n="ui_race"></div>
 				<div data-i18n="ui_itm"></div>
 				<div data-i18n="ui_misc"></div>
 				<div><abbr data-i18n-title="ui_temp" data-i18n="ui_temp_abbr"></abbr></div>
-				<div><abbr data-i18n-title="ui_bck" data-i18n="ui_bck_abbr"></abbr></div>
 			</div>
-			<div class="table-row">
+			<div class="table-row" data-i18n-list-item="fort">
 				<div class="title-box"><button type="roll" name="roll_save-fort" data-i18n-title="save_fort_tt" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{save_fort_tt}}} {{mod=[[@{fort}+@{r-mod}]]}} {{null=[[@{fort}+@{r-mod}+@{roll-nil}]]}} {{roll=[[1d@{roll-die}cs>21@{roll-cf}+@{r-mod}+[[@{fort}]]]]}}"><span class="uppercase" data-i18n="save_fort_abbr"></span><br><small data-i18n="save_fort"></small></button></div>
 				<div><input type="text" name="attr_fort" class="sheet-input total big" style="width: 50px;" data-i18n-title="save_fort_tot" value="(@{fort-base}+@{fort-abi}+@{fort-race}+@{fort-item}+@{fort-misc}+@{fort-temp})" disabled></div>
+				<div class="sheet-center"><span name="attr_fort-bck" class="sheet-input bck" style="width: 20px;" data-i18n-title="save_fort_bck"></span><input type="number" name="attr_fort-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="save_fort_bck" value="0"></div>
 				<div><input type="number" name="attr_fort-base" class="sheet-input base" style="width: 35px;" data-i18n-title="save_fort_cls" value="@{fort-base-tot}" disabled></div>
 				<div><input type="text" name="attr_fort-abi" class="sheet-input mod" style="width: 35px;" data-i18n-title="save_fort_mod" value="@{con-mod}" disabled></div>
 				<div><input type="number" name="attr_fort-race" class="sheet-input" style="width: 35px;" data-i18n-title="save_fort_race" value="0"></div>
 				<div><input type="number" name="attr_fort-item" class="sheet-input" style="width: 35px;" data-i18n-title="save_fort_item" value="0"></div>
 				<div><input type="number" name="attr_fort-misc" class="sheet-input" style="width: 35px;" data-i18n-title="save_fort_misc" value="0"></div>
 				<div><input type="number" name="attr_fort-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="save_fort_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_fort-bck" class="sheet-input bck" style="width: 20px;" data-i18n-title="save_fort_bck"></span><input type="number" name="attr_fort-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="save_fort_bck" value="0"></div>
 			</div>
-			<div class="table-row">
+			<div class="table-row" data-i18n-list-item="refl">
 				<div class="title-box"><button type="roll" name="roll_save-refl" data-i18n-title="save_refl_tt" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{save_refl_tt}}} {{mod=[[@{refl}+@{r-mod}]]}} {{null=[[@{refl}+@{r-mod}+@{roll-nil}]]}} {{roll=[[1d@{roll-die}cs>21@{roll-cf}+@{r-mod}+[[@{refl}]]]]}}"><span class="uppercase" data-i18n="save_refl_abbr"></span><br><small data-i18n="save_refl"></small></button></div>
 				<div><input type="text" name="attr_refl" class="sheet-input total big" style="width: 50px;" data-i18n-title="save_refl_tot" value="(@{refl-base}+@{refl-abi}+@{refl-race}+@{refl-item}+@{refl-misc}+@{refl-temp})" disabled></div>
+				<div class="sheet-center"><span name="attr_refl-bck" class="sheet-input bck" style="width: 20px;" data-i18n-title="save_refl_bck"></span><input type="number" name="attr_refl-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="save_refl_bck" value="0"></div>
 				<div><input type="number" name="attr_refl-base" class="sheet-input base" style="width: 35px;" data-i18n-title="save_refl_cls" value="@{refl-base-tot}" disabled></div>
 				<div><input type="text" name="attr_refl-abi" class="sheet-input mod" style="width: 35px;" data-i18n-title="save_refl_mod" value="@{dex-max}" disabled></div>
 				<div><input type="number" name="attr_refl-race" class="sheet-input" style="width: 35px;" data-i18n-title="save_refl_race" value="0"></div>
 				<div><input type="number" name="attr_refl-item" class="sheet-input" style="width: 35px;" data-i18n-title="save_refl_item" value="0"></div>
 				<div><input type="number" name="attr_refl-misc" class="sheet-input" style="width: 35px;" data-i18n-title="save_refl_misc" value="0"></div>
 				<div><input type="number" name="attr_refl-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="save_refl_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_refl-bck" class="sheet-input bck" style="width: 20px;" data-i18n-title="save_refl_bck"></span><input type="number" name="attr_refl-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="save_refl_bck" value="0"></div>
 			</div>
-			<div class="table-row">
+			<div class="table-row" data-i18n-list-item="will">
 				<div class="title-box"><button type="roll" name="roll_save-will" data-i18n-title="save_will_tt" value="@{w-gm} &{template:roll} {{char-name=@{roll-name}}} {{type=^{save_will_tt}}} {{mod=[[@{will}+@{r-mod}]]}} {{null=[[@{will}+@{r-mod}+@{roll-nil}]]}} {{roll=[[1d@{roll-die}cs>21@{roll-cf}+@{r-mod}+[[@{will}]]]]}}"><span class="uppercase" data-i18n="save_will_abbr"></span><br><small data-i18n="save_will"></small></button></div>
 				<div><input type="text" name="attr_will" class="sheet-input total big" style="width: 50px;" data-i18n-title="save_will_tot" value="(@{will-base}+@{will-abi}+@{will-race}+@{will-item}+@{will-misc}+@{will-temp}+@{brb-will})" disabled></div>
+				<div class="sheet-center"><span name="attr_will-bck" class="sheet-input bck" style="width: 20px;" data-i18n-title="save_will_bck"></span><input type="number" name="attr_will-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="save_will_bck" value="0"></div>
 				<div><input type="number" name="attr_will-base" class="sheet-input base" style="width: 35px;" data-i18n-title="save_will_cls" value="@{will-base-tot}" disabled></div>
 				<div><input type="text" name="attr_will-abi" class="sheet-input mod" style="width: 35px;" data-i18n-title="save_will_mod" value="@{wis-mod}" disabled></div>
 				<div><input type="number" name="attr_will-race" class="sheet-input" style="width: 35px;" data-i18n-title="save_will_race" value="0"></div>
 				<div><input type="number" name="attr_will-item" class="sheet-input" style="width: 35px;" data-i18n-title="save_will_item" value="0"></div>
 				<div><input type="number" name="attr_will-misc" class="sheet-input" style="width: 35px;" data-i18n-title="save_will_misc" value="0"></div>
 				<div><input type="number" name="attr_will-temp" class="sheet-input temp" style="width: 35px;" data-i18n-title="save_will_temp" value="0"></div>
-				<div class="sheet-center"><span name="attr_will-bck" class="sheet-input bck" style="width: 20px;" data-i18n-title="save_will_bck"></span><input type="number" name="attr_will-bck" class="sheet-input bck" style="width: 30px;" data-i18n-title="save_will_bck" value="0"></div>
 			</div>
 		</div>
 	</div>
@@ -1081,7 +1126,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-appraise-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-appraise-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-appraise-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-appraise-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-appraise-cond-syn" value="">
@@ -1094,7 +1139,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_strmod" data-i18n-title="abi_str_mod" value="@{str-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-athletism-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-athletism-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-athletism-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-athletism-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1106,7 +1151,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div><input type="number" name="attr_sk-balance-pen" data-i18n-title="ui_pen_chk" value="@{sk-pen}" disabled></div>
-				<div><input type="number" name="attr_sk-balance-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-balance-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-balance-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-balance-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1118,7 +1163,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-bluff-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-bluff-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-bluff-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-bluff-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1135,7 +1180,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_sk-climb-mod" data-i18n-title="ui_mod_abi" value="@{sk-climb-abi}" disabled></div>
 				<div><input type="number" name="attr_sk-climb-pen" data-i18n-title="ui_pen_chk" value="@{sk-pen}" disabled></div>
-				<div><input type="number" name="attr_sk-climb-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-climb-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-climb-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-climb-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-climb-cond-syn" value="">
@@ -1148,7 +1193,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_conmod" data-i18n-title="abi_con_mod" value="@{con-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-concentration-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-concentration-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-concentration-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-concentration-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1160,7 +1205,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-craftalchemy-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-craftalchemy-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-craftalchemy-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-craftalchemy-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1172,7 +1217,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-craft1-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-craft1-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-craft1-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-craft1-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1184,7 +1229,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-craft2-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-craft2-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-craft2-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-craft2-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1196,7 +1241,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-craft3-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-craft3-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-craft3-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-craft3-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1208,7 +1253,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-decipher-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-decipher-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-decipher-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-decipher-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1220,7 +1265,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-diplomacy-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-diplomacy-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-diplomacy-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-diplomacy-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1232,7 +1277,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-disabledevice-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-disabledevice-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-disabledevice-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-disabledevice-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1244,7 +1289,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-disguise-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-disguise-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-disguise-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-disguise-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-disguise-cond-syn" value="">
@@ -1257,7 +1302,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div><input type="number" name="attr_sk-escapeartist-pen" data-i18n-title="ui_pen_chk" value="@{sk-pen}" disabled></div>
-				<div><input type="number" name="attr_sk-escapeartist-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-escapeartist-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-escapeartist-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-escapeartist-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-escapeartist-cond-syn" value="">
@@ -1270,7 +1315,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-forgery-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-forgery-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-forgery-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-forgery-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1282,7 +1327,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-gatherinformation-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-gatherinformation-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-gatherinformation-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-gatherinformation-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1294,7 +1339,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-handleanimal-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-handleanimal-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-handleanimal-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-handleanimal-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1306,7 +1351,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_wismod" data-i18n-title="abi_wis_mod" value="@{wis-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-heal-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-heal-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-heal-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-heal-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1318,7 +1363,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div><input type="number" name="attr_sk-hide-pen" data-i18n-title="ui_pen_chk" value="@{sk-pen}" disabled></div>
-				<div><input type="number" name="attr_sk-hide-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-hide-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-hide-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-hide-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1330,7 +1375,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-intimidate-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-intimidate-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-intimidate-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-intimidate-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1347,7 +1392,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_sk-jump-mod" data-i18n-title="ui_mod_abi" value="@{sk-jump-abi}" disabled></div>
 				<div><input type="number" name="attr_sk-jump-pen" data-i18n-title="ui_pen_chk" value="@{sk-pen}" disabled></div>
-				<div><input type="number" name="attr_sk-jump-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-jump-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-jump-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-jump-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1359,7 +1404,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgearcana-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgearcana-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgearcana-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgearcana-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1371,7 +1416,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgearchitecture-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgearchitecture-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgearchitecture-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgearchitecture-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1383,7 +1428,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgedungeon-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgedungeon-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgedungeon-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgedungeon-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1395,7 +1440,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgegeography-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgegeography-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgegeography-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgegeography-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1407,7 +1452,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgehistory-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgehistory-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgehistory-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgehistory-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1419,7 +1464,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgelocal-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgelocal-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgelocal-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgelocal-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1431,7 +1476,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgenature-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgenature-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgenature-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgenature-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1443,7 +1488,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgenobility-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgenobility-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgenobility-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgenobility-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1455,7 +1500,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgeplanes-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgeplanes-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgeplanes-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgeplanes-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1467,7 +1512,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-knowledgereligion-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-knowledgereligion-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-knowledgereligion-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-knowledgereligion-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1479,7 +1524,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_wismod" data-i18n-title="abi_wis_mod" value="@{wis-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-listen-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-listen-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-listen-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-listen-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1491,7 +1536,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div><input type="number" name="attr_sk-movesilently-pen" data-i18n-title="ui_pen_chk" value="@{sk-pen}" disabled></div>
-				<div><input type="number" name="attr_sk-movesilently-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-movesilently-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-movesilently-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-movesilently-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1503,7 +1548,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-openlock-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-openlock-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-openlock-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-openlock-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1515,7 +1560,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-perform1-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-perform1-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-perform1-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-perform1-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1527,7 +1572,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-perform2-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-perform2-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-perform2-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-perform2-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1539,7 +1584,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-perform3-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-perform3-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-perform3-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-perform3-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1551,7 +1596,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_wismod" data-i18n-title="abi_wis_mod" value="@{wis-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-profession1-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-profession1-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-profession1-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-profession1-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1563,7 +1608,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_wismod" data-i18n-title="abi_wis_mod" value="@{wis-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-profession2-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-profession2-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-profession2-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-profession2-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1575,7 +1620,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-ride-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-ride-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-ride-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-ride-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1587,7 +1632,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-search-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-search-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-search-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-search-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-search-cond-syn" value="">
@@ -1600,7 +1645,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_wismod" data-i18n-title="abi_wis_mod" value="@{wis-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-sensemotive-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-sensemotive-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-sensemotive-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-sensemotive-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1612,7 +1657,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div><input type="number" name="attr_sk-sleightofhand-pen" data-i18n-title="ui_pen_chk" value="@{sk-pen}" disabled></div>
-				<div><input type="number" name="attr_sk-sleightofhand-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-sleightofhand-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-sleightofhand-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-sleightofhand-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1624,7 +1669,7 @@
 				<div>=</div>
 				<div>&mdash;</div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-speaklanguage-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-speaklanguage-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div>&mdash;</div>
 				<div>&mdash;</div>
 				<div>&nbsp;</div>
@@ -1637,7 +1682,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_intmod" data-i18n-title="abi_int_mod" value="@{int-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-spellcraft-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-spellcraft-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-spellcraft-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-spellcraft-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-spellcraft-cond-syn" value="">
@@ -1650,7 +1695,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_wismod" data-i18n-title="abi_wis_mod" value="@{wis-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-spot-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-spot-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-spot-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-spot-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1662,7 +1707,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_wismod" data-i18n-title="abi_wis_mod" value="@{wis-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-survival-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-survival-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-survival-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-survival-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-survival1-cond-syn" value="">
@@ -1679,7 +1724,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_strmod" data-i18n-title="abi_str_mod" value="@{str-mod}" disabled></div>
 				<div><input type="number" name="attr_sk-swim-pen" data-i18n-title="ui_pen_chk" value="(@{sk-pen}*2)" disabled></div>
-				<div><input type="number" name="attr_sk-swim-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-swim-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-swim-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-swim-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1691,7 +1736,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-tumble-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-tumble-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-tumble-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-tumble-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1703,7 +1748,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_chamod" data-i18n-title="abi_cha_mod" value="@{cha-mod}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-usemagicdevice-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-usemagicdevice-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-usemagicdevice-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-usemagicdevice-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-usemagicdevice-cond-syn" value="">
@@ -1716,7 +1761,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_dexmod" data-i18n-title="abi_dex_mod" value="@{dex-max}" disabled></div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-userope-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-userope-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-userope-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-userope-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 				<input type="hidden" name="attr_sk-userope-cond-syn" value="">
@@ -1739,7 +1784,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_sk-other1-mod" data-i18n-title="ui_mod_abi" value="@{sk-other1-abi}" disabled></div>
 				<div><input type="checkbox" name="attr_sk-other1-pen" data-i18n-title="ui_pen_chk" value="1"></div>
-				<div><input type="number" name="attr_sk-other1-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-other1-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-other1-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-other1-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1761,7 +1806,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_sk-other2-mod" data-i18n-title="ui_mod_abi" value="@{sk-other2-abi}" disabled></div>
 				<div><input type="checkbox" name="attr_sk-other2-pen" data-i18n-title="ui_pen_chk" value="1"></div>
-				<div><input type="number" name="attr_sk-other2-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-other2-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-other2-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-other2-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1783,7 +1828,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_sk-other3-mod" data-i18n-title="ui_mod_abi" value="@{sk-other3-abi}" disabled></div>
 				<div><input type="checkbox" name="attr_sk-other3-pen" data-i18n-title="ui_pen_chk" value="1"></div>
-				<div><input type="number" name="attr_sk-other3-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-other3-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-other3-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-other3-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1805,7 +1850,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_sk-other4-mod" data-i18n-title="ui_mod_abi" value="@{sk-other4-abi}" disabled></div>
 				<div><input type="checkbox" name="attr_sk-other4-pen" data-i18n-title="ui_pen_chk" value="1"></div>
-				<div><input type="number" name="attr_sk-other4-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-other4-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-other4-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-other4-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1827,7 +1872,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_sk-other5-mod" data-i18n-title="ui_mod_abi" value="@{sk-other5-abi}" disabled></div>
 				<div><input type="checkbox" name="attr_sk-other5-pen" data-i18n-title="ui_pen_chk" value="1"></div>
-				<div><input type="number" name="attr_sk-other5-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-other5-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-other5-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-other5-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1849,7 +1894,7 @@
 				<div>=</div>
 				<div><input type="number" name="attr_sk-other6-mod" data-i18n-title="ui_mod_abi" value="@{sk-other6-abi}" disabled></div>
 				<div><input type="checkbox" name="attr_sk-other6-pen" data-i18n-title="ui_pen_chk" value="1"></div>
-				<div><input type="number" name="attr_sk-other6-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-other6-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div><input type="number" name="attr_sk-other6-race" data-i18n-title="sk_race" value="0"></div>
 				<div><input type="number" name="attr_sk-other6-misc" data-i18n-title="ui_misc_mod" value="0"></div>
 			</div>
@@ -1861,7 +1906,7 @@
 				<div>&nbsp;</div>
 				<div>&mdash;</div>
 				<div>&mdash;</div>
-				<div><input type="number" name="attr_sk-tricks-rank" data-i18n-title="sk_rank" value="0"></div>
+				<div><input type="number" name="attr_sk-tricks-rank" data-i18n-title="sk_rank" value="0" min="0"></div>
 				<div>&mdash;</div>
 				<div>&mdash;</div>
 			</div>
@@ -1931,10 +1976,11 @@
 							<select name="attr_cat"class="sheet-input" style="width: 200px;" data-i18n-title="feat_cat_tt">
 								<option value="" selected>—</option>
 								<option data-i18n="feat_cat_general" value="general"></option>
-								<option data-i18n="feat_cat_fighter" value="fighter"></option>
+								<option data-i18n="feat_cat_combat" value="combat"></option>
 								<option data-i18n="feat_cat_metamagic" value="metamagic"></option>
 								<option data-i18n="feat_cat_itemcreation" value="itemcreation"></option>
 								<option data-i18n="feat_cat_monstrous" value="monstrous"></option>
+								<option data-i18n="feat_cat_psionic" value="psionic"></option>
 								<option data-i18n="feat_cat_epic" value="epic"></option>
 							</select>
 						</div>
@@ -1949,7 +1995,7 @@
 							<div style="width: 600px;">
 								<div class="autoex">
 									<span name="attr_req"></span>
-									<textarea name="attr_req"class="" data-i18n-placeholder="feat_req_pl"></textarea>
+									<textarea name="attr_req" data-i18n-placeholder="feat_req_pl"></textarea>
 								</div>
 							</div>
 						</div>
@@ -2036,7 +2082,7 @@
 								<div style="width: 600px;">
 									<div class="autoex">
 										<span name="attr_req"></span>
-										<textarea name="attr_req"class="" data-i18n-placeholder="sk_trick_req_pl"></textarea>
+										<textarea name="attr_req" data-i18n-placeholder="sk_trick_req_pl"></textarea>
 									</div>
 								</div>
 							</div>
@@ -2612,18 +2658,22 @@
 		</div>
 		<div class="sheet-table">
 			<div class="table-row">
-				<div style="width: 200px;" data-i18n="cls_abi_name"></div>
-				<div style="width: 50px;" data-i18n="cls_abi_type"></div>
-				<div style="width: 440px;" data-i18n="cls_abi_desc"></div>
+				<div style="width: 20px;"></div>
+				<div style="width: 320px;" data-i18n="cls_abi_name"></div>
+				<div style="width: 60px;" data-i18n="cls_abi_type"></div>
+				<div style="width: 200px;" data-i18n="cls_abi_use"></div>
+				<div style="width: 40px;" data-i18n="cls_abi_lvl"></div>
+				<div style="width: 40px;" data-i18n="cls_abi_acquired"></div>
 			</div>
 		</div>
 		<div class="fieldset" style="display: block;">
 			<fieldset class="repeating_cls">
+				<input type="checkbox" name="attr_show-options" class="show-options" data-i18n-title="ui_opts_show" value="1"><span></span>
 				<div class="sheet-table">
 					<div class="table-row">
-						<div style="vertical-align: top;"><input type="text" name="attr_name" class="sheet-left underline" style="width: 200px;" data-i18n-placeholder="cls_abi_name_pl"></div>
-						<div style="vertical-align: top;">
-							<select name="attr_type" class="underline" style="width: 50px;" data-i18n-title="cls_abi_type_tt">
+						<div class="pad-left"><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 320px;" data-i18n-placeholder="cls_abi_name_pl"></div>
+						<div>
+							<select name="attr_type" class="sheet-input" style="width: 60px;" data-i18n-title="cls_abi_type_tt">
 								<option value="" select>—</option>
 								<option data-i18n="cls_abi_type_sp" data-i18n-title="cls_abi_type_sp_tt" value="sp"></option>
 								<option data-i18n="cls_abi_type_su" data-i18n-title="cls_abi_type_su_tt" value="su"></option>
@@ -2631,11 +2681,25 @@
 								<option data-i18n="cls_abi_type_na" data-i18n-title="cls_abi_type_na_tt" value="na"></option>
 							</select>
 						</div>
-						<div style="vertical-align: top;">
-							<div class="autoex">
-								<span name="attr_desc" ></span>
-								<textarea name="attr_desc" class="sheet-left" style="width: 440px;" data-i18n-placeholder="cls_abi_desc_pl"></textarea>
+						<div><input type="text" name="attr_use" class="sheet-input sheet-left" style="width: 200px;" data-i18n-placeholder="cls_abi_use_pl"></div>
+						<div><input type="number" name="attr_lvl" class="sheet-input" style="width: 40px;" data-i18n-title="cls_abi_lvl_tt" value="1" min="1"></div>
+						<div style="width: 40px;" ><input type="checkbox" name="attr_acquired" data-i18n-title="cls_abi_acquired_tt" value="1" checked></div>
+					</div>
+				</div>
+				<div class="options">
+					<div class="sheet-table table-input">
+						<div class="table-row">
+							<div style="width: 100px;"><span data-i18n="cls_abi_desc"></span></div>
+							<div style="width: 600px;">
+								<div class="autoex">
+									<span name="attr_desc" ></span>
+									<textarea name="attr_desc" data-i18n-placeholder="cls_abi_desc_pl"></textarea>
+								</div>
 							</div>
+						</div>
+						<div class="table-row">
+							<div><span data-i18n="cls_abi_src"></span></div>
+							<div><input type="text" name="attr_src" class="sheet-left underline" data-i18n-placeholder="cls_abi_src_pl"></div>
 						</div>
 					</div>
 				</div>
@@ -4923,15 +4987,17 @@
 		</div>
 		<input type="hidden" name="attr_atk-num" class="full-attack" value="1">
 		<div class="fieldset weapon">
-			<fieldset class="repeating_wpn weapon">
+			<fieldset class="repeating_wpn">
 				<div>
 					<div class="headline">
-						<button type="roll" name="roll_atk" data-i18n-title="wpn_atk1" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn_dmg_type_@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-type=^{wpn_dmg_type_@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[0]]}} {{atk1=[[@{atk1}+@{r-mod}]]}} {{null1=[[@{atk1}+@{r-mod}+@{roll-nil}]]}} {{roll1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}}"><span name="attr_name"></span></button>
+						<button type="roll" name="roll_atk" data-i18n-title="wpn_atk1" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{atk-mod=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{full-atk=[[0]]}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{atk1=[[@{atk1}+@{r-mod}]]}} {{null1=[[@{atk1}+@{r-mod}+@{roll-nil}]]}} {{roll1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{crit1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg-roll=[^{tpl_dmg_roll}](~_x_dmg-roll)}} {{crit-roll=[^{tpl_crit_roll}](~_x_crit-roll)}}"><span name="attr_name"></span></button>
 					</div>
 					<div class="attack-bar">
-						<span class="attack-roll-2"><button type="roll" name="roll_atk2" data-i18n-title="wpn_atk2" data-i18n="wpn_full_atk_abbr" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn_dmg_type_@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-type=^{wpn_dmg_type_@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}+@{r-mod}]]}} {{null1=[[@{atk1}+@{r-mod}+@{roll-nil}]]}} {{roll1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk2=[[@{atk2}+@{r-mod}]]}} {{null2=[[@{atk2}+@{r-mod}+@{roll-nil}]]}} {{roll2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}}"></button></span>
-						<span class="attack-roll-3"><button type="roll" name="roll_atk3" data-i18n-title="wpn_atk3" data-i18n="wpn_full_atk_abbr" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn_dmg_type_@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-type=^{wpn_dmg_type_@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}+@{r-mod}]]}} {{null1=[[@{atk1}+@{r-mod}+@{roll-nil}]]}} {{roll1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk2=[[@{atk2}+@{r-mod}]]}} {{null2=[[@{atk2}+@{r-mod}+@{roll-nil}]]}} {{roll2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk3=[[@{atk3}+@{r-mod}]]}} {{null3=[[@{atk3}+@{r-mod}+@{roll-nil}]]}} {{roll3=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk3}+@{r-mod}]]}} {{dmg3=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit3=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk3}+@{r-mod}]]}} {{dmg-crit3=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}}"></button></span>
-						<span class="attack-roll-4"><button type="roll" name="roll_atk4" data-i18n-title="wpn_atk4" data-i18n="wpn_full_atk_abbr" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{mod-atk=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{crit-mult=@{crit-mult}}} {{dmg-type=^{wpn_dmg_type_@{dmg-type}}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{mod-dmg=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg=@{dmg-num}@{dmg-die}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-type=^{wpn_dmg_type_@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{full-atk=[[1]]}} {{atk1=[[@{atk1}+@{r-mod}]]}} {{null1=[[@{atk1}+@{r-mod}+@{roll-nil}]]}} {{roll1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg1=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{dmg-crit1=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk2=[[@{atk2}+@{r-mod}]]}} {{null2=[[@{atk2}+@{r-mod}+@{roll-nil}]]}} {{roll2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{dmg2=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{dmg-crit2=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk3=[[@{atk3}+@{r-mod}]]}} {{null3=[[@{atk3}+@{r-mod}+@{roll-nil}]]}} {{roll3=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk3}+@{r-mod}]]}} {{dmg3=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit3=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk3}+@{r-mod}]]}} {{dmg-crit3=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{atk4=[[@{atk4}+@{r-mod}]]}} {{null4=[[@{atk4}+@{r-mod}+@{roll-nil}]]}} {{roll4=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk4}+@{r-mod}]]}} {{dmg4=[[@{dmg-num}@{dmg-die}+@{dmg-mod}+@{dmg-xtra-num}@{dmg-xtra-die}]]}} {{crit4=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk4}+@{r-mod}]]}} {{dmg-crit4=[[[[@{crit-mult}*@{dmg-num}]]@{dmg-die}+[[@{crit-mult}*@{dmg-mod}]]+@{dmg-xtra-num}@{dmg-xtra-die}]]}}"></button></span>
+						<span class="attack-roll-2"><button type="roll" name="roll_atk2" data-i18n-title="wpn_atk2" data-i18n="wpn_full_atk_abbr" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{atk-mod=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{full-atk=[[1]]}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{atk1=[[@{atk1}+@{r-mod}]]}} {{null1=[[@{atk1}+@{r-mod}+@{roll-nil}]]}} {{roll1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{crit1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{atk2=[[@{atk2}+@{r-mod}]]}} {{null2=[[@{atk2}+@{r-mod}+@{roll-nil}]]}} {{roll2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{crit2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{dmg-roll=[^{tpl_dmg_roll}](~_x_dmg-roll)}} {{crit-roll=[^{tpl_crit_roll}](~_x_crit-roll)}}"></button></span>
+						<span class="attack-roll-3"><button type="roll" name="roll_atk3" data-i18n-title="wpn_atk3" data-i18n="wpn_full_atk_abbr" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{atk-mod=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{full-atk=[[1]]}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{atk1=[[@{atk1}+@{r-mod}]]}} {{null1=[[@{atk1}+@{r-mod}+@{roll-nil}]]}} {{roll1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{crit1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{atk2=[[@{atk2}+@{r-mod}]]}} {{null2=[[@{atk2}+@{r-mod}+@{roll-nil}]]}} {{roll2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{crit2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{atk3=[[@{atk3}+@{r-mod}]]}} {{null3=[[@{atk3}+@{r-mod}+@{roll-nil}]]}} {{roll3=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk3}+@{r-mod}]]}} {{crit3=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk3}+@{r-mod}]]}} {{dmg-roll=[^{tpl_dmg_roll}](~_x_dmg-roll)}} {{crit-roll=[^{tpl_crit_roll}](~_x_crit-roll)}}"></button></span>
+						<span class="attack-roll-4"><button type="roll" name="roll_atk4" data-i18n-title="wpn_atk4" data-i18n="wpn_full_atk_abbr" value="@{w-gm} &{template:attack} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{range=@{range}}} {{enh=@{enh}}} {{abi-atk=[[@{abi-atk}]]}} {{focus=@{focus}}} {{atk-mod=[[@{melee}*@{melee-mod-atk}+(1-@{melee})*@{range-mod-atk}]]}} {{crit-min=@{crit-min}}} {{crit-die=@{crit-base}}} {{full-atk=[[1]]}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}} {{atk1=[[@{atk1}+@{r-mod}]]}} {{null1=[[@{atk1}+@{r-mod}+@{roll-nil}]]}} {{roll1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{crit1=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk1}+@{r-mod}]]}} {{atk2=[[@{atk2}+@{r-mod}]]}} {{null2=[[@{atk2}+@{r-mod}+@{roll-nil}]]}} {{roll2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{crit2=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk2}+@{r-mod}]]}} {{atk3=[[@{atk3}+@{r-mod}]]}} {{null3=[[@{atk3}+@{r-mod}+@{roll-nil}]]}} {{roll3=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk3}+@{r-mod}]]}} {{crit3=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk3}+@{r-mod}]]}} {{atk4=[[@{atk4}+@{r-mod}]]}} {{null4=[[@{atk4}+@{r-mod}+@{roll-nil}]]}} {{roll4=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk4}+@{r-mod}]]}} {{crit4=[[1d@{roll-die}cs>@{crit-min}@{roll-cf}+@{atk4}+@{r-mod}]]}} {{dmg-roll=[^{tpl_dmg_roll}](~_x_dmg-roll)}} {{crit-roll=[^{tpl_crit_roll}](~_x_crit-roll)}}"></button></span>
+						<button type="roll" name="roll_dmg-roll" class="pictos-custom" data-i18n-title="wpn_dmg_roll" value="@{w-gm} &{template:damage} {{dmg=[[[[@{dmg-num}@{dmg-die}+@{dmg-mod}]]+[[@{dmg-xtra-num}@{dmg-xtra-die}]]]]}} {{dmg-base-r=$[[0]]}} {{dmg-xtra-r=$[[1]]}} {{char-name=@{roll-name}}} {{name=@{name}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{enh=@{enh}}} {{dmg-base=@{dmg-num}@{dmg-die}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{dmg-mod=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg-type=^{wpn_dmg_type_@{dmg-type}}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-num=[[@{dmg-xtra-num}]]}}} {{dmg-xtra-type=^{wpn_dmg_type_@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}}">t</button>
+						<button type="roll" name="roll_crit-roll" class="hidden" value="@{w-gm} &{template:damage} {{dmg=[[[[@{crit-mult}*@{dmg-num}@{dmg-die}+@{crit-mult}*@{dmg-mod}]]+[[@{dmg-xtra-num}@{dmg-xtra-die}]]]]}} {{dmg-base-r=$[[0]]}} {{dmg-xtra-r=$[[1]]}} {{char-name=@{roll-name}}} {{name=@{name}}} {{crit-mult=@{crit-mult}}} {{hand=^{wpn_hand_@{hand}}}} {{melee=[[@{melee}]]}}} {{enh=@{enh}}} {{dmg-base=@{dmg-num}@{dmg-die}}} {{abi-dmg=[[@{abi-dmg}]]}} {{spec=@{spec}}} {{dmg-mod=[[@{melee}*@{melee-mod-dmg}+(1-@{melee})*@{range-mod-dmg}]]}} {{dmg-type=^{wpn_dmg_type_@{dmg-type}}}} {{dmg-xtra=@{dmg-xtra-num}@{dmg-xtra-die}}} {{dmg-xtra-num=[[@{dmg-xtra-num}]]}}} {{dmg-xtra-type=^{wpn_dmg_type_@{dmg-xtra-type}}}} {{props=@{props}}} {{show-details=[[@{show-weapons-details}]]}}"></button>
 					</div>
 					<input type="checkbox" name="attr_show-options" class="show-options" data-i18n-title="ui_opts_show" value="1"><span></span>
 					<div class="attack-block">
@@ -5177,11 +5243,11 @@
 					<td colspan="2"></td>
 				</tr>
 				<tr>
-					<td><input type="number" name="attr_pen-tot" class="sheet-input" data-i18n-title="arm_pen_tt" value="((@{arm-pen}*@{arm-worn})+(@{shd-pen}*@{shd-eqp}))" disabled></td>
+					<td><input type="number" name="attr_pen-tot" class="sheet-input" data-i18n-title="arm_pen_tt" value="((@{arm-pen}*@{arm-eqp})+(@{shd-pen}*@{shd-eqp}))" disabled></td>
 					<td><div class="title-label"><span data-i18n="arm_pen"></span></div></td>
 				</tr>
 				<tr>
-					<td><input type="number" name="attr_def-spl" class="sheet-input" data-i18n-title="spl_fail" value="((@{arm-spl}*@{arm-worn})+(@{shd-spl}*@{shd-eqp}))" disabled></td>
+					<td><input type="number" name="attr_def-spl" class="sheet-input" data-i18n-title="spl_fail" value="((@{arm-spl}*@{arm-eqp})+(@{shd-spl}*@{shd-eqp}))" disabled></td>
 					<td><div class="title-label"><span data-i18n="spl_fail"></span></div></td>
 				</tr>
 				<tr>
@@ -5191,7 +5257,10 @@
 			</table>
 		</div>
 		<div class="armor-shield-content">
-			<div><label><input type="checkbox" name="attr_arm-worn" value="1" checked><span data-i18n="arm_worn"></span></label></div>
+			<div>
+				<label data-i18n-title="arm_worn_tt"><input type="checkbox" name="attr_arm-worn" value="1"><span data-i18n="arm_worn"></span></label>
+				<label data-i18n-title="arm_eqp_tt"><input type="checkbox" name="attr_arm-eqp" value="1"><span data-i18n="arm_eqp"></span></label>
+			</div>
 			<table class="table-input table-wide black-board bottom-20">
 				<colgroup>
 					<col>
@@ -5253,8 +5322,8 @@
 				</tr>
 			</table>
 			<div>
-				<label><input type="checkbox" name="attr_shd-worn" value="1" checked><span data-i18n="shd_worn"></span></label>
-				<label><input type="checkbox" name="attr_shd-eqp" value="1" checked><span data-i18n="shd_eqp"></span></label>
+				<label data-i18n-title="shd_worn_tt"><input type="checkbox" name="attr_shd-worn" value="1"><span data-i18n="shd_worn"></span></label>
+				<label data-i18n-title="shd_eqp_tt"><input type="checkbox" name="attr_shd-eqp" value="1"><span data-i18n="shd_eqp"></span></label>
 			</div>
 			<table class="table-input table-wide black-board">
 				<colgroup>
@@ -5532,11 +5601,30 @@
 								</div>
 							</div>
 							<div class="options">
-								<span class="caption" data-i18n="eqp_transfer"></span>
-								<button type="action" name="act_mag" data-i18n="eqp_mag"></button>
-								<button type="action" name="act_itm" data-i18n="eqp_use"></button>
-								<button type="action" name="act_tra" data-i18n="eqp_travel"></button>
-								<button type="action" name="act_sta" data-i18n="eqp_stash"></button>
+								<div class="sheet-table table-input">
+									<div class="table-row">
+										<div style="width: 100px;"><span data-i18n="eqp_desc"></span></div>
+										<div style="width: 600px;">
+											<div class="autoex">
+												<span name="attr_desc"></span>
+												<textarea name="attr_desc" data-i18n-placeholder="eqp_desc_pl"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_src"></span></div>
+										<div><input type="text" name="attr_src" class="sheet-left underline" data-i18n-placeholder="eqp_src_pl"></div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_transfer"></span></div>
+										<div class="sheet-left">
+											<button type="action" name="act_mag" data-i18n="eqp_mag"></button>
+											<button type="action" name="act_itm" data-i18n="eqp_use"></button>
+											<button type="action" name="act_tra" data-i18n="eqp_travel"></button>
+											<button type="action" name="act_sta" data-i18n="eqp_stash"></button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</fieldset>
 					</div>
@@ -5641,11 +5729,30 @@
 								</div>
 							</div>
 							<div class="options">
-								<span class="caption" data-i18n="eqp_transfer"></span>
-								<button type="action" name="act_eqp" data-i18n="eqp_itm"></button>
-								<button type="action" name="act_itm" data-i18n="eqp_use"></button>
-								<button type="action" name="act_tra" data-i18n="eqp_travel"></button>
-								<button type="action" name="act_sta" data-i18n="eqp_stash"></button>
+								<div class="sheet-table table-input">
+									<div class="table-row">
+										<div style="width: 100px;"><span data-i18n="eqp_desc"></span></div>
+										<div style="width: 600px;">
+											<div class="autoex">
+												<span name="attr_desc"></span>
+												<textarea name="attr_desc" data-i18n-placeholder="eqp_desc_pl"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_src"></span></div>
+										<div><input type="text" name="attr_src" class="sheet-left underline" data-i18n-placeholder="eqp_src_pl"></div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_transfer"></span></div>
+										<div class="sheet-left">
+											<button type="action" name="act_eqp" data-i18n="eqp_itm"></button>
+											<button type="action" name="act_itm" data-i18n="eqp_use"></button>
+											<button type="action" name="act_tra" data-i18n="eqp_travel"></button>
+											<button type="action" name="act_sta" data-i18n="eqp_stash"></button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</fieldset>
 					</div>
@@ -5713,11 +5820,30 @@
 								</div>
 							</div>
 							<div class="options">
-								<span class="caption" data-i18n="eqp_transfer"></span>
-								<button type="action" name="act_eqp" data-i18n="eqp_itm"></button>
-								<button type="action" name="act_mag" data-i18n="eqp_mag"></button>
-								<button type="action" name="act_tra" data-i18n="eqp_travel"></button>
-								<button type="action" name="act_sta" data-i18n="eqp_stash"></button>
+								<div class="sheet-table table-input">
+									<div class="table-row">
+										<div style="width: 100px;"><span data-i18n="eqp_desc"></span></div>
+										<div style="width: 600px;">
+											<div class="autoex">
+												<span name="attr_desc"></span>
+												<textarea name="attr_desc" data-i18n-placeholder="eqp_desc_pl"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_src"></span></div>
+										<div><input type="text" name="attr_src" class="sheet-left underline" data-i18n-placeholder="eqp_src_pl"></div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_transfer"></span></div>
+										<div class="sheet-left">
+											<button type="action" name="act_eqp" data-i18n="eqp_itm"></button>
+											<button type="action" name="act_mag" data-i18n="eqp_mag"></button>
+											<button type="action" name="act_tra" data-i18n="eqp_travel"></button>
+											<button type="action" name="act_sta" data-i18n="eqp_stash"></button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</fieldset>
 					</div>
@@ -5799,11 +5925,30 @@
 								</div>
 							</div>
 							<div class="options">
-								<span class="caption" data-i18n="eqp_transfer"></span>
-								<button type="action" name="act_eqp" data-i18n="eqp_itm"></button>
-								<button type="action" name="act_mag" data-i18n="eqp_mag"></button>
-								<button type="action" name="act_itm" data-i18n="eqp_use"></button>
-								<button type="action" name="act_sta" data-i18n="eqp_stash"></button>
+								<div class="sheet-table table-input">
+									<div class="table-row">
+										<div style="width: 100px;"><span data-i18n="eqp_desc"></span></div>
+										<div style="width: 600px;">
+											<div class="autoex">
+												<span name="attr_desc"></span>
+												<textarea name="attr_desc" data-i18n-placeholder="eqp_desc_pl"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_src"></span></div>
+										<div><input type="text" name="attr_src" class="sheet-left underline" data-i18n-placeholder="eqp_src_pl"></div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_transfer"></span></div>
+										<div class="sheet-left">
+											<button type="action" name="act_eqp" data-i18n="eqp_itm"></button>
+											<button type="action" name="act_mag" data-i18n="eqp_mag"></button>
+											<button type="action" name="act_itm" data-i18n="eqp_use"></button>
+											<button type="action" name="act_sta" data-i18n="eqp_stash"></button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</fieldset>
 					</div>
@@ -5929,11 +6074,30 @@
 								</div>
 							</div>
 							<div class="options">
-								<span class="caption" data-i18n="eqp_transfer"></span>
-								<button type="action" name="act_eqp" data-i18n="eqp_itm"></button>
-								<button type="action" name="act_mag" data-i18n="eqp_mag"></button>
-								<button type="action" name="act_itm" data-i18n="eqp_use"></button>
-								<button type="action" name="act_tra" data-i18n="eqp_travel"></button>
+								<div class="sheet-table table-input">
+									<div class="table-row">
+										<div style="width: 100px;"><span data-i18n="eqp_desc"></span></div>
+										<div style="width: 600px;">
+											<div class="autoex">
+												<span name="attr_desc"></span>
+												<textarea name="attr_desc" data-i18n-placeholder="eqp_desc_pl"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_src"></span></div>
+										<div><input type="text" name="attr_src" class="sheet-left underline" data-i18n-placeholder="eqp_src_pl"></div>
+									</div>
+									<div class="table-row">
+										<div><span data-i18n="eqp_transfer"></span></div>
+										<div class="sheet-left">
+											<button type="action" name="act_eqp" data-i18n="eqp_itm"></button>
+											<button type="action" name="act_mag" data-i18n="eqp_mag"></button>
+											<button type="action" name="act_itm" data-i18n="eqp_use"></button>
+											<button type="action" name="act_tra" data-i18n="eqp_travel"></button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</fieldset>
 					</div>

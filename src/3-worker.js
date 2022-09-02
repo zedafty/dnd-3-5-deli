@@ -347,6 +347,24 @@ on("change:cls1-name change:cls2-name change:cls3-name change:cls4-name", functi
 // -----------------------------------------------------------------------------
 // =============================================================================
 
+// Strength
+const getStrength = function(v) { // v = attribute list
+	return toInt(v["str-base"]) + toInt(v["str-dmg"]) + toInt(v["str-race"]) + toInt(v["str-item"]) + toInt(v["str-misc"]) + toInt(v["str-temp"]) + toInt(v["brb-rage"]) + toInt(v["brb-fat"]) - toInt(v["char-aging"]);
+};
+
+const getStrengthModifier = function(v, l) { // v = attribute list, l = character level
+	return (Math.floor((Strength(v))/2)-5) * l;
+};
+
+// Dexterity
+const getDexterity = function(v) { // v = attribute list
+	return toInt(v["dex-base"]) + toInt(v["dex-dmg"]) + toInt(v["dex-race"]) + toInt(v["dex-item"]) + toInt(v["dex-misc"]) + toInt(v["dex-temp"]) + toInt(v["brb-fat"]) - toInt(v["char-aging"]);
+};
+
+const getDexterityModifier = function(v, l) { // v = attribute list, l = character level
+	return (Math.floor((getDexterity(v))/2)-5) * l;
+};
+
 // Constitution
 const getConstitution = function(v) { // v = attribute list
 	return toInt(v["con-base"]) + toInt(v["con-dmg"]) + toInt(v["con-race"]) + toInt(v["con-item"]) + toInt(v["con-misc"]) + toInt(v["con-temp"]) + toInt(v["brb-rage"]) - toInt(v["char-aging"]);
@@ -354,6 +372,33 @@ const getConstitution = function(v) { // v = attribute list
 
 const getConstitutionModifier = function(v, l) { // v = attribute list, l = character level
 	return (Math.floor((getConstitution(v))/2)-5) * l;
+};
+
+// Intelligence
+const getIntelligence = function(v) { // v = attribute list
+	return toInt(v["int-base"]) + toInt(v["int-dmg"]) + toInt(v["int-race"]) + toInt(v["int-item"]) + toInt(v["int-misc"]) + toInt(v["int-temp"]) + Math.floor(toInt(v["char-aging"]) / 2);
+};
+
+const getIntelligenceModifier = function(v, l) { // v = attribute list, l = character level
+	return (Math.floor((getIntelligence(v))/2)-5) * l;
+};
+
+// Wisdom
+const getWisdom = function(v) { // v = attribute list
+	return toInt(v["wis-base"]) + toInt(v["wis-dmg"]) + toInt(v["wis-race"]) + toInt(v["wis-item"]) + toInt(v["wis-misc"]) + toInt(v["wis-temp"]) + Math.floor(toInt(v["char-aging"]) / 2);
+};
+
+const getWisdomModifier = function(v, l) { // v = attribute list, l = character level
+	return (Math.floor((getWisdom(v))/2)-5) * l;
+};
+
+// Charisma
+const getCharisma = function(v) { // v = attribute list
+	return toInt(v["cha-base"]) + toInt(v["cha-dmg"]) + toInt(v["cha-race"]) + toInt(v["cha-item"]) + toInt(v["cha-misc"]) + toInt(v["cha-temp"]) + Math.floor(toInt(v["char-aging"]) / 2);
+};
+
+const getCharismaModifier = function(v, l) { // v = attribute list, l = character level
+	return (Math.floor((getCharisma(v))/2)-5) * l;
 };
 
 // =============================================================================
@@ -367,14 +412,6 @@ const getHitPointsMax = function(v, m) { // v = attribute list, m = constitution
 	let n = parsePositiveSum(v["hp-roll1"]) + parsePositiveSum(v["hp-roll2"]) + parsePositiveSum(v["hp-roll3"]) + parsePositiveSum(v["hp-roll4"]) + toInt(v["hp-feat"]) + toInt(v["hp-item"]);
 	return n + m;
 };
-
-on("change:hp", function(e) {
-	let n = e.newValue;
-	let r = new RegExp;
-	let reg = /^[\+\-]?\d+\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?$/i;
-	n = reg.test(n) ? eval(n) : e.previousValue;
-	setAttrs({"hp" : n}, {"silent" : true});
-});
 
 on("change:hp-roll1 change:hp-roll2 change:hp-roll3 change:hp-roll4", function(e) {
 	let s = e.newValue;
@@ -446,6 +483,20 @@ on("change:arm-worn change:arm-dex change:load-dex", setMaximumDexterity);
 // # Skills
 // -----------------------------------------------------------------------------
 // =============================================================================
+
+// Skill Ranks
+const skills = ["athletism", "appraise", "balance", "bluff", "climb", "concentration", "craftalchemy", "craft", "decipher", "diplomacy", "disabledevice", "disguise", "escapeartist", "forgery", "gatherinformation", "handleanimal", "heal", "hide", "intimidate", "jump", "knowledgearcana", "knowledgearchitecture", "knowledgedungeon", "knowledgegeography", "knowledgehistory", "knowledgelocal", "knowledgenature", "knowledgenobility", "knowledgereligion", "knowledgeplanes", "listen", "movesilently", "openlock", "perform", "profession", "ride", "search", "sensemotive", "sleightofhand", "speaklanguage", "spellcraft", "spot", "survival", "swim", "tumble", "usemagicdevice", "userope", "other"];
+
+skills.forEach(k => {
+	on(`change:sk-${k}-rank`, function(e) {
+		getAttrs([...attrs.Char.Lvl], v => {
+			let u = {};
+			let n = getCharacterLevel(v) + 3;
+			u[`sk-${k}-rank`] = Math.min(Math.max(toInt(e.newValue), 0), n);
+			setAttrs(u);
+		});
+	});
+});
 
 // Synergies
 const skillSynergies = {
@@ -924,6 +975,17 @@ on("change:repeating_wpn:name", function(e) {
 // -----------------------------------------------------------------------------
 // =============================================================================
 
+// Armor Equipped
+on("change:arm-worn", function(e) {
+	let k = e.newValue;
+	if (k == "0") setAttrs({"arm-eqp" : k});
+});
+
+on("change:arm-eqp", function(e) {
+	let k = e.newValue;
+	if (k == "1") setAttrs({"arm-worn" : k});
+});
+
 // Shield Equipped
 on("change:shd-worn", function(e) {
 	let k = e.newValue;
@@ -955,6 +1017,7 @@ const autofillArmor = function(e) { // e = event
 		let u = {};
 		let b = k == "none";
 		u["arm-worn"] = b ? "0" : "1";
+		u["arm-eqp"] = b ? "0" : "1";
 		u["arm-name"] = getTranslation(`arm-${k}`);
 		u["arm-type"] = armorType[a[k].type] || "nil";
 		u["arm-bon"] = a[k].bon || 0;
@@ -1088,10 +1151,10 @@ loadPenalties["min"] = loadPenalties.lgt;
 loadPenalties["max"] = loadPenalties.hvy;
 
 const updateLoad = function() {
-	let a = ["str-base", "str-misc", "str-temp", "brb-rage", "brb-fat", "char-aging"];
+	let a = [...attrs.Abi.Str];
 	let b = ["wpn-wgt-tot", "def-wgt-tot", "eqp-wgt-tot", "mag-wgt-tot", "itm-wgt-tot", "mny-wgt-tot", "gem-wgt-tot", "art-wgt-tot"];
 	getAttrs([...a, ...b, "char-size", "char-legs", "load-mod", "mvt-land-base"], v => {
-		let i = Math.floor(a.reduce(function(t, n) {return t + toInt(v[n])}, 0));
+		let i = getStrength(v);
 		let n = Math.floor(b.reduce(function(t, n) {return t + toFlt(v[n])}, 0));
 		let hvy, med, lft;
 		let s;
@@ -1125,6 +1188,8 @@ const updateLoad = function() {
 		else s = "max";
 		let u = {};
 		let q = loadPenalties;
+		u["state-enc-med"] = s == "med" ? 1 : 0;
+		u["state-enc-hvy"] = s == "hvy" || s == "max" ? 1 : 0;
 		u["load-tot-str"] = getTranslation(`load-${s}-subt`);
 		u["load-tot"] = s;
 		u["load-lgt"] = lgt;
@@ -1153,7 +1218,7 @@ on("change:char-size change:char-legs change:str change:char-wgt-tot change:load
 // =============================================================================
 
 const moveItem = function(s, k) { // s = section name, k = item id
-	let a = [`${k}_name`, `${k}_type`, `${k}_qty`, `${k}_slot`, `${k}_bag`, `${k}_loc`, `${k}_hard`, `${k}_hp`, `${k}_wgt`, `${k}_cost`];
+	let a = [`${k}_name`, `${k}_type`, `${k}_qty`, `${k}_slot`, `${k}_bag`, `${k}_loc`, `${k}_hard`, `${k}_hp`, `${k}_wgt`, `${k}_cost`, `${k}_desc`, `${k}_src`];
 	getAttrs(a, (v) => {
 		let u = {};
 		let n = generateRowID();
@@ -1167,6 +1232,8 @@ const moveItem = function(s, k) { // s = section name, k = item id
 		u[`repeating_${s}_${n}_hp`] = v[`${k}_hp`];
 		u[`repeating_${s}_${n}_wgt`] = v[`${k}_wgt`];
 		u[`repeating_${s}_${n}_cost`] = v[`${k}_cost`];
+		u[`repeating_${s}_${n}_desc`] = v[`${k}_desc`];
+		u[`repeating_${s}_${n}_src`] = v[`${k}_src`];
 		removeRepeatingRow(`${k}`);
 		setAttrs(u, {"silent" : true}, () => {
 			updateWeight(s);
@@ -1323,7 +1390,7 @@ on(getSubsectionsListener(), function(e) {
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-const options = ["feat", "trick", "spl-0", "spl-1", "spl-2", "spl-3", "spl-4", "spl-5", "spl-6", "spl-7", "spl-8", "spl-9", "wpn", "eqp", "mag", "itm", "tra", "sta"];
+const options = ["feat", "trick", "cls", "spl-0", "spl-1", "spl-2", "spl-3", "spl-4", "spl-5", "spl-6", "spl-7", "spl-8", "spl-9", "wpn", "eqp", "mag", "itm", "tra", "sta"];
 
 const switchOptions = function(k, v) { // k = repeating section key, v = value (1 for shown, 0 for hidden)
 	TAS.repeating(k, true)
@@ -1388,30 +1455,33 @@ on("change:show-name", function(e) {
 });
 
 // Use d23
-on("change:use-d23", function(e) {
-	let u = {};
-	if (e.newValue == "1") {
-		u["roll-die"] = "23";
-		u["roll-cf-ope"] = ">";
-		u["roll-cf-val"] = "22";
-		u["roll-nil"] = "22";
-	} else {
-		u["roll-die"] = "20";
-		u["roll-cf-ope"] = "<";
-		u["roll-cf-val"] = "1";
-		u["roll-nil"] = "100";
-	}
-	setAttrs(u);
-});
+const checkDice23 = function(b) { // b = initialization
+	getAttrs(["use-d23"], v => {
+		let u = {};
+		if (v["use-d23"] == "1") {
+			u["roll-die"] = "23";
+			u["roll-cf-ope"] = ">";
+			u["roll-cf-val"] = "22";
+			u["roll-nil"] = "22";
+			if (b) u["crit-max"] = "21";
+		} else {
+			u["roll-die"] = "20";
+			u["roll-cf-ope"] = "<";
+			u["roll-cf-val"] = "1";
+			u["roll-nil"] = "100";
+			if (b) u["crit-max"] = "20";
+		}
+		setAttrs(u);
+	});
+};
+
+on("change:use-d23", checkDice23);
 
 // Rest
 const rest = function() {
 	console.info("-- Rest character (8 hours) --"); // DEBUG
 	let a = ["str-dmg", "dex-dmg", "con-dmg", "int-dmg", "wis-dmg", "cha-dmg"], i;
-	let b = ["cls1-lvl", "cls2-lvl", "cls3-lvl", "cls4-lvl", "race-lvl"];
-	let c = ["con", "hp-roll1", "hp-roll2", "hp-roll3", "hp-roll4", "hp-feat", "hp-item"];
-	let d = ["con-base", "con-dmg", "con-race", "con-item", "con-misc", "con-temp", "brb-rage", "char-aging"];
-	getAttrs([...a, ...b, ...c, ...d, "hp", "nld"], v => {
+	getAttrs([...a, ...attrs.Char.Lvl, ...attrs.Abi.Con, ...attrs.Stat.Hp, "brb-rage", "char-aging"], v => {
 		let u = {};
 		let hp = toInt(v["hp"]);
 		let nld = toInt(v["nld"]);
@@ -1454,17 +1524,961 @@ on("clicked:recalc", recalc);
 // -----------------------------------------------------------------------------
 // =============================================================================
 
-on("sheet:opened", function() {
+const translateAttributes = function() {
 	let u = {};
 	u["sk-craftalchemy-name"] = getTranslationByKey("sk_craftalchemy");
 	setAttrs(u);
+};
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Aliases
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+// Abilities
+const updatePhysicalTotal = function() {
+	getAttrs([...attrs.Abi.Str, ...attrs.Abi.Dex, ...attrs.Abi.Con, "brb-rage", "brb-fat", "char-aging"], v => {
+		let u = {};
+		let n = getStrength(v) + getDexterity(v) + getConstitution(v);
+		u["abi-phy-tot"] = n;
+		u["_CumulPhysique"] = n;
+		setAttrs(u);
+	});
+};
+
+const updatePsychicalTotal = function() {
+	getAttrs([...attrs.Abi.Int, ...attrs.Abi.Wis, ...attrs.Abi.Cha, "char-aging"], v => {
+		let u = {};
+		let n = getIntelligence(v) + getWisdom(v) + getCharisma(v);
+		u["abi-psy-tot"] = n;
+		u["_CumulPsychique"] = n;
+		setAttrs(u);
+	});
+};
+
+on("change:str change:dex change:con", updatePhysicalTotal);
+
+on("change:int change:wis change:cha", updatePsychicalTotal);
+
+// Hit Points
+const updateHitPointsAliases = function(e) { // e = event
+	let s = e.sourceAttribute;
+	getAttrs([...attrs.Char.Lvl, ...attrs.Abi.Con, ...attrs.Stat.Hp, "brb-rage", "char-aging"], v => {
+		let u = {};
+		let hp;
+		let nld = toInt(v["nld"]);
+		if (s == "hp") {
+			let n = e.newValue;
+			let r = new RegExp;
+			let reg = /^[\+\-]?\d+\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?\s*([\+\-]\s*\d+)?$/i;
+			n = reg.test(n) ? eval(n) : e.previousValue;
+			u["hp"] = n;
+			u["_PointsDeVie"] = n;
+			hp = n;
+		} else {
+			hp = toInt(v["hp"]);
+		}
+		if (s == "hp_max") {
+			let lvl = getCharacterLevel(v);
+			let mod = getConstitutionModifier(v, lvl);
+			let hpm = getHitPointsMax(v, mod);
+			u["_PointsDeVie_max"] = hpm;
+		}
+		u["state-disabled"] = 0;
+		u["state-unconscious"] = 0;
+		u["state-dying"] = 0;
+		u["state-dead"] = 0;
+		if (hp == 0) u["state-disabled"] = 1;
+		else if (hp > 0 && nld >= hp) u["state-unconscious"] = 1;
+		else if (hp < 0 && hp >= -9) u["state-dying"] = 1;
+		else if (hp < -9) u["state-dead"] = 1;
+		setAttrs(u);
+	});
+};
+
+on("change:_PointsDeVie", function(e) {
+	if (e.sourceType !== "player") return;
+	getAttrs(["_PointsDeVie"], v => {
+		let u = {};
+		u["hp"] = v["_PointsDeVie"];
+		setAttrs(u);
+	});
 });
+
+on("change:hp change:hp_max change:nld", function(e) {
+	updateHitPointsAliases(e);
+});
+
+// Armor Class
+const updateArmorClassAliases = function() {
+	let a = [];
+	let b = [];
+	let c = [];
+	getAttrs([...attrs.Stat.Ac, ...attrs.Stat.Arm, ...attrs.Stat.Shd], v => {
+		let u = {};
+		let dex = toInt(v["dex-max"]);
+		let nat = toInt(v["ac-nat"]);
+		let arm = (toInt(v["arm-bon"]) + toInt(v["arm-enh"])) * toInt(v["arm-eqp"]);
+		let shd = (toInt(v["shd-bon"]) + toInt(v["shd-enh"])) * toInt(v["shd-eqp"]);
+		let base = 10 + toInt(v["char-size-mod"]) + toInt(v["ac-def"]) + toInt(v["ac-mod"]) + toInt(v["brb-ac"]);
+		u["_CaTotale"] = base + dex + nat + arm + shd;
+		u["_CaContact"] = base + dex;
+		u["_CaDepourvu"] = base + nat + arm + shd;
+		setAttrs(u);
+	});
+};
+
+on("change:ac", updateArmorClassAliases);
+
+// =============================================================================
+// -----------------------------------------------------------------------------
+// # Versioning
+// -----------------------------------------------------------------------------
+// =============================================================================
+
+const updateCharacterSheet = function() {
+	checkDice23(true);
+	updatePhysicalTotal();
+	updatePsychicalTotal();
+	updateHitPointsAliases();
+	updateArmorClassAliases();
+	recalc();
+};
+
+const checkUpdate = function() {
+	getAttrs(["version"], v => {
+		let n = toInt(v["version"].replaceAll(".", ""));
+		let m = toInt(version.replaceAll(".", ""));
+		if (n == "") {
+			console.info("-- First launch ! Please wait during character sheet initialization --"); // DEBUG
+			intializeAttributes();
+			return;
+		} else if (n < version.replaceAll(".", "")) {
+			console.info("-- Character sheet outdated ! Now updating to " + version + " --"); // DEBUG
+			updateCharacterSheet();
+			setAttrs({"version" : version});
+		}
+		translateAttributes();
+	});
+};
+
+on("sheet:opened", checkUpdate);
+
+const intializeAttributes = function(f) { // f = function
+	if (typeof f === undefined) f = function() {};
+	let u = {
+		"_CaContact" : "",
+		"_CaDepourvu" : "",
+		"_CaTotale" : "",
+		"_CumulPhysique" : "",
+		"_CumulPsychique" : "",
+		"_PointsDeVie" : "",
+		"_PointsDeVie_max" : "",
+		"abi-phy-tot" : 30,
+		"abi-psy-tot" : 30,
+		"ac-def" : 0,
+		"ac-mod" : 0,
+		"ac-nat" : 0,
+		"arm-bon" : 0,
+		"arm-cost" : 0,
+		"arm-dex" : 20,
+		"arm-enh" : 0,
+		"arm-eqp" : 0,
+		"arm-name" : "",
+		"arm-pen" : 0,
+		"arm-props" : "",
+		"arm-run" : "",
+		"arm-spd" : "",
+		"arm-spl" : 0,
+		"arm-type" : "",
+		"arm-wgt" : 0,
+		"arm-worn" : 0,
+		"art-wgt-tot" : 0,
+		"atk-grapple-abi" : "",
+		"atk-touch-melee-abi" : "",
+		"atk-touch-range-abi" : "",
+		"brb-ac" : 0,
+		"brb-fat" : 0,
+		"brb-rage" : 0,
+		"brb-rage-num" : 0,
+		"brb-rage-num_max" : 0,
+		"brb-rage-step" : 0,
+		"brb-rage-step-str" : "",
+		"brb-rage-type" : "",
+		"brb-tire" : 1,
+		"brb-will" : 0,
+		"build" : "beta FR",
+		"cha-base" : 10,
+		"cha-bck" : 10,
+		"cha-dmg" : 0,
+		"cha-item" : 0,
+		"cha-misc" : 0,
+		"cha-race" : 0,
+		"cha-temp" : 0,
+		"char-age" : "",
+		"char-aging" : "",
+		"char-alignment" : "",
+		"char-ambition" : "",
+		"char-birthdate" : "",
+		"char-creation-date" : "",
+		"char-deity" : "",
+		"char-eyes" : "",
+		"char-gender" : "",
+		"char-hair" : "",
+		"char-handedness" : "",
+		"char-height" : "",
+		"char-homeland" : "",
+		"char-karma" : 0,
+		"char-legs" : "",
+		"char-name" : "",
+		"char-race" : "",
+		"char-revolt" : "",
+		"char-size" : "",
+		"char-size-grapple" : 0,
+		"char-size-hide" : 0,
+		"char-size-mod" : 0,
+		"char-skin" : "",
+		"char-subrace" : "",
+		"char-title" : "",
+		"char-type" : "",
+		"char-weight" : "",
+		"clr-dom1" : "",
+		"clr-dom1-pwr" : "",
+		"clr-dom2" : "",
+		"clr-dom2-pwr" : "",
+		"clr-lvl" : 0,
+		"clr-turn-bon" : 0,
+		"clr-turn-dv" : 0,
+		"clr-turn-num" : 0,
+		"clr-turn-num_max" : 0,
+		"cls-autofill" : 1,
+		"cls0-cast-abi" : "",
+		"cls0-cast-lvl" : 0,
+		"cls1-bab" : 0,
+		"cls1-cast" : 0,
+		"cls1-cast-abi" : "",
+		"cls1-cast-lvl" : 0,
+		"cls1-fav" : 1,
+		"cls1-fort" : 0,
+		"cls1-hd" : "",
+		"cls1-lvl" : 0,
+		"cls1-prest" : 0,
+		"cls1-refl" : 0,
+		"cls1-sk" : 0,
+		"cls1-spl-0-misc" : 0,
+		"cls1-spl-0-num" : 0,
+		"cls1-spl-0-slot" : "",
+		"cls1-spl-1-bon" : 0,
+		"cls1-spl-1-misc" : 0,
+		"cls1-spl-1-num" : 0,
+		"cls1-spl-1-slot" : "",
+		"cls1-spl-2-bon" : 0,
+		"cls1-spl-2-misc" : 0,
+		"cls1-spl-2-num" : 0,
+		"cls1-spl-2-slot" : "",
+		"cls1-spl-3-bon" : 0,
+		"cls1-spl-3-misc" : 0,
+		"cls1-spl-3-num" : 0,
+		"cls1-spl-3-slot" : "",
+		"cls1-spl-4-bon" : 0,
+		"cls1-spl-4-misc" : 0,
+		"cls1-spl-4-num" : 0,
+		"cls1-spl-4-slot" : "",
+		"cls1-spl-5-bon" : 0,
+		"cls1-spl-5-misc" : 0,
+		"cls1-spl-5-num" : 0,
+		"cls1-spl-5-slot" : "",
+		"cls1-spl-6-bon" : 0,
+		"cls1-spl-6-misc" : 0,
+		"cls1-spl-6-num" : 0,
+		"cls1-spl-6-slot" : "",
+		"cls1-spl-7-bon" : 0,
+		"cls1-spl-7-misc" : 0,
+		"cls1-spl-7-num" : 0,
+		"cls1-spl-7-slot" : "",
+		"cls1-spl-8-bon" : 0,
+		"cls1-spl-8-misc" : 0,
+		"cls1-spl-8-num" : 0,
+		"cls1-spl-8-slot" : "",
+		"cls1-spl-9-bon" : 0,
+		"cls1-spl-9-misc" : 0,
+		"cls1-spl-9-num" : 0,
+		"cls1-spl-9-slot" : "",
+		"cls1-will" : 0,
+		"cls2-bab" : 0,
+		"cls2-cast" : 0,
+		"cls2-cast-abi" : "",
+		"cls2-cast-lvl" : 0,
+		"cls2-fav" : 0,
+		"cls2-fort" : 0,
+		"cls2-hd" : "",
+		"cls2-lvl" : 0,
+		"cls2-prest" : 0,
+		"cls2-refl" : 0,
+		"cls2-sk" : 0,
+		"cls2-spl-0-misc" : 0,
+		"cls2-spl-0-num" : 0,
+		"cls2-spl-0-slot" : "",
+		"cls2-spl-1-bon" : 0,
+		"cls2-spl-1-misc" : 0,
+		"cls2-spl-1-num" : 0,
+		"cls2-spl-1-slot" : "",
+		"cls2-spl-2-bon" : 0,
+		"cls2-spl-2-misc" : 0,
+		"cls2-spl-2-num" : 0,
+		"cls2-spl-2-slot" : "",
+		"cls2-spl-3-bon" : 0,
+		"cls2-spl-3-misc" : 0,
+		"cls2-spl-3-num" : 0,
+		"cls2-spl-3-slot" : "",
+		"cls2-spl-4-bon" : 0,
+		"cls2-spl-4-misc" : 0,
+		"cls2-spl-4-num" : 0,
+		"cls2-spl-4-slot" : "",
+		"cls2-spl-5-bon" : 0,
+		"cls2-spl-5-misc" : 0,
+		"cls2-spl-5-num" : 0,
+		"cls2-spl-5-slot" : "",
+		"cls2-spl-6-bon" : 0,
+		"cls2-spl-6-misc" : 0,
+		"cls2-spl-6-num" : 0,
+		"cls2-spl-6-slot" : "",
+		"cls2-spl-7-bon" : 0,
+		"cls2-spl-7-misc" : 0,
+		"cls2-spl-7-num" : 0,
+		"cls2-spl-7-slot" : "",
+		"cls2-spl-8-bon" : 0,
+		"cls2-spl-8-misc" : 0,
+		"cls2-spl-8-num" : 0,
+		"cls2-spl-8-slot" : "",
+		"cls2-spl-9-bon" : 0,
+		"cls2-spl-9-misc" : 0,
+		"cls2-spl-9-num" : 0,
+		"cls2-spl-9-slot" : "",
+		"cls2-will" : 0,
+		"cls3-bab" : 0,
+		"cls3-cast" : 0,
+		"cls3-cast-abi" : "",
+		"cls3-cast-lvl" : 0,
+		"cls3-fav" : 0,
+		"cls3-fort" : 0,
+		"cls3-hd" : "",
+		"cls3-lvl" : 0,
+		"cls3-prest" : 0,
+		"cls3-refl" : 0,
+		"cls3-sk" : 0,
+		"cls3-spl-0-misc" : 0,
+		"cls3-spl-0-num" : 0,
+		"cls3-spl-0-slot" : "",
+		"cls3-spl-1-bon" : 0,
+		"cls3-spl-1-misc" : 0,
+		"cls3-spl-1-num" : 0,
+		"cls3-spl-1-slot" : "",
+		"cls3-spl-2-bon" : 0,
+		"cls3-spl-2-misc" : 0,
+		"cls3-spl-2-num" : 0,
+		"cls3-spl-2-slot" : "",
+		"cls3-spl-3-bon" : 0,
+		"cls3-spl-3-misc" : 0,
+		"cls3-spl-3-num" : 0,
+		"cls3-spl-3-slot" : "",
+		"cls3-spl-4-bon" : 0,
+		"cls3-spl-4-misc" : 0,
+		"cls3-spl-4-num" : 0,
+		"cls3-spl-4-slot" : "",
+		"cls3-spl-5-bon" : 0,
+		"cls3-spl-5-misc" : 0,
+		"cls3-spl-5-num" : 0,
+		"cls3-spl-5-slot" : "",
+		"cls3-spl-6-bon" : 0,
+		"cls3-spl-6-misc" : 0,
+		"cls3-spl-6-num" : 0,
+		"cls3-spl-6-slot" : "",
+		"cls3-spl-7-bon" : 0,
+		"cls3-spl-7-misc" : 0,
+		"cls3-spl-7-num" : 0,
+		"cls3-spl-7-slot" : "",
+		"cls3-spl-8-bon" : 0,
+		"cls3-spl-8-misc" : 0,
+		"cls3-spl-8-num" : 0,
+		"cls3-spl-8-slot" : "",
+		"cls3-spl-9-bon" : 0,
+		"cls3-spl-9-misc" : 0,
+		"cls3-spl-9-num" : 0,
+		"cls3-spl-9-slot" : "",
+		"cls3-will" : 0,
+		"cls4-bab" : 0,
+		"cls4-cast" : 0,
+		"cls4-cast-abi" : "",
+		"cls4-cast-lvl" : 0,
+		"cls4-fav" : 0,
+		"cls4-fort" : 0,
+		"cls4-hd" : "",
+		"cls4-lvl" : 0,
+		"cls4-prest" : 0,
+		"cls4-refl" : 0,
+		"cls4-sk" : 0,
+		"cls4-spl-0-misc" : 0,
+		"cls4-spl-0-num" : 0,
+		"cls4-spl-0-slot" : "",
+		"cls4-spl-1-bon" : 0,
+		"cls4-spl-1-misc" : 0,
+		"cls4-spl-1-num" : 0,
+		"cls4-spl-1-slot" : "",
+		"cls4-spl-2-bon" : 0,
+		"cls4-spl-2-misc" : 0,
+		"cls4-spl-2-num" : 0,
+		"cls4-spl-2-slot" : "",
+		"cls4-spl-3-bon" : 0,
+		"cls4-spl-3-misc" : 0,
+		"cls4-spl-3-num" : 0,
+		"cls4-spl-3-slot" : "",
+		"cls4-spl-4-bon" : 0,
+		"cls4-spl-4-misc" : 0,
+		"cls4-spl-4-num" : 0,
+		"cls4-spl-4-slot" : "",
+		"cls4-spl-5-bon" : 0,
+		"cls4-spl-5-misc" : 0,
+		"cls4-spl-5-num" : 0,
+		"cls4-spl-5-slot" : "",
+		"cls4-spl-6-bon" : 0,
+		"cls4-spl-6-misc" : 0,
+		"cls4-spl-6-num" : 0,
+		"cls4-spl-6-slot" : "",
+		"cls4-spl-7-bon" : 0,
+		"cls4-spl-7-misc" : 0,
+		"cls4-spl-7-num" : 0,
+		"cls4-spl-7-slot" : "",
+		"cls4-spl-8-bon" : 0,
+		"cls4-spl-8-misc" : 0,
+		"cls4-spl-8-num" : 0,
+		"cls4-spl-8-slot" : "",
+		"cls4-spl-9-bon" : 0,
+		"cls4-spl-9-misc" : 0,
+		"cls4-spl-9-num" : 0,
+		"cls4-spl-9-slot" : "",
+		"cls4-will" : 0,
+		"con-base" : 10,
+		"con-bck" : 10,
+		"con-dmg" : 0,
+		"con-item" : 0,
+		"con-misc" : 0,
+		"con-race" : 0,
+		"con-temp" : 0,
+		"crit-max" : 20,
+		"def-wgt-tot" : 0,
+		"dex-base" : 10,
+		"dex-bck" : 10,
+		"dex-dmg" : 0,
+		"dex-item" : 0,
+		"dex-max" : 0,
+		"dex-misc" : 0,
+		"dex-race" : 0,
+		"dex-temp" : 0,
+		"dr" : "—",
+		"dw-abi" : 0,
+		"dw-atk" : 0,
+		"dw-cls-fav" : 0,
+		"dw-def" : 0,
+		"dw-save1" : 0,
+		"dw-save2" : 0,
+		"dw-sk1" : 0,
+		"dw-sk2" : 0,
+		"dw-stab" : 0,
+		"dw-stone" : 0,
+		"dw-vision" : 0,
+		"dw-wpn" : 0,
+		"edit-backup" : 1,
+		"el-abi" : 0,
+		"el-cls-fav" : 0,
+		"el-detect" : 0,
+		"el-immunity" : 0,
+		"el-save" : 0,
+		"el-sk" : 0,
+		"el-vision" : 0,
+		"el-wpn" : 0,
+		"eqp-wgt-tot" : 0,
+		"fht-feat" : 0,
+		"fht-lvl" : 0,
+		"fort-bck" : 0,
+		"fort-item" : 0,
+		"fort-misc" : 0,
+		"fort-race" : 0,
+		"fort-temp" : 0,
+		"gem-wgt-tot" : 0,
+		"gn-abi" : 0,
+		"gn-atk" : 0,
+		"gn-cls-fav" : 0,
+		"gn-def" : 0,
+		"gn-save" : 0,
+		"gn-sk1" : 0,
+		"gn-sk2" : 0,
+		"gn-spl-dc" : 0,
+		"gn-spl-like" : 0,
+		"gn-vision" : 0,
+		"gn-wpn" : 0,
+		"ha-abi" : 0,
+		"ha-atk" : 0,
+		"ha-cls-fav" : 0,
+		"ha-save1" : 0,
+		"ha-save2" : 0,
+		"ha-sk1" : 0,
+		"ha-sk2" : 0,
+		"he-blood" : 0,
+		"he-cls-fav" : 0,
+		"he-immunity" : 0,
+		"he-save" : 0,
+		"he-sk1" : 0,
+		"he-sk2" : 0,
+		"he-vision" : 0,
+		"ho-abi" : 0,
+		"ho-blood" : 0,
+		"ho-cls-fav" : 0,
+		"ho-vision" : 0,
+		"hp" : 6,
+		"hp-feat" : 0,
+		"hp-item" : 0,
+		"hp-roll1" : 6,
+		"hp-roll2" : 0,
+		"hp-roll3" : 0,
+		"hp-roll4" : 0,
+		"hp-temp" : 0,
+		"hu-cls-fav" : 0,
+		"hu-feat" : 0,
+		"hu-sk" : 0,
+		"init-misc" : 0,
+		"int-base" : 10,
+		"int-bck" : 10,
+		"int-dmg" : 0,
+		"int-item" : 0,
+		"int-misc" : 0,
+		"int-race" : 0,
+		"int-temp" : 0,
+		"itm-wgt-tot" : 0,
+		"load-dex" : 99,
+		"load-dex-str" : "—",
+		"load-drag" : 0,
+		"load-hvy" : 0,
+		"load-lgt" : 0,
+		"load-lift" : 0,
+		"load-med" : 0,
+		"load-mod" : 0,
+		"load-pen" : 0,
+		"load-run" : 10,
+		"load-run-str" : "—",
+		"load-size" : 1,
+		"load-spd" : 1,
+		"load-spd-str" : 1,
+		"load-tot" : "min",
+		"load-tot-str" : "—",
+		"lvl-adj" : 0,
+		"mag-wgt-tot" : 0,
+		"melee-mod-atk" : 0,
+		"melee-mod-dmg" : 0,
+		"mny-wgt-tot" : 0,
+		"mvt-fly" : "",
+		"mvt-fly-maneuver" : "",
+		"mvt-land-base" : "",
+		"mvt-swim" : "",
+		"nld" : 0,
+		"pal-lvl" : 0,
+		"pal-smite" : 0,
+		"pal-turn-bon" : 0,
+		"pal-turn-dv" : 0,
+		"pal-turn-num" : 0,
+		"pal-turn-num_max" : 0,
+		"player-name" : "",
+		"r-mod" : 0,
+		"race-autofill" : 1,
+		"race-bab" : 0,
+		"race-fort" : 0,
+		"race-hd" : "",
+		"race-lvl" : 0,
+		"race-refl" : 0,
+		"race-sk" : 0,
+		"race-will" : 0,
+		"range-mod-atk" : 0,
+		"range-mod-dmg" : 0,
+		"refl-bck" : 0,
+		"refl-item" : 0,
+		"refl-misc" : 0,
+		"refl-race" : 0,
+		"refl-temp" : 0,
+		"rog-sneak-num" : "",
+		"roll-cf" : "cf@{roll-cf-ope}@{roll-cf-val}",
+		"roll-cf-ope" : "<",
+		"roll-cf-val" : 1,
+		"roll-die" : 20,
+		"roll-name" : "",
+		"roll-nil" : 100,
+		"shd-bon" : 0,
+		"shd-cost" : 0,
+		"shd-enh" : 0,
+		"shd-eqp" : 0,
+		"shd-name" : "",
+		"shd-pen" : 0,
+		"shd-props" : "",
+		"shd-spl" : 0,
+		"shd-wgt" : 0,
+		"shd-worn" : 0,
+		"show-ac" : 0,
+		"show-character-languages" : 1,
+		"show-character-physical" : 1,
+		"show-character-psychical" : 1,
+		"show-character-relational" : 1,
+		"show-class-barbarian" : 0,
+		"show-class-bard" : 0,
+		"show-class-cleric" : 0,
+		"show-class-druid" : 0,
+		"show-class-fighter" : 0,
+		"show-class-monk" : 0,
+		"show-class-paladin" : 0,
+		"show-class-ranger" : 0,
+		"show-class-rogue" : 0,
+		"show-class-sorcerer" : 0,
+		"show-class-warlock" : 0,
+		"show-class-wizard" : 0,
+		"show-equipment-magical" : 1,
+		"show-equipment-stash" : 1,
+		"show-equipment-travel" : 1,
+		"show-equipment-usable" : 1,
+		"show-equipment-worn" : 1,
+		"show-hp" : 0,
+		"show-karma" : 0,
+		"show-logo" : 1,
+		"show-name" : 1,
+		"show-race-dwarf" : 0,
+		"show-race-elf" : 0,
+		"show-race-gnome" : 0,
+		"show-race-halfelf" : 0,
+		"show-race-halfling" : 0,
+		"show-race-halforc" : 0,
+		"show-race-human" : 0,
+		"show-skill-tricks" : 1,
+		"show-spell-0" : 1,
+		"show-spell-1" : 1,
+		"show-spell-2" : 0,
+		"show-spell-3" : 0,
+		"show-spell-4" : 0,
+		"show-spell-5" : 0,
+		"show-spell-6" : 0,
+		"show-spell-7" : 0,
+		"show-spell-8" : 0,
+		"show-spell-9" : 0,
+		"show-wealth-art" : 1,
+		"show-wealth-gems" : 1,
+		"show-wealth-money" : 1,
+		"show-weapons-details" : 1,
+		"show-xtra-fields" : 1,
+		"show-xtra-skills" : 0,
+		"show-xtra-skills" : 1,
+		"sk-abi" : "",
+		"sk-appraise-cond-syn" : "",
+		"sk-appraise-misc" : 0,
+		"sk-appraise-race" : 0,
+		"sk-appraise-rank" : 0,
+		"sk-athletism-misc" : 0,
+		"sk-athletism-race" : 0,
+		"sk-athletism-rank" : 0,
+		"sk-balance-misc" : 0,
+		"sk-balance-race" : 0,
+		"sk-balance-rank" : 0,
+		"sk-balance-syn" : 0,
+		"sk-bluff-misc" : 0,
+		"sk-bluff-race" : 0,
+		"sk-bluff-rank" : 0,
+		"sk-climb-abi" : "",
+		"sk-climb-cond-syn" : "",
+		"sk-climb-misc" : 0,
+		"sk-climb-race" : 0,
+		"sk-climb-rank" : 0,
+		"sk-concentration-misc" : 0,
+		"sk-concentration-race" : 0,
+		"sk-concentration-rank" : 0,
+		"sk-craft1-misc" : 0,
+		"sk-craft1-name" : "",
+		"sk-craft1-race" : 0,
+		"sk-craft1-rank" : 0,
+		"sk-craft2-misc" : 0,
+		"sk-craft2-name" : "",
+		"sk-craft2-race" : 0,
+		"sk-craft2-rank" : 0,
+		"sk-craft3-misc" : 0,
+		"sk-craft3-name" : "",
+		"sk-craft3-race" : 0,
+		"sk-craft3-rank" : 0,
+		"sk-craftalchemy-misc" : 0,
+		"sk-craftalchemy-name" : "",
+		"sk-craftalchemy-race" : 0,
+		"sk-craftalchemy-rank" : 0,
+		"sk-decipher-misc" : 0,
+		"sk-decipher-race" : 0,
+		"sk-decipher-rank" : 0,
+		"sk-diplomacy-misc" : 0,
+		"sk-diplomacy-race" : 0,
+		"sk-diplomacy-rank" : 0,
+		"tab-show" : 1,
+		"sk-diplomacy-syn" : 0,
+		"sk-disabledevice-misc" : 0,
+		"sk-disabledevice-race" : 0,
+		"sk-disabledevice-rank" : 0,
+		"sk-disguise-cond-syn" : "",
+		"sk-disguise-misc" : 0,
+		"sk-disguise-race" : 0,
+		"sk-disguise-rank" : 0,
+		"sk-escapeartist-cond-syn" : "",
+		"sk-escapeartist-misc" : 0,
+		"sk-escapeartist-race" : 0,
+		"sk-escapeartist-rank" : 0,
+		"sk-forgery-misc" : 0,
+		"sk-forgery-race" : 0,
+		"sk-forgery-rank" : 0,
+		"sk-gatherinformation-misc" : 0,
+		"sk-gatherinformation-race" : 0,
+		"sk-gatherinformation-rank" : 0,
+		"sk-gatherinformation-syn" : 0,
+		"sk-handleanimal-misc" : 0,
+		"sk-handleanimal-race" : 0,
+		"sk-handleanimal-rank" : 0,
+		"sk-heal-misc" : 0,
+		"sk-heal-race" : 0,
+		"sk-heal-rank" : 0,
+		"sk-hide-misc" : 0,
+		"sk-hide-race" : 0,
+		"sk-hide-rank" : 0,
+		"sk-intimidate-misc" : 0,
+		"sk-intimidate-race" : 0,
+		"sk-intimidate-rank" : 0,
+		"sk-intimidate-syn" : 0,
+		"sk-jump-abi" : "",
+		"sk-jump-misc" : 0,
+		"sk-jump-race" : 0,
+		"sk-jump-rank" : 0,
+		"sk-jump-syn" : 0,
+		"sk-knowledgearcana-misc" : 0,
+		"sk-knowledgearcana-race" : 0,
+		"sk-knowledgearcana-rank" : 0,
+		"sk-knowledgearchitecture-misc" : 0,
+		"sk-knowledgearchitecture-race" : 0,
+		"sk-knowledgearchitecture-rank" : 0,
+		"sk-knowledgedungeon-misc" : 0,
+		"sk-knowledgedungeon-race" : 0,
+		"sk-knowledgedungeon-rank" : 0,
+		"sk-knowledgegeography-misc" : 0,
+		"sk-knowledgegeography-race" : 0,
+		"sk-knowledgegeography-rank" : 0,
+		"sk-knowledgehistory-misc" : 0,
+		"sk-knowledgehistory-race" : 0,
+		"sk-knowledgehistory-rank" : 0,
+		"sk-knowledgelocal-misc" : 0,
+		"sk-knowledgelocal-race" : 0,
+		"sk-knowledgelocal-rank" : 0,
+		"sk-knowledgenature-misc" : 0,
+		"sk-knowledgenature-race" : 0,
+		"sk-knowledgenature-rank" : 0,
+		"sk-knowledgenature-syn" : 0,
+		"sk-knowledgenobility-misc" : 0,
+		"sk-knowledgenobility-race" : 0,
+		"sk-knowledgenobility-rank" : 0,
+		"sk-knowledgeplanes-misc" : 0,
+		"sk-knowledgeplanes-race" : 0,
+		"sk-knowledgeplanes-rank" : 0,
+		"sk-knowledgereligion-misc" : 0,
+		"sk-knowledgereligion-race" : 0,
+		"sk-knowledgereligion-rank" : 0,
+		"sk-listen-misc" : 0,
+		"sk-listen-race" : 0,
+		"sk-listen-rank" : 0,
+		"sk-movesilently-misc" : 0,
+		"sk-movesilently-race" : 0,
+		"sk-movesilently-rank" : 0,
+		"sk-openlock-misc" : 0,
+		"sk-openlock-race" : 0,
+		"sk-openlock-rank" : 0,
+		"sk-other1-abi" : "",
+		"sk-other1-misc" : 0,
+		"sk-other1-name" : "",
+		"sk-other1-pen" : 0,
+		"sk-other1-race" : 0,
+		"sk-other1-rank" : 0,
+		"sk-other2-abi" : "",
+		"sk-other2-misc" : 0,
+		"sk-other2-name" : "",
+		"sk-other2-pen" : 0,
+		"sk-other2-race" : 0,
+		"sk-other2-rank" : 0,
+		"sk-other3-abi" : "",
+		"sk-other3-misc" : 0,
+		"sk-other3-name" : "",
+		"sk-other3-pen" : 0,
+		"sk-other3-race" : 0,
+		"sk-other3-rank" : 0,
+		"sk-other4-abi" : "",
+		"sk-other4-misc" : 0,
+		"sk-other4-name" : "",
+		"sk-other4-pen" : 0,
+		"sk-other4-race" : 0,
+		"sk-other4-rank" : 0,
+		"sk-other5-abi" : "",
+		"sk-other5-misc" : 0,
+		"sk-other5-name" : "",
+		"sk-other5-pen" : 0,
+		"sk-other5-race" : 0,
+		"sk-other5-rank" : 0,
+		"sk-other6-abi" : "",
+		"sk-other6-misc" : 0,
+		"sk-other6-name" : "",
+		"sk-other6-pen" : 0,
+		"sk-other6-race" : 0,
+		"sk-other6-rank" : 0,
+		"sk-perform1-misc" : 0,
+		"sk-perform1-name" : "",
+		"sk-perform1-race" : 0,
+		"sk-perform1-rank" : 0,
+		"sk-perform2-misc" : 0,
+		"sk-perform2-name" : "",
+		"sk-perform2-race" : 0,
+		"sk-perform2-rank" : 0,
+		"sk-perform3-misc" : 0,
+		"sk-perform3-name" : "",
+		"sk-perform3-race" : 0,
+		"sk-perform3-rank" : 0,
+		"sk-profession1-misc" : 0,
+		"sk-profession1-name" : "",
+		"sk-profession1-race" : 0,
+		"sk-profession1-rank" : 0,
+		"sk-profession2-misc" : 0,
+		"sk-profession2-name" : "",
+		"sk-profession2-race" : 0,
+		"sk-profession2-rank" : 0,
+		"sk-ride-misc" : 0,
+		"sk-ride-race" : 0,
+		"sk-ride-rank" : 0,
+		"sk-ride-syn" : 0,
+		"sk-search-cond-syn" : "",
+		"sk-search-misc" : 0,
+		"sk-search-race" : 0,
+		"sk-search-rank" : 0,
+		"sk-sensemotive-misc" : 0,
+		"sk-sensemotive-race" : 0,
+		"sk-sensemotive-rank" : 0,
+		"sk-sleightofhand-misc" : 0,
+		"sk-sleightofhand-race" : 0,
+		"sk-sleightofhand-rank" : 0,
+		"sk-sleightofhand-syn" : 0,
+		"sk-speaklanguage-cls" : 1,
+		"sk-speaklanguage-rank" : 0,
+		"sk-spellcraft-cond-syn" : "",
+		"sk-spellcraft-misc" : 0,
+		"sk-spellcraft-race" : 0,
+		"sk-spellcraft-rank" : 0,
+		"sk-spellcraft-syn" : 0,
+		"sk-spot-misc" : 0,
+		"sk-spot-race" : 0,
+		"sk-spot-rank" : 0,
+		"sk-survival-misc" : 0,
+		"sk-survival-race" : 0,
+		"sk-survival-rank" : 0,
+		"sk-survival1-cond-syn" : "",
+		"sk-survival2-cond-syn" : "",
+		"sk-survival3-cond-syn" : "",
+		"sk-survival4-cond-syn" : "",
+		"sk-survival5-cond-syn" : "",
+		"sk-swim-misc" : 0,
+		"sk-swim-race" : 0,
+		"sk-swim-rank" : 0,
+		"sk-temp" : 0,
+		"sk-tricks-rank" : 0,
+		"sk-tumble-misc" : 0,
+		"sk-tumble-race" : 0,
+		"sk-tumble-rank" : 0,
+		"sk-tumble-syn" : 0,
+		"sk-usemagicdevice-cond-syn" : "",
+		"sk-usemagicdevice-misc" : 0,
+		"sk-usemagicdevice-race" : 0,
+		"sk-usemagicdevice-rank" : 0,
+		"sk-userope-cond-syn" : "",
+		"sk-userope-misc" : 0,
+		"sk-userope-race" : 0,
+		"sk-userope-rank" : 0,
+		"spl-focus-abjuration" : 0,
+		"spl-focus-conjuration" : 0,
+		"spl-focus-divination" : 0,
+		"spl-focus-enchantment" : 0,
+		"spl-focus-evocation" : 0,
+		"spl-focus-illusion" : 0,
+		"spl-focus-necromancy" : 0,
+		"spl-focus-transmutation" : 0,
+		"sr" : 0,
+		"str-base" : 10,
+		"str-bck" : 10,
+		"str-dmg" : 0,
+		"str-item" : 0,
+		"str-misc" : 0,
+		"str-race" : 0,
+		"str-temp" : 0,
+		"use-d23" : 1,
+		"version" : version,
+		"vis-dark" : 0,
+		"vis-dark-range" : "",
+		"vis-low" : 0,
+		"w-gm" : "",
+		"will-bck" : 0,
+		"will-item" : 0,
+		"will-misc" : 0,
+		"will-race" : 0,
+		"will-temp" : 0,
+		"wis-base" : 10,
+		"wis-bck" : 10,
+		"wis-dmg" : 0,
+		"wis-item" : 0,
+		"wis-misc" : 0,
+		"wis-race" : 0,
+		"wis-temp" : 0,
+		"wiz-feat" : 0,
+		"wiz-lvl" : 0,
+		"wpn-wgt-tot" : 0,
+		"xp" : 0,
+		"xp-mod" : "",
+		"xp-next" : ""
+	};
+	setAttrs(u, null, function() {
+		updateCharacterSheet();
+		translateAttributes();
+	});
+};
 
 // =============================================================================
 // -----------------------------------------------------------------------------
 // # Constants
 // -----------------------------------------------------------------------------
 // =============================================================================
+
+// Version
+const version = "1.6.6";
+const build = "beta FR";
+
+// Attributes
+const attrs = {
+	"Char" : {
+		"Lvl" : ["cls1-lvl", "cls2-lvl", "cls3-lvl", "cls4-lvl", "race-lvl"]
+	},
+	"Abi" : {
+		"Str" : ["str-base", "str-dmg", "str-race", "str-item", "str-misc", "str-temp"],
+		"Dex" : ["dex-base", "dex-dmg", "dex-race", "dex-item", "dex-misc", "dex-temp"],
+		"Con" : ["con-base", "con-dmg", "con-race", "con-item", "con-misc", "con-temp"],
+		"Int" : ["int-base", "int-dmg", "int-race", "int-item", "int-misc", "int-temp"],
+		"Wis" : ["wis-base", "wis-dmg", "wis-race", "wis-item", "wis-misc", "wis-temp"],
+		"Cha" : ["cha-base", "cha-dmg", "cha-race", "cha-item", "cha-misc", "cha-temp"]
+	},
+	"Stat" : {
+		"Hp" : ["hp", "hp-roll1", "hp-roll2", "hp-roll3", "hp-roll4", "hp-feat", "hp-item", "nld"],
+		"Ac" : ["dex-max", "char-size-mod", "ac-nat", "ac-def", "ac-mod", "brb-ac"],
+		"Arm" : ["arm-bon", "arm-enh", "arm-worn"],
+		"Shd" : ["shd-bon","shd-enh", "shd-eqp"]
+	}
+};
 
 // Languages
 const languages = ["abyssal", "aquan", "auran", "celestial", "common", "draconic", "druidic", "dwarven", "elven", "giant", "gnome", "goblin", "gnoll", "halfling", "ignan", "infernal", "orc", "sylvan", "terran", "undercommon"];
@@ -1492,9 +2506,6 @@ const classes = {
 
 // Movement
 const movement = ["30ft", "20ft"];
-
-// Skills
-const skills = ["athletism", "appraise", "balance", "bluff", "climb", "concentration", "craftalchemy", "craft", "decipher", "diplomacy", "disabledevice", "disguise", "escapeartist", "forgery", "gatherinformation", "handleanimal", "heal", "hide", "intimidate", "jump", "knowledgearcana", "knowledgearchitecture", "knowledgedungeon", "knowledgegeography", "knowledgehistory", "knowledgelocal", "knowledgenature", "knowledgenobility", "knowledgereligion", "knowledgeplanes", "listen", "movesilently", "openlock", "perform", "profession", "ride", "search", "sensemotive", "sleightofhand", "speaklanguage", "spellcraft", "spot", "survival", "swim", "tumble", "usemagicdevice", "userope", "other"];
 
 // Weapons
 const weaponCategory = ["simple", "martial", "exotic"];

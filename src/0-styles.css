@@ -2,7 +2,7 @@
 /* Original by Capitaine Red (1.5 FR, Gabmilot project) */
 /* Refactoring by Zedafty (Deli project) */
 /* Managing by Panda */
-/* Version 1.6.5 Beta */
+/* Version 1.6.6 Beta */
 
 /* ========================================================================== */
 /* -------------------------------------------------------------------------- */
@@ -28,6 +28,7 @@ div.title-section {
 	background-image: url("https://raw.githubusercontent.com/zedafty/dnd-3-5-deli/master/img/title.png");
 }
 .sheet-rolltemplate-attack > table,
+.sheet-rolltemplate-damage > table,
 .sheet-rolltemplate-roll > table,
 .sheet-rolltemplate-spell > table,
 .sheet-rolltemplate-turning > table {
@@ -44,6 +45,9 @@ div.title-section {
 }
 input.sheet-tab + span {
 	background-image: url("https://raw.githubusercontent.com/zedafty/dnd-3-5-deli/master/img/icons-menu.png");
+}
+.state-bar input[type="hidden"] + span {
+	background-image: url("https://raw.githubusercontent.com/zedafty/dnd-3-5-deli/master/img/icons-states.png");
 }
 .main-heading .infos {
 	background-image: url("https://raw.githubusercontent.com/zedafty/dnd-3-5-deli/master/img/logo-back.png");
@@ -299,7 +303,7 @@ input.sheet-tab:checked:focus + span {
 	box-shadow: 0 0 4px 2px #b33;
 }
 
-input.sheet-tab-show-character + span {background-position: -0 0;}
+input.sheet-tab-show-character + span {background-position: 0 0;}
 input.sheet-tab-show-classes + span {background-position: -40px 0;}
 input.sheet-tab-show-abilities + span {background-position: -80px 0;}
 input.sheet-tab-show-statistics + span {background-position: -120px 0;}
@@ -622,6 +626,12 @@ div.subtitle abbr[title] {
 	color: #fff;
 	background-color: #822;
 }
+.charsheet input[type="text"].sheet-input.mod.alt[disabled],
+.charsheet input[type="number"].sheet-input.mod.alt[disabled],
+.charsheet span.sheet-input.mod.alt[disabled] {
+	color: #fff;
+	background-color: #146;
+}
 .charsheet input[type="text"].sheet-input.base,
 .charsheet input[type="number"].sheet-input.base,
 .charsheet span.sheet-input.base {
@@ -764,13 +774,13 @@ div.subtitle abbr[title] {
 .charsheet select.sheet-left {
 	text-align: left;
 }
-.charsheet .sheet-left {
+.charsheet .page .sheet-left {
 	text-align: left;
 }
-.charsheet .sheet-right {
+.charsheet .page .sheet-right {
 	text-align: right;
 }
-.charsheet .sheet-center {
+.charsheet .page .sheet-center {
 	text-align: center;
 }
 
@@ -1012,11 +1022,14 @@ table.black-board tr td:not(:first-child):not(.table-label) {
 	border: 1px solid #2228;
 	border-radius: 4px;
 	background: none;
-	background-color: #2a8;
 	background-color: #b33;
 	box-shadow: 2px 2px 0 #fff8 inset, -2px -2px 0 #0003 inset;
 	box-sizing: border-box;
 	outline: 0;
+}
+.charsheet .page button[type="roll"].alternate,
+.charsheet .page button[type="action"].alternate {
+	background-color: #26a;
 }
 .charsheet .page button[type="roll"]:empty {
 	width: 24px;
@@ -1304,11 +1317,6 @@ table.black-board tr td:not(:first-child):not(.table-label) {
 }
 .options.block .sheet-table {
 	border-spacing: 5px;
-}
-.options .caption {
-	display: inline-block;
-	margin-left: 20px;
-	margin-right: 5px;
 }
 
 /* ========================================================================== */
@@ -1675,6 +1683,30 @@ table.black-board tr td:not(:first-child):not(.table-label) {
 	margin-left: 4px;
 }
 
+.main-heading .state-bar {
+	margin: 15px 10px 0;
+}
+.state-bar input[type="hidden"] + span {
+	display: none;
+	width: 35px;
+	height: 35px;
+	font-size: 0;
+	background-position: 35px 35px;
+	background-size: 140px 140px;
+}
+.state-bar input[type="hidden"] + span:hover {
+	cursor: help;
+}
+.state-bar input[type="hidden"][value="1"] + span {
+	display: inline-block;
+}
+.state-bar input[name="attr_state-disabled"] + span {background-position: 0 0;}
+.state-bar input[name="attr_state-unconscious"] + span {background-position: -35px 0;}
+.state-bar input[name="attr_state-dying"] + span {background-position: -70px 0;}
+.state-bar input[name="attr_state-dead"] + span {background-position: -105px 0;}
+.state-bar input[name="attr_state-enc-med"] + span {background-position: 0 -35px;}
+.state-bar input[name="attr_state-enc-hvy"] + span {background-position: -35px -35px;}
+
 /* ========================================================================== */
 /* -------------------------------------------------------------------------- */
 /* # Character */
@@ -1719,6 +1751,40 @@ input[name="attr_show-xtra-fields"][value="1"] + div {
 	border-top: 0;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+}
+
+/* ========================================================================== */
+/* -------------------------------------------------------------------------- */
+/* # Abilities */
+/* -------------------------------------------------------------------------- */
+/* ========================================================================== */
+
+.sheet-table.abilities {
+	position: relative;
+	padding-left: 24px;
+}
+.sheet-table.abilities .table-caption {
+	content: "";
+	position: absolute;
+	display: inline-block;
+	width: 173px;
+	height: 26px;
+	line-height: 26px;
+	left: 0;
+	bottom: 6px;
+	font-size: 20px;
+	font-family: "IM Fell English SC", "Georgia", serif;
+	text-align: center;
+	color: #fff;
+	border-radius: 3px;
+	transform: rotate(-90deg);
+	transform-origin: top left;
+}
+.sheet-table.abilities.physical .table-caption {
+	background-color: #822;
+}
+.sheet-table.abilities.psychical .table-caption {
+	background-color: #146;
 }
 
 /* ========================================================================== */
@@ -2051,9 +2117,10 @@ div.spells button[type="action"].clear-slots {
 	display: inline-block;
 }
 .fieldset .attack-bar button[type="roll"] {
-	width: 80px;
+	margin: 2px;
+}
+.fieldset .attack-bar [class^="attack-roll"] button[type="roll"] {
 	height: 24px;
-	margin: 2px 0 2px 4px;
 	font-size: 14px;
 	line-height: 10px;
 }
@@ -2098,7 +2165,7 @@ div.spells button[type="action"].clear-slots {
 }
 .attack-block {
 	display: inline-block;
-	width: 300px;
+	padding-right: 4px;
 	vertical-align: top;
 }
 .attack-block > abbr,
@@ -2130,7 +2197,7 @@ div.spells button[type="action"].clear-slots {
 	padding-left: 4px;
 }
 .fieldset .attack-block input[type="text"] {
-	width: 20px;
+	width: 25px;
 }
 .fieldset .attack-block span[class^="attack"] {
 	display: none;
@@ -2252,6 +2319,7 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 /* ========================================================================== */
 
 .sheet-rolltemplate-attack table,
+.sheet-rolltemplate-damage table,
 .sheet-rolltemplate-roll table,
 .sheet-rolltemplate-spell table,
 .sheet-rolltemplate-turning table {
@@ -2260,12 +2328,14 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	box-sizing: border-box;
 }
 .sheet-rolltemplate-attack > table,
+.sheet-rolltemplate-damage > table,
 .sheet-rolltemplate-roll > table,
 .sheet-rolltemplate-spell > table,
 .sheet-rolltemplate-turning > table {
 	border: 2px solid #322;
 }
 .sheet-rolltemplate-attack th,
+.sheet-rolltemplate-damage th,
 .sheet-rolltemplate-roll th,
 .sheet-rolltemplate-spell th,
 .sheet-rolltemplate-turning th {
@@ -2280,6 +2350,7 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	background-color: #644;
 }
 .sheet-rolltemplate-attack td,
+.sheet-rolltemplate-damage td,
 .sheet-rolltemplate-roll td,
 .sheet-rolltemplate-spell td,
 .sheet-rolltemplate-turning td:not(.sheet-turning) {
@@ -2287,6 +2358,7 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	font-size: 12px;
 }
 .sheet-rolltemplate-attack .sheet-heading,
+.sheet-rolltemplate-damage .sheet-heading,
 .sheet-rolltemplate-roll .sheet-heading,
 .sheet-rolltemplate-spell .sheet-heading,
 .sheet-rolltemplate-turning .sheet-heading {
@@ -2299,6 +2371,7 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	background-color: #844;
 }
 .sheet-rolltemplate-attack > table:not(.sheet-details) tr:first-child .sheet-heading,
+.sheet-rolltemplate-damage > table:not(.sheet-details) tr:first-child .sheet-heading,
 .sheet-rolltemplate-roll table tr:first-child .sheet-heading,
 .sheet-rolltemplate-spell > table tr:first-child .sheet-heading,
 .sheet-rolltemplate-turning > table tr:first-child .sheet-heading {
@@ -2310,6 +2383,7 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	background-color: #322;
 }
 .sheet-rolltemplate-attack .sheet-label,
+.sheet-rolltemplate-damage .sheet-label,
 .sheet-rolltemplate-roll .sheet-label,
 .sheet-rolltemplate-spell .sheet-label,
 .sheet-rolltemplate-turning .sheet-label {
@@ -2317,12 +2391,14 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	color: #733;
 }
 .sheet-rolltemplate-attack .sheet-label[title],
+.sheet-rolltemplate-damage .sheet-label[title],
 .sheet-rolltemplate-roll .sheet-label[title],
 .sheet-rolltemplate-spell .sheet-label[title],
 .sheet-rolltemplate-turning .sheet-label[title] {
 	cursor: help;
 }
 .sheet-rolltemplate-attack .sheet-value,
+.sheet-rolltemplate-damage .sheet-value,
 .sheet-rolltemplate-roll .sheet-value,
 .sheet-rolltemplate-spell .sheet-value,
 .sheet-rolltemplate-turning .sheet-value {
@@ -2330,12 +2406,14 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	font-weight: bold;
 }
 .sheet-rolltemplate-attack .sheet-value .inlinerollresult,
+.sheet-rolltemplate-damage .sheet-value .inlinerollresult,
 .sheet-rolltemplate-roll .sheet-value .inlinerollresult,
 .sheet-rolltemplate-spell .sheet-value .inlinerollresult,
 .sheet-rolltemplate-turning .sheet-value .inlinerollresult {
 	padding: 0;
 }
 .sheet-rolltemplate-attack .inlinerollresult,
+.sheet-rolltemplate-damage .inlinerollresult,
 .sheet-rolltemplate-roll .inlinerollresult,
 .sheet-rolltemplate-spell .inlinerollresult,
 .sheet-rolltemplate-turning .inlinerollresult {
@@ -2343,6 +2421,7 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	background-color: transparent;
 }
 .sheet-rolltemplate-attack .inlinerollresult.fullcrit,
+.sheet-rolltemplate-damage .inlinerollresult.fullcrit,
 .sheet-rolltemplate-roll .inlinerollresult.fullcrit,
 .sheet-rolltemplate-spell .inlinerollresult.fullcrit,
 .sheet-rolltemplate-turning .inlinerollresult.fullcrit {
@@ -2351,6 +2430,7 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	text-shadow: 0 1px 1px #fff;
 }
 .sheet-rolltemplate-attack .inlinerollresult.fullfail,
+.sheet-rolltemplate-damage .inlinerollresult.fullfail,
 .sheet-rolltemplate-roll .inlinerollresult.fullfail,
 .sheet-rolltemplate-spell .inlinerollresult.fullfail,
 .sheet-rolltemplate-turning .inlinerollresult.fullfail {
@@ -2358,6 +2438,7 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	border: none;
 }
 .sheet-rolltemplate-attack .inlinerollresult.importantroll,
+.sheet-rolltemplate-damage .inlinerollresult.importantroll,
 .sheet-rolltemplate-roll .inlinerollresult.importantroll,
 .sheet-rolltemplate-spell .inlinerollresult.importantroll,
 .sheet-rolltemplate-turning .inlinerollresult.importantroll {
@@ -2374,7 +2455,8 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 }
 .sheet-rolltemplate-roll .sheet-result {
 	padding: 10px;
-	font-size: 20px;
+	line-height: 24px;
+	font-size: 24px;
 	font-weight: bold;
 }
 .sheet-rolltemplate-roll .sheet-failure,
@@ -2405,21 +2487,26 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	text-align: center;
 	background-color: #ffa9;
 }
-.sheet-rolltemplate-attack .sheet-result .sheet-value {
+.sheet-rolltemplate-attack .sheet-result .sheet-value,
+.sheet-rolltemplate-damage .sheet-result .sheet-value {
 	display: inline-block;
 	padding: 4px 0;
-	font-size: 20px;
-	line-height: 20px;
+	font-size: 24px;
+	line-height: 24px;
 }
 .sheet-rolltemplate-attack .sheet-result .line td,
-.sheet-rolltemplate-attack .sheet-result .line td {
+.sheet-rolltemplate-attack .sheet-result .line td,
+.sheet-rolltemplate-damage .sheet-result .line td,
+.sheet-rolltemplate-damage .sheet-result .line td {
 	border-top: 1px solid #0004;
 }
-.sheet-rolltemplate-attack .sheet-result td:not(.sheet-heading) {
+.sheet-rolltemplate-attack .sheet-result td:not(.sheet-heading),
+.sheet-rolltemplate-damage .sheet-result td:not(.sheet-heading) {
 	padding: 2px 0;
 	text-align: center;
 }
-.sheet-rolltemplate-attack .sheet-details {
+.sheet-rolltemplate-attack .sheet-details,
+.sheet-rolltemplate-damage .sheet-details {
 	border-top: 0;
 }
 .sheet-rolltemplate-attack .sheet-result .sheet-roll-nil,
@@ -2436,4 +2523,24 @@ input[name="attr_edit-backup"][value="1"] ~ .table-row div span.sheet-input.bck 
 	top: 0;
 	margin-left: 4px;
 	font-size: 14px;
+}
+.sheet-rolltemplate-attack .sheet-button.sheet-critical ~ .sheet-button.sheet-critical {
+	display: none;
+}
+.sheet-rolltemplate-attack .sheet-button a {
+	margin: 8px 4px;
+	padding: 4px 8px;
+	font-size: 15px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #fff;
+	border: 1px solid #0006;
+	border-radius: 4px;
+	background-color: #b33;
+	box-shadow: 0px 1px 4px #0006, 2px 2px #fff6 inset, -2px -2px #0003 inset;
+}
+.sheet-rolltemplate-attack .sheet-button a:hover,
+.sheet-rolltemplate-attack .sheet-button a:focus {
+	color: #222;
+	background-color: #ee9;
 }

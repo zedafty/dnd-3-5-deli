@@ -125,47 +125,70 @@
 	<table class="result" style="{{#rollTotal() show-details 1}}border-bottom: 0;{{/rollTotal() show-details 1}}">
 		{{#char-name}}
 		<tr>
-			<td colspan="4" class="heading">{{char-name}}</td>
+			<td colspan="3" class="heading">{{char-name}}</td>
 		</tr>
 		{{/char-name}}
 		<tr>
-			<th colspan="4">{{name}}</th>
+			<th colspan="3">{{name}}</th>
 		</tr>
 		<tr>
-			<td style="width: 10%;"></td>
-			<td style="width: 40%;"><span class="label" data-i18n="ui_atk"></span></td>
-			<td style="width: 40%;"><span class="label" data-i18n="ui_dmg"></span></td>
-			<td style="width: 10%;"></td>
+			<td style="width: 25%;"></td>
+			<td style="width: 50%;"><span class="label" data-i18n="ui_atk"></span></td>
+			<td style="width: 25%;"></td>
 		</tr>
 		{{#roll1}}
 		<tr>
-			<td style="width: 10%;">{{#rollTotal() full-atk 1}}<span class="label">1<sup>re</sup></span>{{/rollTotal() full-atk 1}}</td>
-			<td style="width: 40%;"><span class="value">{{#^rollGreater() roll1 null1}}{{roll1}}{{#^rollWasFumble() roll1}}{{#rollWasCrit() roll1}} ({{crit1}}){{/rollWasCrit() roll1}}{{/^rollWasFumble() roll1}}{{/^rollGreater() roll1 null1}}{{#rollGreater() roll1 null1}}<span class="roll-nil">{{atk1}}</span>{{/rollGreater() roll1 null1}}</span></td>
-			<td style="width: 40%;"><span class="value">{{dmg1}}{{#^rollGreater() roll1 null1}}{{#^rollWasFumble() roll1}}{{#rollWasCrit() roll1}} ({{dmg-crit1}}){{/rollWasCrit() roll1}}{{/^rollWasFumble() roll1}}{{/^rollGreater() roll1 null1}}</span></td>
-			<td style="width: 10%;"></td>
+			<td style="width: 25%;">{{#rollTotal() full-atk 1}}<span class="label">1<sup>re</sup></span>{{/rollTotal() full-atk 1}}</td>
+			<td style="width: 50%;"><span class="value">{{#^rollGreater() roll1 null1}}{{roll1}}{{#^rollWasFumble() roll1}}{{#rollWasCrit() roll1}} ({{crit1}}){{/rollWasCrit() roll1}}{{/^rollWasFumble() roll1}}{{/^rollGreater() roll1 null1}}{{#rollGreater() roll1 null1}}<span class="roll-nil">{{atk1}}</span>{{/rollGreater() roll1 null1}}</span></td>
+			<td style="width: 25%;"></td>
 		</tr>
 		{{/roll1}}
 		{{#roll2}}
 		<tr class="line">
-			<td style="width: 10%;"><span class="label">2<sup>e</sup></span></td>
-			<td style="width: 40%;"><span class="value">{{#^rollGreater() roll2 null2}}{{roll2}}{{#^rollWasFumble() roll2}}{{#rollWasCrit() roll2}} ({{crit2}}){{/rollWasCrit() roll2}}{{/^rollWasFumble() roll2}}{{/^rollGreater() roll2 null2}}{{#rollGreater() roll2 null2}}<span class="roll-nil">{{atk2}}</span>{{/rollGreater() roll2 null2}}</span></td>
-			<td style="width: 40%;"><span class="value">{{dmg2}}{{#^rollGreater() roll2 null2}}{{#^rollWasFumble() roll2}}{{#rollWasCrit() roll2}} ({{dmg-crit2}}){{/rollWasCrit() roll2}}{{/^rollWasFumble() roll2}}{{/^rollGreater() roll2 null2}}</span></td>			<td style="width: 20%;"></td>
+			<td style="width: 25%;"><span class="label">2<sup>e</sup></span></td>
+			<td style="width: 50%;"><span class="value">{{#^rollGreater() roll2 null2}}{{roll2}}{{#^rollWasFumble() roll2}}{{#rollWasCrit() roll2}} ({{crit2}}){{/rollWasCrit() roll2}}{{/^rollWasFumble() roll2}}{{/^rollGreater() roll2 null2}}{{#rollGreater() roll2 null2}}<span class="roll-nil">{{atk2}}</span>{{/rollGreater() roll2 null2}}</span></td>
+			<td style="width: 25%;"></td>
 		</tr>
 		{{/roll2}}
 		{{#roll3}}
 		<tr class="line">
-			<td style="width: 10%;"><span class="label">3<sup>e</sup></span></td>
-			<td style="width: 40%;"><span class="value">{{#^rollGreater() roll3 null3}}{{roll3}}{{#^rollWasFumble() roll3}}{{#rollWasCrit() roll3}} ({{crit3}}){{/rollWasCrit() roll3}}{{/^rollWasFumble() roll3}}{{/^rollGreater() roll3 null3}}{{#rollGreater() roll3 null3}}<span class="roll-nil">{{atk3}}</span>{{/rollGreater() roll3 null3}}</span></td>
-			<td style="width: 40%;"><span class="value">{{dmg3}}{{#^rollGreater() roll3 null3}}{{#^rollWasFumble() roll3}}{{#rollWasCrit() roll3}} ({{dmg-crit3}}){{/rollWasCrit() roll3}}{{/^rollWasFumble() roll3}}{{/^rollGreater() roll3 null3}}</span></td>			<td style="width: 10%;"></td>
+			<td style="width: 25%;"><span class="label">3<sup>e</sup></span></td>
+			<td style="width: 50%;"><span class="value">{{#^rollGreater() roll3 null3}}{{roll3}}{{#^rollWasFumble() roll3}}{{#rollWasCrit() roll3}} ({{crit3}}){{/rollWasCrit() roll3}}{{/^rollWasFumble() roll3}}{{/^rollGreater() roll3 null3}}{{#rollGreater() roll3 null3}}<span class="roll-nil">{{atk3}}</span>{{/rollGreater() roll3 null3}}</span></td>
+			<td style="width: 25%;"></td>
 		</tr>
 		{{/roll3}}
 		{{#roll4}}
 		<tr class="line">
-			<td style="width: 10%;"><span class="label">4<sup>e</sup></span></td>
-			<td style="width: 40%;"><span class="value">{{#^rollGreater() roll4 null4}}{{roll4}}{{#^rollWasFumble() roll4}}{{#rollWasCrit() roll4}} ({{crit4}}){{/rollWasCrit() roll4}}{{/^rollWasFumble() roll4}}{{/^rollGreater() roll4 null4}}{{#rollGreater() roll4 null4}}<span class="roll-nil">{{atk4}}</span>{{/rollGreater() roll4 null4}}</span></td>
-			<td style="width: 40%;"><span class="value">{{dmg4}}{{#^rollGreater() roll4 null4}}{{#^rollWasFumble() roll4}}{{#rollWasCrit() roll4}} ({{dmg-crit4}}){{/rollWasCrit() roll4}}{{/^rollWasFumble() roll4}}{{/^rollGreater() roll4 null4}}</span></td>			<td style="width: 10%;"></td>
+			<td style="width: 25%;"><span class="label">4<sup>e</sup></span></td>
+			<td style="width: 50%;"><span class="value">{{#^rollGreater() roll4 null4}}{{roll4}}{{#^rollWasFumble() roll4}}{{#rollWasCrit() roll4}} ({{crit4}}){{/rollWasCrit() roll4}}{{/^rollWasFumble() roll4}}{{/^rollGreater() roll4 null4}}{{#rollGreater() roll4 null4}}<span class="roll-nil">{{atk4}}</span>{{/rollGreater() roll4 null4}}</span></td>
+			<td style="width: 25%;"></td>
 		</tr>
 		{{/roll4}}
+		<tr>
+			<td colspan="4">
+				<span class="button damage" data-i18n-title="tpl_dmg_roll_tt">{{dmg-roll}}</span>
+				{{#^rollWasFumble() roll1}}
+					{{#rollWasCrit() roll1}}
+						<span class="button critical" data-i18n-title="tpl_crit_roll_tt">{{crit-roll}}</span>
+					{{/rollWasCrit() roll1}}
+				{{/^rollWasFumble() roll1}}
+				{{#^rollWasFumble() roll2}}
+					{{#rollWasCrit() roll2}}
+						<span class="button critical" data-i18n-title="tpl_crit_roll_tt">{{crit-roll}}</span>
+					{{/rollWasCrit() roll2}}
+				{{/^rollWasFumble() roll2}}
+				{{#^rollWasFumble() roll3}}
+					{{#rollWasCrit() roll3}}
+						<span class="button critical" data-i18n-title="tpl_crit_roll_tt">{{crit-roll}}</span>
+					{{/rollWasCrit() roll3}}
+				{{/^rollWasFumble() roll3}}
+				{{#^rollWasFumble() roll4}}
+					{{#rollWasCrit() roll4}}
+						<span class="button critical" data-i18n-title="tpl_crit_roll_tt">{{crit-roll}}</span>
+					{{/rollWasCrit() roll4}}
+				{{/^rollWasFumble() roll4}}
+			</td>
+		</tr>
 	</table>
 	{{#rollTotal() show-details 1}}
 	<table class="details">
@@ -209,21 +232,72 @@
 		{{/focus}}
 		<tr>
 			<td><span class="label" data-i18n-title="mod_atk_tt"><span data-i18n="ui_mod"></span>&nbsp;:</span></td>
-			<td><span class="value">{{mod-atk}}</span></td>
+			<td><span class="value">{{atk-mod}}</span></td>
 		</tr>
 		<tr>
 			<td><span class="label"><span data-i18n="wpn_crit"></span>&nbsp;:</span></td>
-			<td><span class="value">{{crit-min}}&ndash;{{crit-die}}/×{{crit-mult}}</span></td>
+			<td><span class="value">{{crit-min}}&ndash;{{crit-die}}</span></td>
 		</tr>
+		{{#props}}
+		<tr>
+			<td colspan="2" class="heading" data-i18n="ui_props"></td>
+		</tr>
+		<tr>
+			<td colspan="2">{{props}}</td>
+		</tr>
+		{{/props}}
+	</table>
+	{{/rollTotal() show-details 1}}
+</rolltemplate>
+<rolltemplate class="sheet-rolltemplate-damage">
+	<table class="result" style="{{#rollTotal() show-details 1}}border-bottom: 0;{{/rollTotal() show-details 1}}">
+		{{#char-name}}
+		<tr>
+			<td class="heading">{{char-name}}</td>
+		</tr>
+		{{/char-name}}
+		<tr>
+			<th>{{name}}</th>
+		</tr>
+		<tr>
+			<td><span class="label" data-i18n="ui_dmg{{#crit-mult}}_crit{{/crit-mult}}"></span></td>
+		</tr>
+		<tr>
+			<td><span class="value">{{dmg}}{{#rollGreater() dmg-xtra-num 0}}&nbsp;({{dmg-base-r}}+{{dmg-xtra-r}}){{/rollGreater() dmg-xtra-num 0}}</span></td>
+		</tr>
+	</table>
+	{{#rollTotal() show-details 1}}
+	<table class="details">
+		<tr>
+			<td colspan="2" class="heading" data-i18n="ui_details"></td>
+		</tr>
+		<tr>
+			<td><span class="label"><span data-i18n="wpn_use"></span>&nbsp;:</span></td>
+			<td><span class="value">{{#rollTotal() melee 0}}<span data-i18n="wpn_range"></span>{{/rollTotal() melee 0}}{{#rollTotal() melee 1}}<span data-i18n="wpn_melee"></span>{{/rollTotal() melee 1}}</span></td>
+		</tr>
+		<tr>
+			<td><span class="label"><span data-i18n="wpn_wield"></span>&nbsp;:</span></td>
+			<td><span class="value">{{hand}}</span></td>
+		</tr>
+		{{#enh}}
+		<tr>
+			<td><span class="label" data-i18n-title="wpn_enh_tt"><span data-i18n="wpn_enh"></span>&nbsp;:</span></td>
+			<td><span class="value">{{enh}}</span></td>
+		</tr>
+		{{/enh}}
+		{{#crit-mult}}
+		<tr>
+			<td><span class="label"><span data-i18n="wpn_crit"></span>&nbsp;:</span></td>
+			<td><span class="value">×{{crit-mult}}</span></td>
+		</tr>
+		{{/crit-mult}}
 		<tr>
 			<td colspan="2" class="heading" data-i18n="ui_dmg"></td>
 		</tr>
-		{{#dmg-type}}
 		<tr>
-			<td><span class="label" data-i18n-title="wpn_dmg_type_tt"><span data-i18n="wpn_dmg_type"></span>&nbsp;:</span></td>
-			<td><span class="value">{{dmg-type}}</span></td>
+			<td><span class="label" data-i18n-title="wpn_dmg_tt"><span data-i18n="ui_dmg"></span>&nbsp;:</span></td>
+			<td><span class="value">{{dmg-base}}</span></td>
 		</tr>
-		{{/dmg-type}}
 		{{#abi-dmg}}
 		<tr>
 			<td><span class="label" data-i18n-title="wpn_dmg_abi_tt"><span data-i18n="ui_abi"></span>&nbsp;:</span></td>
@@ -238,12 +312,15 @@
 		{{/spec}}
 		<tr>
 			<td><span class="label" data-i18n-title="mod_dmg_tt"><span data-i18n="ui_mod"></span>&nbsp;:</span></td>
-			<td><span class="value">{{mod-dmg}}</span></td>
+			<td><span class="value">{{dmg-mod}}</span></td>
 		</tr>
+		{{#dmg-type}}
 		<tr>
-			<td><span class="label" data-i18n-title="wpn_dmg_tt"><span data-i18n="ui_dmg"></span>&nbsp;:</span></td>
-			<td><span class="value">{{dmg}}</span></td>
+			<td><span class="label" data-i18n-title="wpn_dmg_type_tt"><span data-i18n="wpn_dmg_type"></span>&nbsp;:</span></td>
+			<td><span class="value">{{dmg-type}}</span></td>
 		</tr>
+		{{/dmg-type}}
+		{{#rollGreater() dmg-xtra-num 0}}
 		{{#dmg-xtra}}
 		<tr>
 			<td><span class="label" data-i18n-title="wpn_dmg_xtra_tt"><span data-i18n="wpn_dmg_xtra_abbr"></span>&nbsp;:</span></td>
@@ -256,6 +333,7 @@
 			<td><span class="value">{{dmg-xtra-type}}</span></td>
 		</tr>
 		{{/dmg-xtra-type}}
+		{{/rollGreater() dmg-xtra-num 0}}
 		{{#props}}
 		<tr>
 			<td colspan="2" class="heading" data-i18n="ui_props"></td>
