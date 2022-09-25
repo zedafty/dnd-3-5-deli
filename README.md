@@ -6,7 +6,7 @@
 
   Managing by Panda
 
-  Version 1.6.6 Beta
+  Version 1.6.7 Beta
 
   Uses [TheAaronSheet](https://github.com/shdwjk/TheAaronSheet) 0.2.5
 
@@ -20,7 +20,7 @@
 
   ### Latest
 
-  * 1.6.6
+  * 1.6.7
 
   ### Features
 

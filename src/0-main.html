@@ -2,7 +2,7 @@
 <!-- Original by Capitaine Red (1.5 FR, Gabmilot project) -->
 <!-- Refactoring by Zedafty (Deli project) -->
 <!-- Managing by Panda -->
-<!-- Version 1.6.6 Beta -->
+<!-- Version 1.6.7 Beta -->
 
 <!-- Version -->
 <input type="hidden" name="attr_version" value="">
@@ -5014,6 +5014,8 @@
 					<div class="sheet-tab-weapon options">
 						<input type="text" name="attr_name" class="sheet-input" data-i18n-placeholder="wpn_name_ph" list="weapons">
 						<label data-i18n-title="wpn_melee_tt"><input type="checkbox" name="attr_melee" value="1" checked><span data-i18n="wpn_melee_cat"></span></label>
+						<label data-i18n-title="wpn_worn_tt"><input type="checkbox" name="attr_worn" value="1" checked><span data-i18n="wpn_worn"></span></label>
+						<label data-i18n-title="wpn_sheath_tt"><input type="checkbox" name="attr_sheath" value="1"><span data-i18n="wpn_sheath"></span></label>
 						<input type="hidden" name="attr_cat">
 						<input type="hidden" name="attr_type">
 						<table class="black-board">
@@ -5184,6 +5186,8 @@
 		<details>
 			<summary>Notice</summary>
 			<p><mark>Arme de mêlée</mark>&nbsp;<strong>Usage de l’arme</strong>. Si cette option est cochée, l’arme est considérée comme étant une arme de corps à corps (modificateur de <em>Force</em> utilisé pour les jets d’attaque). Le cas contraire, il s’agit d’une arme à distance (modificateur de <em>Dextérité</em> utilisé pour les jets d’attaque). Pour les armes pouvant être employées au corps à corps ou à distance, la case peut être cochée ou décochée selon le besoin.</p>
+			<p><mark>Arme portée</mark>&nbsp;<strong>Arme sur soi</strong>. Si cette option est cochée, l’arme est considérée comme étant portée (càd. dans l’inventaire), la case peut être décochée lorsque l’arme est lâchée.</p>
+			<p><mark>Arme dégainée</mark>&nbsp;<strong>Arme en main</strong>. Si cette option est cochée, l’arme est considérée comme étant dans les mains du personnage (càd. équipée), la case peut être décochée lorsque l’arme est rengainée (càd. remise au fourreau, raccrochée à la ceinture, rangée dans le sac à dos, etc.).</p>
 			<p><mark>Tenue</mark>&nbsp;<strong>Tenue de l’arme</strong>. La manière dont l’armes est tenue, soit la main directrice, la main non directrice ou à deux mains.</p>
 			<p><mark>Portée</mark>&nbsp;<strong>Facteur de portée</strong>. Nul pour les armes de mêlée (laisser vide), variable pour les armes à distance. Les armes de jet (dagues de jet, haches de lancer, javelines, etc.) peuvent être lancées jusqu’à ×5 leur facteur de portée, les armes à projectiles (arcs, arbalètes, frondes, etc.) jusqu’à ×10 leur facteur de portée. Une pénalité cumulative de -2 au jet d’attaque doit être appliquée chaque fois que le facteur de portée est dépassé (p. ex., pénalité de -4 pour trois fois le facteur de portée).</p>
 			<p><mark>Altération</mark>&nbsp;<strong>Bonus d’altération</strong>. Bonus magique de l’arme (p. ex. arme +3), s’applique au jet d’attaque et au jet de dégâts.</p>
@@ -5555,13 +5559,14 @@
 					<div class="sheet-table">
 						<div class="table-row">
 							<div><div style="width: 20px;"><abbr data-i18n-title="ui_opts" data-i18n="ui_opts_abbr"></abbr></div></div>
-							<div><div style="width: 195px;" data-i18n="eqp_name"></div></div>
+							<div><div style="width: 155px;" data-i18n="eqp_name"></div></div>
 							<div><div style="width: 50px;" data-i18n="ui_qty"></div></div>
 							<div><div style="width: 120px;" data-i18n="eqp_bag"></div></div>
 							<div><div style="width: 60px;" data-i18n="eqp_hard"></div></div>
 							<div><div style="width: 60px;"><abbr data-i18n-title="eqp_hp" data-i18n="eqp_hp_abbr"></abbr></div></div>
 							<div><div style="width: 60px;" data-i18n="ui_wgt"></div></div>
 							<div><div style="width: 80px;" data-i18n="ui_cost"></div></div>
+							<div><div style="width: 40px;" data-i18n="eqp_worn"></div></div>
 						</div>
 					</div>
 					<div class="fieldset">
@@ -5572,7 +5577,7 @@
 							<input type="hidden" name="attr_loc">
 							<div class="sheet-table pad-left">
 								<div class="table-row">
-									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" data-i18n-placeholder="eqp_name_ph"></div>
+									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 160px;" data-i18n-placeholder="eqp_name_ph"></div>
 									<div><input type="number" name="attr_qty" class="sheet-input" style="width: 50px;" value="1" min="0"></div>
 									<div>
 										<select name="attr_bag" class="sheet-input" style="width: 120px;" data-i18n-title="eqp_bag_tt">
@@ -5598,6 +5603,7 @@
 									<div><input type="number" name="attr_hp" class="sheet-input" style="width: 60px;" value="0" min="0"></div>
 									<div><input type="number" name="attr_wgt" class="sheet-input" style="width: 60px;" value="0" min="0" step="0.1"></div>
 									<div><input type="number" name="attr_cost" class="sheet-input" style="width: 80px;" value="0" min="0"></div>
+									<div style="width: 40px;"><input type="checkbox" name="attr_worn" data-i18n-title="eqp_worn_tt" value="1" checked></div>
 								</div>
 							</div>
 							<div class="options">
@@ -5641,13 +5647,14 @@
 					<div class="sheet-table">
 						<div class="table-row">
 							<div><div style="width: 20px;"><abbr data-i18n-title="ui_opts" data-i18n="ui_opts_abbr"></abbr></div></div>
-							<div><div style="width: 195px;" data-i18n="eqp_name"></div></div>
+							<div><div style="width: 155px;" data-i18n="eqp_name"></div></div>
 							<div><div style="width: 50px;" data-i18n="ui_qty"></div></div>
 							<div><div style="width: 120px;" data-i18n="eqp_slot"></div></div>
 							<div><div style="width: 60px;" data-i18n="eqp_hard"></div></div>
 							<div><div style="width: 60px;"><abbr data-i18n-title="eqp_hp" data-i18n="eqp_hp_abbr"></abbr></div></div>
 							<div><div style="width: 60px;" data-i18n="ui_wgt"></div></div>
 							<div><div style="width: 80px;" data-i18n="ui_cost"></div></div>
+							<div><div style="width: 40px;" data-i18n="eqp_worn"></div></div>
 						</div>
 					</div>
 					<div class="fieldset">
@@ -5659,7 +5666,7 @@
 							<input type="hidden" name="attr_rp">
 							<div class="sheet-table pad-left">
 								<div class="table-row">
-									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" data-i18n-placeholder="eqp_name_ph"></div>
+									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 160px;" data-i18n-placeholder="eqp_name_ph"></div>
 									<div><input type="number" name="attr_qty" class="sheet-input" style="width: 50px;" value="1" min="0"></div>
 									<div>
 										<select name="attr_slot" class="sheet-input" style="width: 120px;" data-i18n-title="eqp_slot_tt">
@@ -5726,6 +5733,7 @@
 									<div><input type="number" name="attr_hp" class="sheet-input" style="width: 60px;" value="0" min="0"></div>
 									<div><input type="number" name="attr_wgt" class="sheet-input" style="width: 60px;" value="0" min="0" step="0.1"></div>
 									<div><input type="number" name="attr_cost" class="sheet-input" style="width: 80px;" value="0" min="0"></div>
+									<div style="width: 40px;"><input type="checkbox" name="attr_worn" data-i18n-title="eqp_worn_tt" value="1" checked></div>
 								</div>
 							</div>
 							<div class="options">
@@ -5769,12 +5777,13 @@
 					<div class="sheet-table">
 						<div class="table-row">
 							<div><div style="width: 20px;"><abbr data-i18n-title="ui_opts" data-i18n="ui_opts_abbr"></abbr></div></div>
-							<div><div style="width: 195px;" data-i18n="eqp_name"></div></div>
+							<div><div style="width: 155px;" data-i18n="eqp_name"></div></div>
 							<div><div style="width: 50px;" data-i18n="ui_qty"></div></div>
 							<div><div style="width: 120px;" data-i18n="eqp_type"></div></div>
-							<div><div style="width: 140px;" data-i18n="eqp_bag"></div></div>
+							<div><div style="width: 125px;" data-i18n="eqp_bag"></div></div>
 							<div><div style="width: 60px;" data-i18n="ui_wgt"></div></div>
 							<div><div style="width: 80px;" data-i18n="ui_cost"></div></div>
+							<div><div style="width: 40px;" data-i18n="eqp_worn"></div></div>
 						</div>
 					</div>
 					<div class="fieldset">
@@ -5786,7 +5795,7 @@
 							<input type="hidden" name="attr_hp">
 							<div class="sheet-table pad-left">
 								<div class="table-row">
-									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" data-i18n-placeholder="eqp_name_ph"></div>
+									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 160px;" data-i18n-placeholder="eqp_name_ph"></div>
 									<div><input type="number" name="attr_qty" class="sheet-input" style="width: 50px;" value="1" min="0"></div>
 									<div>
 										<select name="attr_type" class="sheet-input" style="width: 120px;" data-i18n-title="eqp_type_tt">
@@ -5805,7 +5814,7 @@
 										</select>
 									</div>
 									<div>
-										<select name="attr_bag" class="sheet-input" style="width: 140px;" data-i18n-title="eqp_bag_tt">
+										<select name="attr_bag" class="sheet-input" style="width: 125px;" data-i18n-title="eqp_bag_tt">
 											<option value="" selected="selected">&ndash;</option>
 											<option data-i18n="bag_cat_sack" disabled></option>
 											<option data-i18n="bag_purse" value="purse"></option>
@@ -5817,6 +5826,7 @@
 									</div>
 									<div><input type="number" name="attr_wgt" class="sheet-input" style="width: 60px;" value="0" min="0" step="0.1"></div>
 									<div><input type="number" name="attr_cost" class="sheet-input" style="width: 80px;" value="0" min="0"></div>
+									<div style="width: 40px;"><input type="checkbox" name="attr_worn" data-i18n-title="eqp_worn_tt" value="1" checked></div>
 								</div>
 							</div>
 							<div class="options">
@@ -5857,10 +5867,10 @@
 					<div class="sheet-table">
 						<div class="table-row">
 							<div><div style="width: 20px;"><abbr data-i18n-title="ui_opts" data-i18n="ui_opts_abbr"></abbr></div></div>
-							<div><div style="width: 195px;" data-i18n="eqp_name"></div></div>
+							<div><div style="width: 155px;" data-i18n="eqp_name"></div></div>
 							<div><div style="width: 50px;" data-i18n="ui_qty"></div></div>
 							<div><div style="width: 120px;" data-i18n="eqp_bag"></div></div>
-							<div><div style="width: 140px;" data-i18n="eqp_loc"></div></div>
+							<div><div style="width: 125px;" data-i18n="eqp_loc"></div></div>
 							<div><div style="width: 60px;" data-i18n="ui_wgt"></div></div>
 							<div><div style="width: 80px;" data-i18n="ui_cost"></div></div>
 						</div>
@@ -5874,7 +5884,7 @@
 							<input type="hidden" name="attr_hp">
 							<div class="sheet-table pad-left">
 								<div class="table-row">
-									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" data-i18n-placeholder="eqp_name_ph"></div>
+									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 160px;" data-i18n-placeholder="eqp_name_ph"></div>
 									<div><input type="number" name="attr_qty" class="sheet-input" style="width: 50px;" value="1" min="0"></div>
 									<div>
 										<select name="attr_bag" class="sheet-input" style="width: 120px;" data-i18n-title="eqp_bag_tt">
@@ -5898,7 +5908,7 @@
 										</select>
 									</div>
 									<div>
-										<select name="attr_loc" class="sheet-input" style="width: 140px;" data-i18n-title="eqp_loc_tt">
+										<select name="attr_loc" class="sheet-input" style="width: 125px;" data-i18n-title="eqp_loc_tt">
 											<option value="" selected="selected">&ndash;</option>
 											<option data-i18n="loc_cat_mount" disabled></option>
 											<option data-i18n="loc_horse" value="horse"></option>
@@ -5962,10 +5972,10 @@
 					<div class="sheet-table">
 						<div class="table-row">
 							<div><div style="width: 20px;"><abbr data-i18n-title="ui_opts" data-i18n="ui_opts_abbr"></abbr></div></div>
-							<div><div style="width: 195px;" data-i18n="eqp_name"></div></div>
+							<div><div style="width: 155px;" data-i18n="eqp_name"></div></div>
 							<div><div style="width: 50px;" data-i18n="ui_qty"></div></div>
 							<div><div style="width: 120px;" data-i18n="eqp_bag"></div></div>
-							<div><div style="width: 140px;" data-i18n="eqp_loc"></div></div>
+							<div><div style="width: 125px;" data-i18n="eqp_loc"></div></div>
 							<div><div style="width: 60px;" data-i18n="ui_wgt"></div></div>
 							<div><div style="width: 80px;" data-i18n="ui_cost"></div></div>
 						</div>
@@ -5979,7 +5989,7 @@
 							<input type="hidden" name="attr_hp">
 							<div class="sheet-table pad-left">
 								<div class="table-row">
-									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 200px;" data-i18n-placeholder="eqp_name_ph"></div>
+									<div><input type="text" name="attr_name" class="sheet-input sheet-left" style="width: 160px;" data-i18n-placeholder="eqp_name_ph"></div>
 									<div><input type="number" name="attr_qty" class="sheet-input" style="width: 50px;" value="1" min="0"></div>
 									<div>
 										<select name="attr_bag" class="sheet-input" style="width: 120px;" data-i18n-title="eqp_bag_tt">
@@ -6003,7 +6013,7 @@
 										</select>
 									</div>
 									<div>
-										<select name="attr_loc" class="sheet-input" style="width: 140px;" data-i18n-title="eqp_loc_tt">
+										<select name="attr_loc" class="sheet-input" style="width: 125px;" data-i18n-title="eqp_loc_tt">
 											<option value="" selected="selected">&ndash;</option>
 											<option data-i18n="loc_cat_house" disabled></option>
 											<option data-i18n="loc_kitchen" value="kitchen"></option>

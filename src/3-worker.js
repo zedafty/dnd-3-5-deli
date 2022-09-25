@@ -466,9 +466,9 @@ on("change:mvt-land-base", autofillMovement);
 
 // Armor Class Ajusted Dexterity Modifier
 const setMaximumDexterity = function() {
-	let a = ["dex-base", "dex-misc", "dex-temp", "brb-fat", "char-aging"];
-	getAttrs([...a, "arm-worn", "arm-dex", "load-dex"], v => {
-		let n = v["arm-worn"] == "1" ? toInt(v["arm-dex"]) : 99;
+	let a = attrs.Abi.Dex;
+	getAttrs([...a, "arm-eqp", "arm-dex", "load-dex"], v => {
+		let n = v["arm-eqp"] == "1" ? toInt(v["arm-dex"]) : 99;
 		let m = toInt(v["load-dex"]);
 		let i = Math.floor((Math.floor(a.reduce(function(t, n) {return t + toInt(v[n])}, 0)) - 10) / 2);
 		let j = Math.max(Math.min(n, m), 0);
@@ -476,7 +476,7 @@ const setMaximumDexterity = function() {
 	});
 };
 
-on("change:arm-worn change:arm-dex change:load-dex", setMaximumDexterity);
+on("change:dex change:arm-eqp change:arm-dex change:load-dex", setMaximumDexterity);
 
 // =============================================================================
 // -----------------------------------------------------------------------------
@@ -888,6 +888,23 @@ on(getSpellListener("change:repeating_$0:compo change:repeating_$0:ct change:rep
 // -----------------------------------------------------------------------------
 // =============================================================================
 
+// Weapon Equipped
+on("change:repeating_wpn:worn", function(e) {
+	let u = {};
+	let n = e.newValue;
+	let s = e.sourceAttribute.substr(14,20);
+	u[`repeating_wpn_${s}_sheath`] = n;
+	if (n == "0") setAttrs(u);
+});
+
+on("change:repeating_wpn:sheath", function(e) {
+	let u = {};
+	let n = e.newValue;
+	let s = e.sourceAttribute.substr(14,20);
+	u[`repeating_wpn_${s}_worn`] = n;
+	if (n == "1") setAttrs(u);
+});
+
 // Critical Threshold
 on("change:roll-die", function(e) {
 	let i = 20;
@@ -1023,7 +1040,7 @@ const autofillArmor = function(e) { // e = event
 		u["arm-bon"] = a[k].bon || 0;
 		u["arm-pen"] = a[k].pen * -1 || 0;
 		u["arm-spl"] = a[k].spl || 0;
-		u["arm-dex"] = a[k].dex || 99;
+		u["arm-dex"] = a[k].dex != undefined ? a[k].dex : 99;
 		u["arm-wgt"] = poundsToKilos(a[k].wgt) || 0;
 		u["arm-cost"] = a[k].cost || 0;
 		if (k == "none") {
@@ -1283,9 +1300,11 @@ on("change:repeating_gem:name change:repeating_art:name", function(e) {
 const updateWeight = function(k, b, x) { // k = section key, b = update with loc, x = weight mutiplier
 	TAS.repeating(k)
 		.attr(k + "-wgt-tot")
-		.field(["wgt", "qty", "loc"])
+		.field(["wgt", "qty", "worn", "loc"])
 		.reduce(function(m, r) {
-			let n = !b || b && r["loc"] == "" ? r["wgt"] : 0;
+			let n = r["wgt"];
+			if (b && r["loc"] != "") n = 0;
+			else if (r["worn"] == "0") n = 0;
 			if (x) {
 				n *= x;
 				r["wgt"] = n;
@@ -1311,6 +1330,7 @@ const weightListeners = function() {
 		o[k].forEach(v => {
 			s += `change:repeating_${v}:qty change:repeating_${v}:wgt remove:repeating_${v} `;
 			if (k == "wealth") s += `change:repeating_${v}:loc `;
+			else s += `change:repeating_${v}:worn `;
 		});
 	}
 	return s;
@@ -1318,7 +1338,7 @@ const weightListeners = function() {
 
 on(weightListeners(), function(e) {
 	let k = e.sourceAttribute.split("_")[1];
-	let b = weightSections.wealth.includes(k) ? true : false;
+	let b = weightSections.wealth.includes(k);
 	updateWeight(k, b);
 });
 
@@ -1633,9 +1653,26 @@ on("change:ac", updateArmorClassAliases);
 
 // =============================================================================
 // -----------------------------------------------------------------------------
-// # Versioning
+// # Initialization
 // -----------------------------------------------------------------------------
 // =============================================================================
+
+const checkMoneyRow = function() {
+	let s = "repeating_mny";
+	let u = {};
+	getSectionIDs("mny", function(sec) {
+		if (sec.length < 1) {
+			let n = generateRowID();
+			u[`${s}_${n}_pp`] = 0;
+			u[`${s}_${n}_gp`] = 0;
+			u[`${s}_${n}_sp`] = 0;
+			u[`${s}_${n}_cp`] = 0;
+			u[`${s}_${n}_bag`] = "";
+			u[`${s}_${n}_loc`] = "";
+			setAttrs(u, {silent: true});
+		}
+	});
+};
 
 const updateCharacterSheet = function() {
 	checkDice23(true);
@@ -1646,7 +1683,7 @@ const updateCharacterSheet = function() {
 	recalc();
 };
 
-const checkUpdate = function() {
+const initializeSheet = function() {
 	getAttrs(["version"], v => {
 		let n = toInt(v["version"].replaceAll(".", ""));
 		let m = toInt(version.replaceAll(".", ""));
@@ -1654,16 +1691,20 @@ const checkUpdate = function() {
 			console.info("-- First launch ! Please wait during character sheet initialization --"); // DEBUG
 			intializeAttributes();
 			return;
-		} else if (n < version.replaceAll(".", "")) {
+		} else if (n < m) {
 			console.info("-- Character sheet outdated ! Now updating to " + version + " --"); // DEBUG
+			if (n < 167) { // 1.6.7
+				setMaximumDexterity();
+			}
 			updateCharacterSheet();
 			setAttrs({"version" : version});
 		}
 		translateAttributes();
+		checkMoneyRow();
 	});
 };
 
-on("sheet:opened", checkUpdate);
+on("sheet:opened", initializeSheet);
 
 const intializeAttributes = function(f) { // f = function
 	if (typeof f === undefined) f = function() {};
@@ -2462,7 +2503,7 @@ const intializeAttributes = function(f) { // f = function
 // =============================================================================
 
 // Version
-const version = "1.6.6";
+const version = "1.6.7";
 const build = "beta FR";
 
 // Attributes
